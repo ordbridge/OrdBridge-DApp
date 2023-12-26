@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage';
 import { updateAddress } from './services/homepage.service';
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
-import { PendingEntries } from './pages/PendingEntries';
 import { WagmiConfig, createConfig, mainnet, configureChains, sepolia } from 'wagmi';
 import { createPublicClient, http } from 'viem';
 import { publicProvider } from 'wagmi/providers/public';
@@ -132,7 +131,6 @@ function App() {
 
 
 
-  console.log(toChain);
 
   const MetaMaskConnection = async () => {
     try {
@@ -198,7 +196,7 @@ function App() {
 
   return (
     <WagmiConfig config={config}>
-      <ToastContainer />
+      <ToastContainer/>
       <div className="vh-100">
         {/* <Img className="h-[1080px] m-auto object-cover w-full" src="base_bg.svg" /> */}
         <BrowserRouter>

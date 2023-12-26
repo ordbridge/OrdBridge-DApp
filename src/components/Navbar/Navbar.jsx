@@ -43,7 +43,7 @@ const Navbar = ({
         unisatAddress={unisatAddress}
         connectUnisatWallet={connectUnisatWallet}
       />
-      <div className="flex pt-4 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6">
+      <div className="flex py-3 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6 fixed z-[10000] navbar_header">
         <section className="flex gap-2 font-syne items-center justify-start w-auto">
           <Text
             className="text-3xl text-blue-200 pr-12 cursor-pointer !mb-0"
@@ -85,7 +85,7 @@ const Navbar = ({
           </Text>
         </section>
 
-        <div className="flex items-start gap-2  block md:hidden justify-end">
+        <section className="flex items-start gap-2  block md:hidden justify-end">
           {type === 'Bitcoin' ? (
             <>
               <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
@@ -105,7 +105,7 @@ const Navbar = ({
               <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
             </>
           )}
-        </div>
+        </section>
         <GiHamburgerMenu className="hamburger hidden md:block text-white text-xl" onClick={handleSideMenu} id="menu-btn" />
       </div>
     </>
