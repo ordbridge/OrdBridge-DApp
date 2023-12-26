@@ -64,46 +64,23 @@ export const SwapPopup = ({
   };
 
   const setChain = (isFrom, chain) => async () => {
+    if (isFrom) {
+      setFromChain(chain);
+      if (chain.isEvm) {
+        setToChain(appChains[1]);
+      }
+    } else {
+      setToChain(chain);
+      if (chain.isEvm) {
+        setFromChain(appChains[1]);
+      }
+    }
+
     if (chain.isEvm) {
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       if (chainId !== chain.chainId) {
         connectMetamaskWallet(chain.chainId);
       }
-    }
-
-    if (isFrom) {
-      setFromChain(chain);
-      if (chain.isEvm) {
-        setToChain(getPartnerChain(chain));
-      }
-
-      // if (chain.value === toChain.value) {
-      //   toast.error('Please select different chains');
-      // } else if (chain.isEvm && toChain.isEvm) {
-      //   toast.error('Bridge between two EVM chains is disabled. Coming soon!');
-      // } else {
-      // }
-    } else {
-      setToChain(chain);
-      if (chain.isEvm) {
-        setFromChain(getPartnerChain(chain));
-      }
-      // if (chain.value === fromChain.value) {
-      //   toast.error('Please select different chains');
-      // } else if (chain.isEvm && fromChain.isEvm) {
-      //   toast.error('Bridge between two EVM chains is disabled. Coming soon!');
-      // } else {
-      //   setToChain(chain);
-      // }
-    }
-  };
-
-  const getPartnerChain = (chain) => {
-    if (chain.tag === 'ETH') {
-      return appChains[1];
-    } else if (chain.tag === 'AVAX') {
-      return appChains[1];
-    } else if (chain.tag === 'BTC') {
     }
   };
 
