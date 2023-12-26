@@ -28,13 +28,13 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
       </button>
 
       <span
-        className={`dropdownItems ${dropdownState ? 'isVisible' : 'isHidden'}`}
+        className={`dropdownItems p-3 ${dropdownState ? 'isVisible' : 'isHidden'}`}
         onClick={() => {
           handleDropdownClick();
         }}>
         {appChains.map((chain, index) => (
           <span
-            className="dropdownItem hover:bg-[#120A33] hover:outline-none px-6 py-3"
+            className="dropdownItem hover:bg-[#120A33] hover:outline-none hover:rounded-md py-2 px-2"
             onClick={setChain(type === 'To' ? false : true, chain)}>
             <span className="dropdown__link !w-max flex justify-start text-white gap-2 items-center">
               {' '}
