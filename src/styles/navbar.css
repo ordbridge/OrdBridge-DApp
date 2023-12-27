@@ -6,10 +6,15 @@
   /* width: 100%; height: 100%;  */
   /* position: relative; border: 1px rgba(255, 255, 255, 0.10) solid; backdrop-filter: blur(70px) */
 }
+.navbar_header {
+  /* background: rgb(150,112,255);
+  background: linear-gradient(0deg, rgba(150,112,255,1) 0%, rgba(26,20,67,1) 1%, rgba(22,20,63,1) 100%); */
 
+  background-color: rgba(0, 0, 0, 0.65);
+}
 .bridge_color {
   /* color: #FFD200; */
-  color: #794EFF;
+  color: #794eff;
 }
 
 .border {
@@ -21,7 +26,7 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 20px;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   /* display: flex; */
   /* justify-content: center; */
@@ -35,9 +40,9 @@
   font-size: 18px;
   text-shadow: 1px 2px 2px #aeb3bc;
   color: #000;
-  background: #FFFFFF;
-  border: 1px solid #8C8C8C;
-  box-shadow: 4px 4px 0px #D9D9D9;
+  background: #ffffff;
+  border: 1px solid #8c8c8c;
+  box-shadow: 4px 4px 0px #d9d9d9;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +53,7 @@
 .divider {
   width: 1px;
   height: 40px;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
 }
 
 .navbar_first_container {
@@ -60,7 +65,7 @@
 
 .eth_button {
   padding: 8px 16px;
-  border: 1px solid #4D3FEE;
+  border: 1px solid #4d3fee;
   display: flex;
   gap: 4px;
   align-items: center;
@@ -108,10 +113,9 @@
   display: none;
 }
 
-
 .navbar_second_container .left_section {
   display: flex;
-  color: #FFFFFF;
+  color: #ffffff;
   gap: 4px;
   align-items: center;
   text-decoration: none;
@@ -127,14 +131,14 @@
 .logo_heading {
   font-size: 20px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .navbar_mid_section {
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -143,7 +147,7 @@
 }
 
 .navbar_mid_section .pending_button:hover {
-  color: #794EFF;
+  color: #794eff;
 }
 
 .navbar_mid_section select {
@@ -156,7 +160,7 @@
   line-height: 20px;
   letter-spacing: 1px;
   background-color: #111;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 option {
   padding: 1rem;
@@ -166,7 +170,6 @@ option {
   -moz-appearance: none;
   /* for Chrome */
   -webkit-appearance: none;
-
 }
 
 .navbar_mid_section select::-ms-expand {
@@ -174,16 +177,16 @@ option {
 }
 
 .navbar_mid_section a:hover {
-  color: #FFD200;
+  color: #ffd200;
 }
 
 .navbar_mid_section a {
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
 }
 
 .nav_social_text:hover {
-  color: #FFD200;
+  color: #ffd200;
 }
 
 .show {
@@ -197,7 +200,7 @@ option {
 }
 
 .common {
-  background: #1A1A1A;
+  background: #1a1a1a;
   position: absolute;
   top: 4rem;
   padding: 1rem;
@@ -205,8 +208,8 @@ option {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 0.5px solid #B6B6B6;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, .12);
+  border: 0.5px solid #b6b6b6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 .bar {
@@ -249,7 +252,7 @@ option {
   .navbar_second_container svg {
     position: absolute;
     left: 12px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   .curve_navbar {

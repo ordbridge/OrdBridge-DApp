@@ -18,6 +18,7 @@ import './styles/font.css';
 import './styles/index.css';
 import './styles/tailwind.css';
 import Dashboard from './pages/Dashboard';
+import useMediaQuery from './hooks/useMediaQuery';
 
 const appChains = [
   {
@@ -81,7 +82,8 @@ function App() {
   const [type, setType] = useState('Bitcoin');
   const [sessionKey, setSessionKey] = useState('');
   const [pendingEntryPopup, setPendingEntryPopup] = useState(false);
-
+  const [isMobile, setIsMobile] = useState();
+  const isMob = useMediaQuery('(max-width:630px)');
   const walletUpdate = async (address) => {
     await updateAddress({
       user_details: address
@@ -118,15 +120,19 @@ function App() {
   };
 
   const getUnisatNetwork = async () => {
-    try {
-      let res = await window.unisat.getNetwork();
-      if (res === 'livenet') {
-        unisatHandler();
-      } else {
-        switchUnisatNetwork();
+    if (isMob) {
+      setIsMobile(true);
+    } else {
+      try {
+        let res = await window.unisat.getNetwork();
+        if (res === 'livenet') {
+          unisatHandler();
+        } else {
+          switchUnisatNetwork();
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -213,6 +219,8 @@ function App() {
                   unisatAddress={unisatAddress}
                   metaMaskAddress={metaMaskAddress}
                   connectUnisatWallet={connectUnisatWallet}
+                  isMobile={isMobile}
+                  setIsMobile={setIsMobile}
                   connectMetamaskWallet={connectMetamaskWallet}
                   session_key={sessionKey}
                   setType={setType}
