@@ -1,5 +1,6 @@
 import React from 'react';
 import processIcon from '../assets/Process.svg';
+
 export const ChangeNetwork = ({ onCloseModal }) => {
   return (
     <div id="myModal" className="custom_modal address_modal">

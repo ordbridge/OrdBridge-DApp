@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { ImCross } from 'react-icons/im';
+import React from 'react';
 import '../../styles/FormStep.css';
+
 export const Step4 = ({ setStep, claimStatus, setClaimButton, setClaimStatus, swap }) => {
   return (
     <>

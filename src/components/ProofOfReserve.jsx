@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Img, Line } from '../components';
 import TOKEN_ABI from '../utils/tokenAbi';
-import Web3 from 'web3';
 import Text from './Text';
 
 const ProofOfReserve = ({ token, ethWeb3, avaxWeb3, ethContractHandler, avaxContractHandler }) => {

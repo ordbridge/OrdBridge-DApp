@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../../styles/FormStep.css';
-// import { ChangeNetwork } from '../ChangeNetwork';
 import { toast } from 'react-toastify';
 
 export const Step2 = ({

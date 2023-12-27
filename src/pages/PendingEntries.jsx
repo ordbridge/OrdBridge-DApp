@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { pendingEntryService } from '../services/homepage.service';
 import { useNavigate } from 'react-router-dom';
 import '../styles/pending-entries.css';
-import { Button, Img, ReactTable } from '../components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { Dropdown } from 'flowbite-react';
 import Web3 from 'web3';
@@ -71,14 +70,6 @@ export const PendingEntries = ({
       navigate('/');
     }
   }, []);
-
-  const getEvmChain = () => {
-    if (fromChain.isEvm) {
-      return fromChain;
-    } else {
-      return toChain;
-    }
-  };
 
   const setEntriesNetwork = async (type) => {
     setChainTypeFilter(type);

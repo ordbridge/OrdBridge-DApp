@@ -12,7 +12,6 @@ import Web3 from 'web3';
 import ProofOfReserve from '../components/ProofOfReserve';
 import axios from 'axios';
 import Text from '../components/Text';
-import { Link } from 'react-router-dom';
 import { FaArrowUp } from 'react-icons/fa';
 import { UnisatAlertModal } from '../components/UnisatAlertModal';
 

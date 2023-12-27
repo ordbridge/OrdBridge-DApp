@@ -15,18 +15,10 @@ export const CustomTokenModal = ({
   showModal
 }) => {
   const [suggestions, setSugesstions] = useState(tokenList?.map((ele) => ele));
-  const [isHideSuggs, setIsHideSuggs] = useState(false);
   const [selectedVal, setSelectedVal] = useState('');
   const [lengthError, setLengthError] = useState(false);
-  const [convertedValue, setConvertedVal] = useState('');
-  const onSelected = (value) => {
-    setConvertedVal(value);
-  };
 
-  const onChange = (value) => {
-    setConvertedVal('');
-    // console.log(value);
-  };
+  const onChange = () => {};
   const handler = (e) => {
     // setSugesstions(tokenList?.filter((i) => i?.startsWith(e.target.value)));
     setSugesstions(
@@ -39,16 +31,10 @@ export const CustomTokenModal = ({
 
   const handleChange = (e) => {
     const input = e.target.value;
-    setIsHideSuggs(false);
     setSelectedVal(input);
     onChange(input);
   };
 
-  const hideSuggs = (value) => {
-    onSelected(value);
-    setSelectedVal(value);
-    setIsHideSuggs(true);
-  };
   return (
     <Modal
       onClose={onCloseModal}

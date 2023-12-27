@@ -35,4 +35,4 @@ const Text = ({ children, className = '', size, as, ...restProps }) => {
   );
 };
 
-export default Text;;
+export default Text;

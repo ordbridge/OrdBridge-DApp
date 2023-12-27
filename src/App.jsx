@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage';
 import { updateAddress } from './services/homepage.service';
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
-import { WagmiConfig, createConfig, mainnet, configureChains, sepolia } from 'wagmi';
+import { configureChains, createConfig, mainnet, sepolia, WagmiConfig } from 'wagmi';
 import { createPublicClient, http } from 'viem';
 import { publicProvider } from 'wagmi/providers/public';
 import EthereumIcon from './assets/ethereum.png';
@@ -56,10 +56,7 @@ const appChains = [
   }
 ];
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia],
-  [publicProvider()]
-);
+const { webSocketPublicClient } = configureChains([sepolia], [publicProvider()]);
 const config = createConfig({
   autoConnect: true,
   webSocketPublicClient,
@@ -98,8 +95,7 @@ function App() {
       if (accounts[0].substring(0, 3) === 'bc1') {
         setUnisatAddress(accounts[0]);
         setUserDetails((prev) => {
-          let address = { ...prev, unisat_address: accounts[0] };
-          return address;
+          return { ...prev, unisat_address: accounts[0] };
         });
         walletUpdate({ ...userDetails, unisat_address: accounts[0] });
       } else {
@@ -112,8 +108,9 @@ function App() {
 
   const switchUnisatNetwork = async () => {
     try {
-      let res = await window.unisat.switchNetwork('livenet');
-      unisatHandler();
+      // eslint-disable-next-line no-unused-vars
+      let res = await window?.unisat?.switchNetwork('livenet');
+      await unisatHandler();
     } catch (e) {
       console.log(e);
     }
@@ -126,9 +123,9 @@ function App() {
       try {
         let res = await window.unisat.getNetwork();
         if (res === 'livenet') {
-          unisatHandler();
+          await unisatHandler();
         } else {
-          switchUnisatNetwork();
+          await switchUnisatNetwork();
         }
       } catch (e) {
         console.log(e);
@@ -144,11 +141,10 @@ function App() {
       const web3provider = new ethers.providers.Web3Provider(web3instance);
       const accounts = await web3provider.listAccounts();
       setUserDetails((prev) => {
-        let address = { ...prev, metamask_address: accounts[0] };
-        return address;
+        return { ...prev, metamask_address: accounts[0] };
       });
       setMetamaskAddress(accounts[0]);
-      walletUpdate({ ...userDetails, metamask_address: accounts[0] });
+      await walletUpdate({ ...userDetails, metamask_address: accounts[0] });
       // const network = await web3provider.getNetwork();
     } catch (error) {
       toast.error('Something went wrong while connecting to wallet, please try again later');
@@ -159,7 +155,7 @@ function App() {
     <div>
       Seems like you don't have AVAX-C chain added to your metamask wallet. Please add Avalanche
       C-Chain via{' '}
-      <a href="https://chainlist.org/chain/43114" target="_blank">
+      <a href="https://chainlist.org/chain/43114" target="_blank" rel="noreferrer">
         this link.
       </a>
     </div>

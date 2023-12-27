@@ -15,7 +15,6 @@ import ETH_ABI from '../utils/eth';
 import { PendingEntries } from '../pages/PendingEntries';
 import { IoIosArrowDown, IoIosInformationCircleOutline } from 'react-icons/io';
 import { toast } from 'react-toastify';
-import { Dropdown } from 'flowbite-react';
 import { Button } from './Button';
 import { CustomDropdown } from './Dropdown';
 
