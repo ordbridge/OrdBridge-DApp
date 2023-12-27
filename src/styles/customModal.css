@@ -24,14 +24,12 @@
 
 /* Modal Content */
 .custom_modal-content {
-    position: relative;
     /* background-color: #fefefe; */
     background-color: #794EFF33;
-    margin: auto;
+
     padding: 0.5rem 0.5rem;
     padding-bottom: 1rem;
     /* border: 1px solid #888; */
-    width: 400px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -82,9 +80,6 @@
     cursor: pointer;
 }
 
-.custom_modal-header {
-    color: white;
-}
 
 .custom_modal_body {
     display: flex;

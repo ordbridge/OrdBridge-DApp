@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import processIcon from '../assets/Process.svg';
-import { ChangeNetwork } from './ChangeNetwork';
 import { toast } from 'react-toastify';
 
 export const AddressPopup = ({
   toChain,
-  fromChain,
   ethChain,
   onCloseModal,
-  handleConfirm,
-  setStep,
   initateBridgeHandler,
   unisatAddress,
   metaMaskAddress,
-  swap,
   burnMetamaskHandler
 }) => {
   const checkNetwork = async () => {
@@ -46,7 +41,7 @@ export const AddressPopup = ({
           <div className="custom_modal-header">
             <div className="modal_address">
               <div className="confirm_modal_head font-syne font-bold text-4xl">
-                <img style={{ width: '6rem' }} src={processIcon} />
+                <img style={{ width: '6rem' }} src={processIcon} alt="" />
                 <div className="modal_head_gradient_text">Please Verify your</div>
                 <div className="modal_head_gradient_text">
                   {toChainIsEvm ? (toChain.tag === 'AVAX' ? 'Avalanche' : 'Ethereum') : 'Bitcoin'}{' '}
@@ -77,9 +72,7 @@ export const AddressPopup = ({
                   className="connect_wallet_button bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
                   style={{ width: '100%' }}
                   onClick={() => {
-                    {
-                      toChainIsEvm ? initateBridgeHandler() : checkNetwork();
-                    }
+                    toChainIsEvm ? initateBridgeHandler() : checkNetwork();
                   }}>
                   <button className="initiate_button">
                     <span className="text-white font-syne text-xl">Proceed</span>

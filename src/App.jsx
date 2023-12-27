@@ -1,12 +1,11 @@
 import 'react-toastify/dist/ReactToastify.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import HomePage from './pages/HomePage';
 import { updateAddress } from './services/homepage.service';
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
-import { PendingEntries } from './pages/PendingEntries';
 import { WagmiConfig, createConfig, mainnet, configureChains, sepolia } from 'wagmi';
 import { createPublicClient, http } from 'viem';
 import { publicProvider } from 'wagmi/providers/public';
@@ -19,7 +18,6 @@ import './styles/font.css';
 import './styles/index.css';
 import './styles/tailwind.css';
 import Dashboard from './pages/Dashboard';
-import Navbar from './components/Navbar/Navbar';
 
 const appChains = [
   {

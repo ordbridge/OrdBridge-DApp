@@ -1,23 +1,17 @@
 import '../styles/home.page.css';
-
 import React, { useEffect, useState } from 'react';
 import { SwapPopup } from '../components/SwapPopup';
-import { tickerList } from '../services/homepage.service';
-import { PageLoader } from '../components/PageLoader';
 import { Footer } from '../components/Footer';
-import { Button, Img, Line } from '../components';
-import { tokenList } from '../mockData/tokenData';
+import { Button, Line } from '../components';
 import Navbar from '../components/Navbar/Navbar';
 import { MdContentCopy, MdOutlineOpenInNew } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import AVAX_ABI from '../utils/avax';
 import ETH_ABI from '../utils/eth';
-import TOKEN_ABI from '../utils/tokenAbi';
 import Web3 from 'web3';
 import ProofOfReserve from '../components/ProofOfReserve';
 import axios from 'axios';
 import Text from '../components/Text';
-import { Link } from 'react-router-dom';
 
 const HomePage = ({
   toChain,
@@ -37,7 +31,6 @@ const HomePage = ({
 }) => {
   // const [tokenList, setTokenList] = useState([]);
   const [step, setStep] = useState(0);
-  const [pageLoader, setPageLoader] = useState(true);
   const [brcBalances, setBrcBalances] = useState([]);
   const [lastPrice, setLastPrice] = useState(null);
   const [tokenList, setTokenList] = useState([]);
@@ -126,7 +119,6 @@ const HomePage = ({
             setFromChain={setFromChain}
             appChains={appChains}
             tokenList={tokenList}
-            pageLoader={pageLoader}
             setType={setType}
             type={type}
             unisatAddress={unisatAddress}

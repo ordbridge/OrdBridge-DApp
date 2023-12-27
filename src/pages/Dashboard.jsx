@@ -39,7 +39,7 @@ const DashboardReserveCard = ({
 };
 const Dashboard = () => {
   return (
-    <div className="bg-black  font-syne text-white">
+    <div className="font-syne text-white">
       <div className="container py-[50px]">
         <h1 className="dashboard-heading">Dashboard</h1>
         <div className="grid grid-cols-3 gap-3 text-white">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { CustomTokenModal } from './CustomTokenModal';
 import { AddressPopup } from './AddressPopup';
 import { LuClock3 } from 'react-icons/lu';
@@ -91,7 +91,7 @@ export const SwapPopup = ({
   };
 
   let ref;
-  const [tokenResponse, setTokenResponse] = useState({
+  const [tokenResponse] = useState({
     conversion_factor: 1,
     to_curreny_factor: 0.7,
     From_curreny_factor: 0.74,
@@ -112,7 +112,7 @@ export const SwapPopup = ({
   const factoryContractAddress = getEvmChain().factoryAddress;
   const ABI = getEvmChain().tag === 'ETH' ? ETH_ABI : AVAX_ABI;
   const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
-  const MetaMaskContractHandler = new ethWeb3.eth.Contract(ABI, appContractAddress);
+  // const MetaMaskContractHandler = new ethWeb3.eth.Contract(ABI, appContractAddress);
   const callContractFunction = async () => {
     try {
       const result = await contractHandler.methods
@@ -342,7 +342,7 @@ export const SwapPopup = ({
                                     From
                                   </span>
                                   <span className="flex items-center mx-2 sm:text-sm">
-                                    <img src={fromChain.icon} style={{ width: '20px' }} />{' '}
+                                    <img src={fromChain.icon} style={{ width: '20px' }} alt="" />{' '}
                                     {fromChain.tag}
                                   </span>
                                   <div>
@@ -359,7 +359,8 @@ export const SwapPopup = ({
                                   className={`w-full flex justify-center text-white gap-2 items-center  ${
                                     index === 0 ? 'mt-2' : ''
                                   }`}>
-                                  <img src={chain.icon} style={{ width: '20px' }} /> {chain.tag}
+                                  <img src={chain.icon} style={{ width: '20px' }} alt="" />{' '}
+                                  {chain.tag}
                                 </div>
                               </Dropdown.Item>
                             ))}
@@ -379,6 +380,7 @@ export const SwapPopup = ({
                           height={20}
                           onClick={handleSwap}
                           className="cursor-pointer h-5 w-5"
+                          alt=""
                         />
                       </div>
                     )}
@@ -405,7 +407,7 @@ export const SwapPopup = ({
                                     To
                                   </span>
                                   <span className="flex items-center mx-2 sm:text-sm">
-                                    <img src={toChain.icon} style={{ width: '20px' }} />{' '}
+                                    <img src={toChain.icon} style={{ width: '20px' }} alt="" />{' '}
                                     {toChain.tag}
                                   </span>
                                   <div>
@@ -422,7 +424,8 @@ export const SwapPopup = ({
                                   className={`w-full flex justify-center text-white gap-2 items-center ${
                                     index === 0 ? 'mt-2' : ''
                                   }`}>
-                                  <img src={chain.icon} style={{ width: '20px' }} /> {chain.tag}
+                                  <img src={chain.icon} style={{ width: '20px' }} alt="" />{' '}
+                                  {chain.tag}
                                 </div>
                               </Dropdown.Item>
                             ))}
@@ -566,13 +569,13 @@ export const SwapPopup = ({
     }
   };
 
-  const requestChainChange = async () => {
-    const chain = getEvmChain();
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    if (chainId !== chain.chainId) {
-      connectMetamaskWallet(chain.chainId);
-    }
-  };
+  // const requestChainChange = async () => {
+  //   const chain = getEvmChain();
+  //   const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+  //   if (chainId !== chain.chainId) {
+  //     connectMetamaskWallet(chain.chainId);
+  //   }
+  // };
   // !pendingEntryPopup && requestChainChange();
 
   return (
@@ -581,6 +584,7 @@ export const SwapPopup = ({
 
       {showModal && (
         <CustomTokenModal
+          showModal={showModal}
           tokenList={tokenList}
           onCloseModal={handleModal}
           token={token}

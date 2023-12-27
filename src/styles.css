@@ -26,4 +26,19 @@
         font-size: clamp(20px, 5vw, 32px);
     }
 
+    .custom-token-modal {
+        @apply rounded-3xl !z-40 dashboard-stat-card max-h-[420px]
+    }
+    .custom-token-modal-container {
+        @apply bg-transparent
+    }
+    .custom-token-modal-container {
+        @apply bg-transparent shadow-none max-h-[650px] overflow-hidden w-[450px]
+    }
+    .custom-token-modal-input {
+        @apply text-[#fff] w-full border-[#808080] font-syne text-xl pl-10 pr-4 font-thin rounded-[40px] bg-[#292146] placeholder-gray-400
+    }
+    .react-responsive-modal-modal {
+        background-color : white !important;
+    }
 }
