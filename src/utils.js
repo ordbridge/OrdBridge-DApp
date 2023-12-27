@@ -3,7 +3,7 @@ import { toUtf8Bytes } from "ethers/lib/utils";
 
 export const toHex = (num) => {
   const val = Number(num);
-  return `0x${val.toString(16)}`;
+  return "0x" + val.toString(16);
 };
 
 export const hexToNum = (str) => {
@@ -24,14 +24,14 @@ export const debounce = (fn, delay) => {
 };
 
 export const toHexByte = (string) => {
-  const utf8 = unescape(encodeURIComponent(string));
-  const arr = [];
-  for (let i = 0; i < utf8.length; i++) {
+  var utf8 = unescape(encodeURIComponent(string));
+  var arr = [];
+  for (var i = 0; i < utf8.length; i++) {
     const utfStr = utf8.charCodeAt(i);
     const hexString = utfStr.toString(16);
     arr.push(hexString);
   }
-  const result = `0x${arr.join("")}`;
+  const result = "0x" + arr.join("");
   return result;
 };
 

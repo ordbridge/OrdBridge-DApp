@@ -18,7 +18,7 @@ const InscribeTransfer = () => {
 
         <div className="inscribe_content">
           1. Inscribe this below json
-          <div className="inscribe_json" />
+          <div className="inscribe_json"></div>
         </div>
         <button className="active_button">Inscribe</button>
         <button className="inactive_button">Inscribe</button>

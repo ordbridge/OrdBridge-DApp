@@ -7,9 +7,10 @@ import { Button, Text } from "..";
 
 const ConnectMetaMaskWallet = ({ onConnectClick, address, text }) => {
   if (address) {
-    const firstHalf = address?.substring(0, 5);
-    const lastHalf = address?.substring(address.length - 3, address.length - 1);
-    const truncatedAddress = `${firstHalf}........${lastHalf}`;
+    const firstHalf = address && address.substring(0, 5);
+    const lastHalf =
+      address && address.substring(address.length - 3, address.length - 1);
+    const truncatedAddress = firstHalf + "........" + lastHalf;
     return (
       <Button
         className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] rounded-[29px] text-base text-center px-8 w-max sm:px-6 sm:text-xs break-all"

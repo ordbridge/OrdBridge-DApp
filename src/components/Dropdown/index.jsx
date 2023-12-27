@@ -8,7 +8,7 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
   };
 
   return (
-    <section className={"dropdown"}>
+    <section className={`dropdown`}>
       <button onClick={handleDropdownClick} className="dropdown-btn">
         <p className="flex items-center justify-end text-center bg-black border-none text-white rounded-full cursor-pointer !mb-0 py-[12px] sm:!w-auto sm:!px-3 px-3 w-max">
           <p className="flex items-center justify-end gap-1 !mb-0">

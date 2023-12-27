@@ -181,13 +181,14 @@ function App() {
   const getEvmChain = () => {
     if (fromChain.isEvm) {
       return fromChain;
+    } else {
+      return toChain;
     }
-    return toChain;
   };
 
   const connectMetamaskWallet = async (desiredChainId) => {
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    const appChainId = Number.isNaN(desiredChainId)
+    const appChainId = isNaN(desiredChainId)
       ? getEvmChain().chainId
       : desiredChainId;
 
