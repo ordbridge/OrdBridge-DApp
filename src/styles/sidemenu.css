@@ -49,7 +49,7 @@
 
 .side_header {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     color: #b6b6b6;
     font-size: 24px;
     padding-bottom: 12px;

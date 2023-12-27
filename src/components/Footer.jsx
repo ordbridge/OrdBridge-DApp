@@ -16,16 +16,16 @@ export const Footer = () => {
         </div>
         <div className="footer_content socials">
           {' '}
-          <a href="https://twitter.com/OrdBridge" target="_blank">
-            <img src="Twitter.png" className="twitter_logo" />
+          <a href="https://twitter.com/OrdBridge" target="_blank" rel="noreferrer">
+            <img src="Twitter.png" className="twitter_logo" alt="" />
           </a>
           |
-          <a href="https://discord.com/invite/6netagdQTH" target="_blank">
-            <img src="discordLogo.png" className="twitter_logo" />
+          <a href="https://discord.com/invite/6netagdQTH" target="_blank" rel="noreferrer">
+            <img src="discordLogo.png" className="twitter_logo" alt="" />
           </a>
           |
-          <a href="https://t.me/ordbridgefi" target="_blank">
-            <img src="Logo.svg" className="twitter_logo me-2" />
+          <a href="https://t.me/ordbridgefi" target="_blank" rel="noreferrer">
+            <img src="Logo.svg" className="twitter_logo me-2" alt="" />
           </a>
         </div>
       </div>
@@ -34,12 +34,14 @@ export const Footer = () => {
           <a
             className="footer_content"
             target="_blank"
+            rel="noreferrer"
             href="https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/">
             Gitbook Docs
           </a>
           <a
             className="footer_content"
             target="_blank"
+            rel="noreferrer"
             href="https://ordbridge.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/how-it-works/technical-overview/brc-20-and-ARC-20">
             What is BRC-20
           </a>
@@ -48,6 +50,7 @@ export const Footer = () => {
           <a
             className="footer_content"
             target="_blank"
+            rel="noreferrer"
             href="https://ordbridge.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/how-it-works/bridging-process">
             How does bridge work?
           </a>

@@ -40,6 +40,7 @@ const ProofOfReserve = ({ token, ethWeb3, avaxWeb3, ethContractHandler, avaxCont
         });
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

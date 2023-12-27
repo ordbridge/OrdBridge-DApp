@@ -7,6 +7,7 @@ const useMediaQuery = (query) => {
     const handler = () => setMatch(!!mediaQuery.matches);
     mediaQuery.addListener(handler);
     return () => mediaQuery.removeListener(handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (typeof window === 'undefined' || typeof window.matchMedia === 'undefined') return false;
   return match;

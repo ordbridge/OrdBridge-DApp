@@ -153,18 +153,17 @@ export const SwapPopup = ({
       // const bigNumberValue = new BigNumber(tokenValue * val);
 
       const evmChain = getEvmChain();
-      let result;
 
       if (evmChain.tag === 'ETH') {
         const contractHandler = new ethWeb3.eth.Contract(ETH_ABI, appChains[0].contractAddress);
 
-        result = await contractHandler.methods
+        await contractHandler.methods
           .burnERCTokenForBRC(token, amount, unisatAddress)
           .send({ from: accounts[0] });
       } else {
         const contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, appChains[2].contractAddress);
 
-        result = await contractHandler.methods
+        await contractHandler.methods
           .burnERCTokenForBRC('BRC', token, amount, unisatAddress)
           .send({ from: accounts[0] });
       }
@@ -190,7 +189,7 @@ export const SwapPopup = ({
         contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, appChains[2].contractAddress);
       }
 
-      const result = await contractHandler.methods
+      await contractHandler.methods
         .claimERCEntryForWallet(metaMaskResponse[0][0] || 0)
         .send({ from: accounts[0] });
 
@@ -445,15 +444,11 @@ export const SwapPopup = ({
 
               <div className="form_link_description">
                 $wBRGE token contract {''}
-                <a href="#" target="">
-                  {factoryContractAddress}
-                </a>
+                <a href="/">{factoryContractAddress}</a>
               </div>
               <div className="form_link_description">
                 OrdBridge Factory contract {''}
-                <a href="#" target="">
-                  {appContractAddress}
-                </a>
+                <a href="/">{appContractAddress}</a>
               </div>
             </div>
           </>

@@ -34,10 +34,11 @@ export const Step1 = ({
     fetchFeeRate().then((res) => {
       setFeeRate(Math.floor(res.limits['min'] + res.limits['max']) / 2);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const transferInscrptionHandler = async () => {
     try {
-      const data = await window.unisat.sendInscription(
+      await window.unisat.sendInscription(
         'bc1q0yufnf24ksfcj8vg32rrmun87vltnrfg6qzd7x',
         finalInscriptionId,
         {

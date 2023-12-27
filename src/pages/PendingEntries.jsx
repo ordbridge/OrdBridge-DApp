@@ -69,6 +69,7 @@ export const PendingEntries = ({
     } else {
       navigate('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setEntriesNetwork = async (type) => {
