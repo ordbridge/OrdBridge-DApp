@@ -344,3 +344,7 @@ ul li a {
 .isHidden {
   visibility: hidden;
 }
+
+.Toastify__toast-container{
+  z-index: 1000000 !important;
+}
