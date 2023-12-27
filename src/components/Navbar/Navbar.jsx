@@ -34,7 +34,7 @@ const Navbar = ({
   };
   return (
     <>
-     <SideMenu
+      <SideMenu
         handleSideMenu={handleSideMenu}
         type={type}
         setPendingEntryPopup={setPendingEntryPopup}
@@ -43,7 +43,7 @@ const Navbar = ({
         unisatAddress={unisatAddress}
         connectUnisatWallet={connectUnisatWallet}
       />
-      <div className="flex py-3 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6 fixed z-[10000] navbar_header">
+      <div className="flex py-3 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6 z-[10000]">
         <section className="flex gap-2 font-syne items-center justify-start w-auto">
           <Text
             className="text-3xl text-blue-200 pr-12 cursor-pointer !mb-0"
@@ -106,7 +106,11 @@ const Navbar = ({
             </>
           )}
         </section>
-        <GiHamburgerMenu className="hamburger hidden md:block text-white text-xl" onClick={handleSideMenu} id="menu-btn" />
+        <GiHamburgerMenu
+          className="hamburger hidden md:block text-white text-xl"
+          onClick={handleSideMenu}
+          id="menu-btn"
+        />
       </div>
     </>
   );
