@@ -1,13 +1,13 @@
-import React, { memo } from 'react';
-import YouTube from 'react-youtube';
+import React, { memo } from "react";
+import YouTube from "react-youtube";
 
 const YoutubeEmbed = ({ embedId }) => {
   const opts = {
-    height: '100',
-    width: '100%',
+    height: "100",
+    width: "100%",
     playerVars: {
-      autoplay: 1
-    }
+      autoplay: 1,
+    },
   };
   return (
     // <YouTube
@@ -16,12 +16,13 @@ const YoutubeEmbed = ({ embedId }) => {
     //   className="unisatSS_container"
     // />
     <iframe
-    className='pr-4'
+      className="pr-4"
       width="100%"
       src="https://player.vimeo.com/video/839731536"
       frameborder="0"
       allow="autoplay"
-      allowFullScreen></iframe>
+      allowFullScreen
+    ></iframe>
   );
 };
 export default memo(YoutubeEmbed);

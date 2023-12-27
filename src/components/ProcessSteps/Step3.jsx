@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import '../../styles/FormStep.css';
+import React, { useEffect, useState } from "react";
+import "../../styles/FormStep.css";
 export const Step3 = ({ setStep, handleBack }) => {
   // useEffect(() => {
   //   setTimeout(() => {
