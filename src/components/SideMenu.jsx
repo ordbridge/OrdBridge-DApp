@@ -21,7 +21,7 @@ const SideMenu = ({
     <>
       <div id="side_menu" className="side_menu closed">
         <div className="side_overlay"></div>
-        <div className="new_menu">
+        <div className="new_menu ">
           <div className="side_header">
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
@@ -53,19 +53,6 @@ const SideMenu = ({
               onConnectClick={connectMetamaskWallet}
               address={metaMaskAddress}
             />
-            {/* <div className="connect-wallet">
-              <img
-                src={type === 'Bitcoin' ? 'bitcoin.webp' : 'ethereum.png'}
-                width={20}
-                height={20}
-              />
-              {type}
-            </div> */}
-            {/* {type === 'Bitcoin' ? (
-              <ConnectUnisatWallet onConnectClick={connectUnisatWallet} unisatAddress={unisatAddress} />
-            ) : (
-              <ConnectMetaMaskWallet />
-            )} */}
           </div>
         </div>
       </div>
