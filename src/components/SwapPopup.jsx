@@ -59,8 +59,9 @@ export const SwapPopup = ({
   const getEvmChain = () => {
     if (fromChain.isEvm) {
       return fromChain;
+    } else {
+      return toChain;
     }
-    return toChain;
   };
 
   const setChain = (isFrom, chain) => async () => {
@@ -238,7 +239,7 @@ export const SwapPopup = ({
   const initateBridgeHandler = async () => {
     setPendingInscriptionId("");
     const body = {
-      tickername: swap ? token : `w${token}`,
+      tickername: swap ? token : "w" + token,
       tickerval: tokenValue,
       unisat_address: unisatAddress,
       metamask_address: metaMaskAddress,

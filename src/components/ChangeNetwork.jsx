@@ -16,13 +16,13 @@ export const ChangeNetwork = ({ onCloseModal }) => {
               <div className="connect_wallet_button">
                 <button className="initiate_button" onClick={onCloseModal}>
                   {" "}
-                  {"<Back"}
+                  {`<Back`}
                 </button>
               </div>
               <div className="connect_wallet_button">
                 <button className="initiate_button" onClick={onCloseModal}>
                   {" "}
-                  {"Change It"}
+                  {`Change It`}
                 </button>
               </div>
             </div>

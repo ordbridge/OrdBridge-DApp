@@ -13,7 +13,7 @@ export const tickerList = async ({ limit, page }) => {
 export const updateAddress = async (payload) => {
   try {
     const data = await axios.post(
-      "https://api.ordbridge.io/bapi/bridge/update_user_details",
+      `https://api.ordbridge.io/bapi/bridge/update_user_details`,
       payload,
     );
     return data;
@@ -24,7 +24,7 @@ export const updateAddress = async (payload) => {
 export const initiateBridge = async ({ body, session_key }) => {
   try {
     const data = await axios.post(
-      "https://api.ordbridge.io/bapi/bridge/init_payment",
+      `https://api.ordbridge.io/bapi/bridge/init_payment`,
       body,
     );
     // const data = await axios.post(`https://api.ordbridge.io/bapi/bridge/init_payment`, body, {
@@ -44,7 +44,7 @@ export const pendingEntryService = async ({
 }) => {
   try {
     const data = await axios.post(
-      "https://api.ordbridge.io/bapi/bridge/pending_entries",
+      `https://api.ordbridge.io/bapi/bridge/pending_entries`,
       {
         unisat_address: unisatAddress,
         metamask_address: metaMaskAddress,
@@ -62,7 +62,7 @@ export const inscribeService = async ({
 }) => {
   try {
     const data = await axios.post(
-      "https://api.ordbridge.io/bapi/bridge/inscribe",
+      `https://api.ordbridge.io/bapi/bridge/inscribe`,
       {
         inscribe_json: {
           amt: res?.inscribe?.amt,
@@ -83,7 +83,7 @@ export const inscribeService = async ({
 export const transferService = async ({ session_key, InscriptionId }) => {
   try {
     const data = await axios.post(
-      "https://api.ordbridge.io/bapi/bridge/transfer",
+      `https://api.ordbridge.io/bapi/bridge/transfer`,
       {
         inscription_id: InscriptionId,
       },
@@ -96,7 +96,7 @@ export const transferService = async ({ session_key, InscriptionId }) => {
 export const deleteEntry = async ({ session_key, reference_id }) => {
   try {
     const data = await axios.delete(
-      "https://api.ordbridge.io/bapi/bridge/delete_entries",
+      `https://api.ordbridge.io/bapi/bridge/delete_entries`,
       {
         reference_id: reference_id,
       },
@@ -108,7 +108,7 @@ export const deleteEntry = async ({ session_key, reference_id }) => {
 };
 export const fetchFeeRate = async () => {
   try {
-    const data = await axios.get("https://api.blockchain.info/mempool/fees");
+    const data = await axios.get(`https://api.blockchain.info/mempool/fees`);
     return data?.data;
   } catch (error) {
     throw error;

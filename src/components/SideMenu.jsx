@@ -20,7 +20,7 @@ const SideMenu = ({
   return (
     <>
       <div id="side_menu" className="side_menu closed">
-        <div className="side_overlay" />
+        <div className="side_overlay"></div>
         <div className="new_menu ">
           <div className="side_header">
             <AiOutlineClose onClick={handleSideMenu} />
