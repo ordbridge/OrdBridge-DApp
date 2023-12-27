@@ -41,7 +41,7 @@ export const Step4 = ({
           {!swap && claimStatus === "success" && (
             <section className="form_data_section p-2 font-syne">
               <div className="fw-normal flex align-items-center">
-                <>Please Wait 30 mins to complete Transaction.</>
+                Please Wait 30 mins to complete Transaction.
               </div>
             </section>
           )}
