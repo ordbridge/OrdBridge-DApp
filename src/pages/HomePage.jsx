@@ -19,6 +19,7 @@ import axios from 'axios';
 import Text from '../components/Text';
 import { Link } from 'react-router-dom';
 import { FaArrowUp } from 'react-icons/fa';
+import { UnisatAlertModal } from '../components/UnisatAlertModal';
 
 const HomePage = ({
   toChain,
@@ -34,7 +35,9 @@ const HomePage = ({
   connectMetamaskWallet,
   session_key,
   pendingEntryPopup,
-  setPendingEntryPopup
+  setPendingEntryPopup,
+  isMobile,
+  setIsMobile
 }) => {
   // const [tokenList, setTokenList] = useState([]);
   const [step, setStep] = useState(0);
@@ -337,6 +340,8 @@ const HomePage = ({
             </div>
           </button>
         )}
+
+        {isMobile && <UnisatAlertModal setIsMobile={setIsMobile}/>}
       </div>
       <Footer />
     </>
