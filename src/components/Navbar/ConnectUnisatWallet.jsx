@@ -1,13 +1,13 @@
 import '../../styles/connect-wallet.css';
-import UnisatIcon from "../../assets/unisat.png"
+import UnisatIcon from '../../assets/unisat.png';
 
 import React from 'react';
-import { Button, Text } from '..';
+import { Button } from '..';
 
 const ConnectUnisatWallet = ({ onConnectClick, address, text }) => {
   if (address) {
     const firstHalf = address && address.substring(0, 5);
-    const lastHalf = address && address.substring(address.length-3, address.length-1);
+    const lastHalf = address && address.substring(address.length - 3, address.length - 1);
     const truncatedAddress = firstHalf + '.....' + lastHalf;
     return (
       <Button
@@ -15,7 +15,7 @@ const ConnectUnisatWallet = ({ onConnectClick, address, text }) => {
         color={`${text === 'Connect Wallets' ? 'deep_purple_A200_a3' : 'deep_purple_A200_cc'}`}
         size="sm"
         variant="outline">
-        <img src={UnisatIcon} style={{width:"20px"}}/> {truncatedAddress}
+        <img src={UnisatIcon} style={{ width: '20px' }} alt="" /> {truncatedAddress}
       </Button>
     );
   }

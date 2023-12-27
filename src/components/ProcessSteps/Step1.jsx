@@ -1,12 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { MdContentCopy, MdExposurePlus1, MdOutlineLock } from 'react-icons/md';
-import { LiaStickyNoteSolid } from 'react-icons/lia';
-import { AiOutlineYoutube, AiOutlineCheckCircle } from 'react-icons/ai';
+import React, { useEffect, useState } from 'react';
+import { MdContentCopy, MdOutlineLock } from 'react-icons/md';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 import '../../styles/FormStep.css';
 import { toast } from 'react-toastify';
 import StepWizard from 'react-step-wizard';
-import { fetchFeeRate, inscribeService, transferService } from '../../services/homepage.service';
-import { ThreeDots } from 'react-loader-spinner';
+import { fetchFeeRate, inscribeService } from '../../services/homepage.service';
 import YoutubeEmbed from '../YoutubeEmbed';
 import { IoIosAdd } from 'react-icons/io';
 import { LuMinus } from 'react-icons/lu';
@@ -17,16 +15,12 @@ export const Step1 = ({
   res,
   metaMaskAddress,
   unisatAddress,
-  session_key,
-  callContractFunction,
-  metaMaskResponse,
   loader,
   setLoader,
   pendingInscriptionId,
   claimButton,
   setClaimButton,
-  startInterval,
-  setPendingEntryPopup
+  startInterval
 }) => {
   const appChainKey = ethChain.key;
 
@@ -237,7 +231,8 @@ export const Step1 = ({
                     href={`https://unisat.io/brc20?t=1687336457213&q=${unisatAddress}`}
                     target="_blank"
                     className="fw-normal font-syne text-sm font-normal"
-                    style={{ color: '#7A6FF2' }}>
+                    style={{ color: '#7A6FF2' }}
+                    rel="noreferrer">
                     Click here
                   </a>
                   <span className="font-syne text-sm font-normal">

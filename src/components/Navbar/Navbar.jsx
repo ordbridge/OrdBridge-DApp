@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import '../../styles/navbar.css';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import SideMenu from '../SideMenu';
 import ConnectUnisatWallet from './ConnectUnisatWallet';
 import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
-import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Logo } from '../Logo';
-import { Button, Img, Line } from '../';
 import Text from '../Text';
 
 const Navbar = ({
@@ -17,13 +14,10 @@ const Navbar = ({
   type,
   connectMetamaskWallet,
   metaMaskAddress,
-  sessionKey,
   pendingEntryPopup,
   setPendingEntryPopup,
   setStep
 }) => {
-  const navigate = useNavigate();
-  const [navItemsOpen, setNavItemsOpen] = useState(false);
   const handleSideMenu = () => {
     const side_menu = document.getElementById('side_menu');
     if (side_menu.classList.contains('closed')) {
@@ -85,7 +79,7 @@ const Navbar = ({
           </Text>
         </section>
 
-        <section className="flex items-start gap-2  block md:hidden justify-end">
+        <section className="flex items-start gap-2  visible md:hidden justify-end">
           {type === 'Bitcoin' ? (
             <>
               <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />

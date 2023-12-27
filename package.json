@@ -17,6 +17,7 @@
     "nft-react": "^0.5.2",
     "postcss": "^8.4.32",
     "postcss-cli": "^11.0.0",
+    "prop-types": "^15.8.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-form-stepper": "^2.0.3",
@@ -67,6 +68,7 @@
     ]
   },
   "devDependencies": {
+    "@biomejs/biome": "1.4.1",
     "@tailwindcss/forms": "^0.5.7",
     "eslint": "^8.17.0",
     "eslint-config-airbnb": "^19.0.4",

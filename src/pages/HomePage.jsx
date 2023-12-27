@@ -316,7 +316,6 @@ const HomePage = ({
             style={{
               borderWidth: '.001rem !important',
               borderColor: '#281a5e',
-              background: 'rgb(150,112,255)',
               background:
                 'linear-gradient(0deg, rgba(150,112,255,1) 0%, rgba(26,20,67,1) 1%, rgba(22,20,63,1) 100%)',
               zIndex: '10000'
@@ -334,7 +333,7 @@ const HomePage = ({
           </button>
         )}
 
-        {isMobile && <UnisatAlertModal setIsMobile={setIsMobile}/>}
+        {isMobile && <UnisatAlertModal setIsMobile={setIsMobile} />}
       </div>
       <Footer />
     </>
