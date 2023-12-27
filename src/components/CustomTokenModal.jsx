@@ -63,7 +63,7 @@ export const CustomTokenModal = ({
         <div className="custom-token-modal">
           <div className="custom_modal_body ">
             {type !== 'etob' && <div className="fw-bold fs-4">W</div>}
-            <FiSearch className="text-gray-400 position-absolute left-[50px]  " />
+            <FiSearch className="text-gray-400 position-absolute left-[50px]" />
             <input
               // type="search"
               placeholder="Search Token"
