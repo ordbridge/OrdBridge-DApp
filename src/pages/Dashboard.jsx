@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const DashboardStatCard = ({ title, value }) => {
   return (
@@ -38,14 +39,21 @@ const DashboardReserveCard = ({
   );
 };
 const Dashboard = () => {
+  const [statsData, setStatsData] = useState({});
+  useEffect(() => {
+    (async () => {
+      const res = await axios.get('https://api.ordbridge.io/bapi/reporting');
+      console.log(res.data?.data[0], 'Dataa');
+      setStatsData(res?.data?.data?.[0]);
+    })();
+  }, []);
   return (
     <div className="font-syne text-white">
       <div className="container py-[50px]">
         <h1 className="dashboard-heading">Dashboard</h1>
-        <div className="grid grid-cols-3 gap-3 text-white">
-          <DashboardStatCard title="Price" value="24 Tokens" />
-          <DashboardStatCard title="Total Volume" value="$ 487,191,133.12" />
-          <DashboardStatCard title="Proof of reserves" value="$ 0.244939" />
+        <div className="grid grid-cols-2 gap-5 text-white">
+          <DashboardStatCard title="Price" value={statsData?.high24h} />
+          <DashboardStatCard title="Total Volume" value={statsData?.volume24h} />
         </div>
         <h1 className="dashboard-heading mt-10">Proof of Reserves</h1>
         <div className="grid grid-cols-3 gap-3">

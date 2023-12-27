@@ -88,7 +88,7 @@ export const CustomTokenModal = ({
                     }}>
                     <FaCircle />
                     &nbsp;
-                    {el}
+                    {el.toUpperCase()}
                   </div>
                 );
               })
