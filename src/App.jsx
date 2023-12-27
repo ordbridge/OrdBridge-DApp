@@ -10,14 +10,16 @@ import { PendingEntries } from './pages/PendingEntries';
 import { WagmiConfig, createConfig, mainnet, configureChains, sepolia } from 'wagmi';
 import { createPublicClient, http } from 'viem';
 import { publicProvider } from 'wagmi/providers/public';
-import EthereumIcon from "./assets/ethereum.png";
-import AvalancheIcon from "./assets/avalanche.png";
-import BrcIcon from "./assets/brc.png";
+import EthereumIcon from './assets/ethereum.png';
+import AvalancheIcon from './assets/avalanche.png';
+import BrcIcon from './assets/brc.png';
 import './styles.css'; // Import your styles
 import './styles/color.css';
 import './styles/font.css';
 import './styles/index.css';
 import './styles/tailwind.css';
+import Dashboard from './pages/Dashboard';
+import Navbar from './components/Navbar/Navbar';
 
 const appChains = [
   {
@@ -30,7 +32,7 @@ const appChains = [
     chainId: '0x1',
     contractAddress: '0xa237f89cb12bff9932c7503f854ad881dcead73a',
     factoryAddress: '0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e',
-    icon:EthereumIcon
+    icon: EthereumIcon
   },
   {
     isEvm: false,
@@ -39,7 +41,7 @@ const appChains = [
     tokenTag: 'BRC20',
     tag: 'BRC',
     contractAddress: '',
-    icon:BrcIcon
+    icon: BrcIcon
   },
   {
     isEvm: true,
@@ -51,7 +53,7 @@ const appChains = [
     chainId: '0xa86a',
     factoryAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
     contractAddress: '0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384',
-    icon:AvalancheIcon
+    icon: AvalancheIcon
   }
 ];
 
@@ -129,8 +131,6 @@ function App() {
       console.log(e);
     }
   };
-
-
 
   console.log(toChain);
 
@@ -224,6 +224,7 @@ function App() {
                 />
               }
             />
+            <Route element={<Dashboard />} path="dashboard" />
           </Routes>
         </BrowserRouter>
       </div>

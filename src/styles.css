@@ -2,3 +2,28 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+
+@layer base {
+    .font-syne {
+        font-family: "Syne", serif;
+    }
+    .dashboard-heading {
+        @apply text-[32px] text-[#ffffff] leading-relaxed;
+    }
+    .dashboard-stat-card {
+        background: linear-gradient(180deg, rgba(63, 45, 132, 0.50) 0%, rgba(36, 26, 73, 0.50) 100%), #111115;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+        @apply border-[1.5px] border-[#3D2A70] rounded-[27px]  border-purple-600 p-[32px];
+    }
+    .dashboard-stat-card--title {
+        background: linear-gradient(105deg, #794EFF, #FFFFFF);
+        -webkit-background-clip: text;
+        color: transparent;
+        display: inline-block;
+    }
+    .dashboard-stat-card--value {
+        font-size: clamp(20px, 5vw, 32px);
+    }
+
+}
