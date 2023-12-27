@@ -1,11 +1,11 @@
-import React from 'react';
-import '../styles/sidemenu.css';
-import { AiOutlineClose } from 'react-icons/ai';
-import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
-import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Text from './Text';
+import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "../styles/sidemenu.css";
+import ConnectMetaMaskWallet from "./Navbar/ConnectMetaMaskWallet";
+import ConnectUnisatWallet from "./Navbar/ConnectUnisatWallet";
+import Text from "./Text";
 
 const SideMenu = ({
   handleSideMenu,
@@ -14,7 +14,7 @@ const SideMenu = ({
   connectUnisatWallet,
   metaMaskAddress,
   connectMetamaskWallet,
-  setPendingEntryPopup
+  setPendingEntryPopup,
 }) => {
   const navigate = useNavigate();
   return (
@@ -26,29 +26,34 @@ const SideMenu = ({
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
           <div className="right_section">
-          <Text
-            className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
-            size="txtSyneBold20"
-            onClick={() => {
-              window.open(
-                'https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/',
-                '_blank'
-              );
-            }}>
-            Docs
-          </Text>
+            <Text
+              className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
+              size="txtSyneBold20"
+              onClick={() => {
+                window.open(
+                  "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
+                  "_blank",
+                );
+              }}
+            >
+              Docs
+            </Text>
             <div
               className="pending_button sm:block hidden"
               onClick={() => {
                 if (!unisatAddress || !metaMaskAddress) {
-                  toast.error('Please Connect Wallets First');
+                  toast.error("Please Connect Wallets First");
                 } else {
                   setPendingEntryPopup((prev) => !prev);
                 }
-              }}>
+              }}
+            >
               Pending Entries
             </div>
-            <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
+            <ConnectUnisatWallet
+              onConnectClick={connectUnisatWallet}
+              address={unisatAddress}
+            />
             <ConnectMetaMaskWallet
               onConnectClick={connectMetamaskWallet}
               address={metaMaskAddress}

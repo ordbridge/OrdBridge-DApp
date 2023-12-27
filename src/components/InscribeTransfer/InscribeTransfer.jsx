@@ -1,8 +1,8 @@
-import React from 'react';
-import '../../styles/inscribe-transfer.css';
-import '../../styles/FormStep.css';
-import back from '../../assets/Back.svg';
-import processIcon from '../../assets/Process.svg';
+import React from "react";
+import back from "../../assets/Back.svg";
+import processIcon from "../../assets/Process.svg";
+import "../../styles/FormStep.css";
+import "../../styles/inscribe-transfer.css";
 
 const InscribeTransfer = () => {
   return (

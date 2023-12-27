@@ -1,13 +1,13 @@
-import { ethers } from 'ethers';
-import { toUtf8Bytes } from 'ethers/lib/utils';
+import { ethers } from "ethers";
+import { toUtf8Bytes } from "ethers/lib/utils";
 
 export const toHex = (num) => {
   const val = Number(num);
-  return '0x' + val.toString(16);
+  return "0x" + val.toString(16);
 };
 
 export const hexToNum = (str) => {
-  const removeHex = str.replaceAll('0x', '');
+  const removeHex = str.replaceAll("0x", "");
   const val = Number(removeHex);
   return val;
 };
@@ -15,11 +15,10 @@ export const hexToNum = (str) => {
 export const debounce = (fn, delay) => {
   let timer;
   return function () {
-    let context = this,
-      args = arguments;
+    const args = arguments;
     clearTimeout(timer);
     timer = setTimeout(() => {
-      fn.apply(context, args);
+      fn.apply(this, args);
     }, delay);
   };
 };
@@ -28,11 +27,11 @@ export const toHexByte = (string) => {
   var utf8 = unescape(encodeURIComponent(string));
   var arr = [];
   for (var i = 0; i < utf8.length; i++) {
-    let utfStr = utf8.charCodeAt(i);
-    let hexString = utfStr.toString(16);
+    const utfStr = utf8.charCodeAt(i);
+    const hexString = utfStr.toString(16);
     arr.push(hexString);
   }
-  let result = '0x' + arr.join('');
+  const result = "0x" + arr.join("");
   return result;
 };
 
