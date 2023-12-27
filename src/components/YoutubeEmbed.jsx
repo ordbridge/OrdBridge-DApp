@@ -22,7 +22,7 @@ const YoutubeEmbed = ({ embedId }) => {
       frameborder="0"
       allow="autoplay"
       allowFullScreen
-    ></iframe>
+    />
   );
 };
 export default memo(YoutubeEmbed);

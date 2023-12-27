@@ -52,7 +52,7 @@ export const Step1 = ({
     }
 
     fetchFeeRate().then((res) => {
-      setFeeRate(Math.floor(res.limits["min"] + res.limits["max"]) / 2);
+      setFeeRate(Math.floor(res.limits.min + res.limits.max) / 2);
     });
   }, []);
   const transferInscrptionHandler = async () => {
@@ -187,7 +187,9 @@ export const Step1 = ({
             )} */}
 
             <div
-              className={`active_button rounded-lg font-syne text-s font-normal flex justify-between items-center`}
+              className={
+                "active_button rounded-lg font-syne text-s font-normal flex justify-between items-center"
+              }
               style={{ color: "ffffff" }}
               onClick={() => {
                 {
@@ -275,7 +277,6 @@ export const Step1 = ({
                   key="text"
                   className="amount_input border-none font-syne text-4xl pl-4 pr-4 rounded-md"
                   style={{ background: "rgba(121, 78, 255, 0.20)" }}
-                  autoFocus="autoFocus"
                   name="inscriptionId"
                   type="text"
                   // placeholder="Enter inscription id."

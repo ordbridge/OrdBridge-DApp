@@ -77,9 +77,8 @@ export const PendingEntries = ({
   const getEvmChain = () => {
     if (fromChain.isEvm) {
       return fromChain;
-    } else {
-      return toChain;
     }
+    return toChain;
   };
 
   const setEntriesNetwork = async (type) => {
