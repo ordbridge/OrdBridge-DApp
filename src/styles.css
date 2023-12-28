@@ -9,18 +9,23 @@
         font-family: "Syne", serif;
     }
     .dashboard-heading {
-        @apply text-[32px] text-[#ffffff] leading-relaxed;
+        background: linear-gradient(105deg, #794EFF, #FFFFFF);
+        -webkit-background-clip: text;
+        color: transparent;
+        display: inline-block;
+        @apply text-[40px] leading-relaxed font-bold my-4 ;
     }
     .dashboard-stat-card {
-        background: linear-gradient(180deg, rgba(63, 45, 132, 0.50) 0%, rgba(36, 26, 73, 0.50) 100%), #111115;
+        background: linear-gradient(180deg, rgba(28, 20, 58, 0.50) 0%, rgba(36, 26, 73, 0.50) 100%), #111115;
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25), 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-        @apply border-[1.5px] border-[#3D2A70] rounded-[27px]  border-purple-600 p-[32px];
+        @apply border-[1.5px] border-[#3D2A70] rounded-[27px] p-[42px];
     }
     .dashboard-stat-card--title {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
         -webkit-background-clip: text;
         color: transparent;
         display: inline-block;
+        @apply font-bold
     }
     .dashboard-stat-card--value {
         font-size: clamp(20px, 5vw, 32px);

@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Web3 from 'web3';
+import AVAX_ABI from '../utils/avax';
+import ETH_ABI from '../utils/eth';
+import ProofOfReserve from '../components/ProofOfReserve';
 
 const DashboardStatCard = ({ title, value }) => {
   return (
     <div className="dashboard-stat-card">
-      <p className="dashboard-stat-card--title">{title}</p>
+      <p className="dashboard-stat-card--title">{title.toUpperCase()}</p>
       <h4 className="dashboard-stat-card--value">{value}</h4>
     </div>
   );
@@ -38,52 +42,76 @@ const DashboardReserveCard = ({
     </div>
   );
 };
-const Dashboard = () => {
+const Dashboard = ({ appChains }) => {
+  console.log(appChains, 'app chains');
   const [statsData, setStatsData] = useState({});
+  const [reservesData, setReservesData] = useState([]);
+
+  const ethChain = appChains[0];
+  const avaxChain = appChains[2];
+  const ethWeb3 = new Web3('https://mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86');
+  const avaxWeb3 = new Web3(
+    'https://avalanche-mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86'
+  );
+  const ethContractHandler = new ethWeb3.eth.Contract(ETH_ABI, ethChain.contractAddress);
+  const avaxContractHandler = new avaxWeb3.eth.Contract(AVAX_ABI, avaxChain.contractAddress);
+
+  console.log(ethWeb3, 'Eth web2');
+
   useEffect(() => {
     (async () => {
       const res = await axios.get('https://api.ordbridge.io/bapi/reporting');
       console.log(res.data?.data[0], 'Dataa');
       setStatsData(res?.data?.data?.[0]);
     })();
+    (async () => {
+      const res = await axios.get('https://api.ordbridge.io/bapi/token/btc/balance');
+      const balanceList = res?.data?.data?.[0].balanceList;
+      const balances = balanceList.map((item) => ({
+        token: item.token,
+        balance: item.balance
+      }));
+      console.log(balanceList, balances, 'BALANCE LIST');
+      setReservesData(balances);
+    })();
   }, []);
+
   return (
-    <div className="font-syne text-white">
+    <div className="font-syne text-white bg-[#111115] ">
       <div className="container py-[50px]">
-        <h1 className="dashboard-heading">Dashboard</h1>
+        <h1 className="dashboard-heading">DASHBOARD</h1>
         <div className="grid grid-cols-2 gap-5 text-white">
-          <DashboardStatCard title="Price" value={statsData?.high24h} />
-          <DashboardStatCard title="Total Volume" value={statsData?.volume24h} />
+          <DashboardStatCard
+            title="Price"
+            value={parseInt(statsData?.high24h, 10)?.toLocaleString()}
+          />
+          <DashboardStatCard
+            title="Total Volume"
+            value={parseInt(statsData?.volume24h, 10)?.toLocaleString()}
+          />
         </div>
-        <h1 className="dashboard-heading mt-10">Proof of Reserves</h1>
-        <div className="grid grid-cols-3 gap-3">
-          <DashboardReserveCard
-            tokenName="BRGE"
-            conversion1="BRC20"
-            amount1="193.47 M"
-            conversion2="ERC20"
-            amount2="182.47 M"
-            conversion3="ARC20"
-            amount3="393.47 M"
-          />
-          <DashboardReserveCard
-            tokenName="BRGE"
-            conversion1="BRC20"
-            amount1="193.47 M"
-            conversion2="ERC20"
-            amount2="182.47 M"
-            conversion3="ARC20"
-            amount3="393.47 M"
-          />
-          <DashboardReserveCard
-            tokenName="BRGE"
-            conversion1="BRC20"
-            amount1="193.47 M"
-            conversion2="ERC20"
-            amount2="182.47 M"
-            conversion3="ARC20"
-            amount3="393.47 M"
-          />
+        <h1 className="dashboard-heading mt-10">PROOF OF RESERVES</h1>
+        <div className="grid grid-cols-3 gap-x-3 gap-y-5">
+          {/*{reservesData.map((item) => (*/}
+          {/*  <DashboardReserveCard*/}
+          {/*    tokenName="BRGE"*/}
+          {/*    conversion1={item.token}*/}
+          {/*    amount1={item.balance}*/}
+          {/*    conversion2="ERC20"*/}
+          {/*    // amount2={ethWeb3}*/}
+          {/*    // conversion3={avaxWeb3}*/}
+          {/*    amount3="393.47 M"*/}
+          {/*  />*/}
+          {/*))}*/}
+          {reservesData.map((item) => (
+            <ProofOfReserve
+              token={item}
+              avaxWeb3={avaxWeb3}
+              ethWeb3={ethWeb3}
+              avaxContractHandler={avaxContractHandler}
+              ethContractHandler={ethContractHandler}
+            />
+          ))}
         </div>
       </div>
     </div>

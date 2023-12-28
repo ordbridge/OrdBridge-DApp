@@ -135,34 +135,34 @@ function App() {
 
   console.log(toChain);
 
-  useEffect(() => {
-    // To Check Metamask is connected after page refreshing
-    const MetamaskAccount = window.ethereum?.request({ method: 'eth_accounts' });
-    MetamaskAccount.then((res) => {
-      if (res?.length > 0) {
-        setUserDetails((prev) => {
-          const address = { ...prev, metamask_address: res[0] };
-          return address;
-        });
-        setMetamaskAddress(res[0]);
-        walletUpdate({ ...userDetails, metamask_address: res[0] });
-      }
-    });
-
-    // To Check Unisat is connected after page refreshing
-    const UnisatAccount = window.unisat.requestAccounts();
-    UnisatAccount.then((res) => {
-      if (res?.length > 0) {
-        setUnisatAddress(res[0]);
-        setUserDetails((prev) => {
-          const address = { ...prev, unisat_address: res[0] };
-          return address;
-        });
-        walletUpdate({ ...userDetails, unisat_address: res[0] });
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   // To Check Metamask is connected after page refreshing
+  //   const MetamaskAccount = window.ethereum?.request({ method: 'eth_accounts' });
+  //   MetamaskAccount.then((res) => {
+  //     if (res?.length > 0) {
+  //       setUserDetails((prev) => {
+  //         const address = { ...prev, metamask_address: res[0] };
+  //         return address;
+  //       });
+  //       setMetamaskAddress(res[0]);
+  //       walletUpdate({ ...userDetails, metamask_address: res[0] });
+  //     }
+  //   });
+  //
+  //   // To Check Unisat is connected after page refreshing
+  //   const UnisatAccount = window.unisat.requestAccounts();
+  //   UnisatAccount.then((res) => {
+  //     if (res?.length > 0) {
+  //       setUnisatAddress(res[0]);
+  //       setUserDetails((prev) => {
+  //         const address = { ...prev, unisat_address: res[0] };
+  //         return address;
+  //       });
+  //       walletUpdate({ ...userDetails, unisat_address: res[0] });
+  //     }
+  //   });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   const MetaMaskConnection = async () => {
     try {
       const web3instance = await web3Modal.connect();
@@ -253,7 +253,7 @@ function App() {
                 />
               }
             />
-            <Route element={<Dashboard />} path="dashboard" />
+            <Route element={<Dashboard appChains={appChains} />} path="dashboard" />
           </Routes>
         </BrowserRouter>
       </div>
