@@ -86,14 +86,16 @@ const Dashboard = ({ appChains }) => {
   }, []);
 
   return (
-    <div className="font-syne text-white bg-[#111115] ">
-      <div className="container py-[50px]">
+    <div className="font-syne text-white">
+      <div className="container py-[50px] min-h-screen">
         <h1 className="dashboard-heading">DASHBOARD</h1>
         <div className="grid grid-cols-2 gap-5 text-white">
           <DashboardStatCard
             title="Price"
             value={`$${
-              statsData ? statsData.lastPrice.substring(0, 7) : "Loading..."
+              statsData?.lastPrice
+                ? statsData.lastPrice.substring(0, 7)
+                : "Loading..."
             }`}
           />
           <DashboardStatCard

@@ -1,13 +1,13 @@
-import '../styles/home.page.css';
-import React, { useEffect, useState } from 'react';
-import { SwapPopup } from '../components/SwapPopup';
-import { Footer } from '../components/Footer';
-import Navbar from '../components/Navbar/Navbar';
-import axios from 'axios';
-import { FaArrowUp } from 'react-icons/fa';
-import { UnisatAlertModal } from '../components/UnisatAlertModal';
+import "../styles/home.page.css";
+import React, { useEffect, useState } from "react";
+import { SwapPopup } from "../components/SwapPopup";
+import axios from "axios";
+import { FaArrowUp } from "react-icons/fa";
+import { UnisatAlertModal } from "../components/UnisatAlertModal";
 
 const HomePage = ({
+  step,
+  setStep,
   toChain,
   setToChain,
   fromChain,
@@ -23,13 +23,12 @@ const HomePage = ({
   pendingEntryPopup,
   setPendingEntryPopup,
   isMobile,
-  setIsMobile
+  setIsMobile,
 }) => {
   // const [tokenList, setTokenList] = useState([]);
-  const [step, setStep] = useState(0);
 
   const [tokenList, setTokenList] = useState([]);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   const [isScrolledToTop, setIsScrolledToTop] = useState(true);
 
   useEffect(() => {
@@ -39,11 +38,11 @@ const HomePage = ({
     };
 
     // Attach the event listener when the component mounts
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     // Clean up the event listener when the component unmounts
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []); // Empty dependency array ensures that the effect runs only once when the component mounts
 
@@ -57,26 +56,16 @@ const HomePage = ({
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get('https://api.ordbridge.io/bapi/bridge/tickers_controlled');
+      const res = await axios.get(
+        "https://api.ordbridge.io/bapi/bridge/tickers_controlled",
+      );
       setTokenList(res.data);
       setToken(res.data?.[0]);
     })();
   }, []);
   return (
     <>
-      <div className="swap_container">
-        <Navbar
-          unisatAddress={unisatAddress}
-          metaMaskAddress={metaMaskAddress}
-          connectUnisatWallet={connectUnisatWallet}
-          connectMetamaskWallet={connectMetamaskWallet}
-          sessionKey={session_key}
-          type={type}
-          setStep={setStep}
-          pendingEntryPopup={pendingEntryPopup}
-          setPendingEntryPopup={setPendingEntryPopup}
-        />
-
+      <div className="">
         <div className="pt-32 min-h-screen">
           <SwapPopup
             step={step}
@@ -105,17 +94,19 @@ const HomePage = ({
           <button
             className="border-1 rounded-full px-4 pt-2 pb-2 mt-2 fixed bottom-8 right-4"
             style={{
-              borderWidth: '.001rem !important',
-              borderColor: '#281a5e',
+              borderWidth: ".001rem !important",
+              borderColor: "#281a5e",
               background:
-                'linear-gradient(0deg, rgba(150,112,255,1) 0%, rgba(26,20,67,1) 1%, rgba(22,20,63,1) 100%)',
-              zIndex: '10000'
-            }}>
+                "linear-gradient(0deg, rgba(150,112,255,1) 0%, rgba(26,20,67,1) 1%, rgba(22,20,63,1) 100%)",
+              zIndex: "10000",
+            }}
+          >
             <div
               className="flex justify-center items-center cursor-pointer"
               onClick={() => {
                 window.scrollTo(0, 0);
-              }}>
+              }}
+            >
               <span className="font-syne !text-base uppercase font-normal text-white">
                 Go to top
               </span>
@@ -126,7 +117,6 @@ const HomePage = ({
 
         {isMobile && <UnisatAlertModal setIsMobile={setIsMobile} />}
       </div>
-      <Footer />
     </>
   );
 };
