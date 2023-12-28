@@ -39,10 +39,11 @@
 .swap_container {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh);
+  max-height: calc(100vh);
   background-color: #111;
   background-image: url('../../public/base_bg.svg');
-  background-size: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
   /* padding: 5rem 0; */
   overflow: hidden;
   position: relative;

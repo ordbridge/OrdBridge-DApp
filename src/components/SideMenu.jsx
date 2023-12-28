@@ -17,7 +17,7 @@ const SideMenu = ({
 }) => {
   return (
     <>
-      <div id="side_menu" className=" navbar-sidemenu-container ">
+      <div id="side_menu" className=" navbar-sidemenu-container closed">
         <div className="side_overlay"></div>
         <div className="">
           <div className="side_header">
