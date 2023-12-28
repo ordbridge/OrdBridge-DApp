@@ -9,9 +9,9 @@ const InscribeTransfer = () => {
     <div className="inscribe_container">
       <div className="inscribe_main">
         <div className="inscribe_header">
-          <img src={back} />
+          <img src={back} alt="" />
           <div>
-            <img src={processIcon} />
+            <img src={processIcon} alt="" />
             <span className="title"> Inscribe & transfer </span>
           </div>
         </div>

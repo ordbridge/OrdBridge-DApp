@@ -1,31 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import processIcon from "../assets/Process.svg";
-import { ChangeNetwork } from "./ChangeNetwork";
+import React from 'react';
+import { toast } from 'react-toastify';
+import processIcon from '../assets/Process.svg';
 
 export const AddressPopup = ({
   toChain,
-  fromChain,
   ethChain,
   onCloseModal,
-  handleConfirm,
-  setStep,
   initateBridgeHandler,
   unisatAddress,
   metaMaskAddress,
-  swap,
-  burnMetamaskHandler,
+  burnMetamaskHandler
 }) => {
   const checkNetwork = async () => {
     const appChainId = ethChain.chainId;
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId === appChainId) {
       burnMetamaskHandler();
     } else {
       try {
         await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: appChainId }],
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: appChainId }]
         });
         burnMetamaskHandler();
       } catch (error) {
@@ -46,23 +41,16 @@ export const AddressPopup = ({
           <div className="custom_modal-header">
             <div className="modal_address">
               <div className="confirm_modal_head font-syne font-bold text-4xl">
-                <img style={{ width: "6rem" }} src={processIcon} />
+                <img style={{ width: '6rem' }} src={processIcon} alt="" />
+                <div className="modal_head_gradient_text">Please Verify your</div>
                 <div className="modal_head_gradient_text">
-                  Please Verify your
-                </div>
-                <div className="modal_head_gradient_text">
-                  {toChainIsEvm
-                    ? toChain.tag === "AVAX"
-                      ? "Avalanche"
-                      : "Ethereum"
-                    : "Bitcoin"}{" "}
+                  {toChainIsEvm ? (toChain.tag === 'AVAX' ? 'Avalanche' : 'Ethereum') : 'Bitcoin'}{' '}
                   Address
                 </div>
               </div>
               <div
                 className="address_modal_label rounded-full border-none px-4 py-3"
-                style={{ background: "#794EFF33" }}
-              >
+                style={{ background: '#794EFF33' }}>
                 {toChainIsEvm ? metaMaskAddress : unisatAddress}
               </div>
               {/* <div className="address_modal_description"> You can not edit or change it later.</div> */}
@@ -72,30 +60,22 @@ export const AddressPopup = ({
               <div className="flex">
                 <div
                   className="connect_wallet_button border-1 rounded-full"
-                  style={{ borderColor: "#FF4E4E", width: "100%" }}
-                  onClick={onCloseModal}
-                >
+                  style={{ borderColor: '#FF4E4E', width: '100%' }}
+                  onClick={onCloseModal}>
                   <button className="initiate_button">
                     {/* {' '} */}
                     {/* {`<Back`} */}
-                    <span className="text-red-500 font-syne text-xl">
-                      Cancel
-                    </span>
+                    <span className="text-red-500 font-syne text-xl">Cancel</span>
                   </button>
                 </div>
                 <div
                   className="connect_wallet_button bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   onClick={() => {
-                    {
-                      toChainIsEvm ? initateBridgeHandler() : checkNetwork();
-                    }
-                  }}
-                >
+                    toChainIsEvm ? initateBridgeHandler() : checkNetwork();
+                  }}>
                   <button className="initiate_button">
-                    <span className="text-white font-syne text-xl">
-                      Proceed
-                    </span>
+                    <span className="text-white font-syne text-xl">Proceed</span>
                   </button>
                 </div>
               </div>
