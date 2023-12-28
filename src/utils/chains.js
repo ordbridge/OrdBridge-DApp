@@ -63,3 +63,7 @@ export const appChains = [
     icon: BaseIcon
   }
 ];
+
+export const getChainByTag = (tag) => {
+  return appChains.find((chain) => chain.tag === tag);
+};
