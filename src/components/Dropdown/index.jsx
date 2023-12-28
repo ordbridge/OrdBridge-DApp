@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import React, { useState } from "react";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
   const [dropdownState, setDropdownState] = useState(false);
@@ -16,7 +16,7 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
               {type}
             </span>
             <span className="flex items-center sm:text-sm w-max gap-1">
-              <img src={Chain?.icon} style={{ width: '20px' }} alt="" /> {Chain?.tag}
+              <img src={Chain?.icon} style={{ width: "20px" }} alt="" /> {Chain?.tag}
             </span>
             {!dropdownState ? (
               <IoIosArrowDown className="font-white" />
@@ -28,17 +28,21 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
       </button>
 
       <span
-        className={`dropdownItems p-3 ${dropdownState ? 'isVisible' : 'isHidden'}`}
+        className={`dropdownItems p-3 ${
+          dropdownState ? "isVisible" : "isHidden"
+        }`}
         onClick={() => {
           handleDropdownClick();
-        }}>
+        }}
+      >
         {appChains.map((chain) => (
           <span
             className="dropdownItem hover:bg-[#120A33] hover:outline-none hover:rounded-md py-2 px-2"
-            onClick={setChain(type !== 'To', chain)}>
+            onClick={setChain(type === "To" ? false : true, chain)}
+          >
             <span className="dropdown__link !w-max flex justify-start text-white gap-2 items-center">
-              {' '}
-              <img src={chain.icon} style={{ width: '20px' }} alt="" /> {chain.tag}
+              {" "}
+              <img src={chain.icon} style={{ width: "20px" }} alt="" /> {chain.tag}
             </span>
           </span>
         ))}

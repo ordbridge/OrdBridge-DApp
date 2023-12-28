@@ -1,6 +1,5 @@
-import React from 'react';
-import '../../styles/FormStep.css';
-
+import React from "react";
+import "../../styles/FormStep.css";
 export const Step3 = ({ setStep, handleBack }) => {
   return (
     <>

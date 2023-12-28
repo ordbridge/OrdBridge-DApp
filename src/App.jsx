@@ -1,17 +1,17 @@
-import 'react-toastify/dist/ReactToastify.css';
-import React, { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import HomePage from './pages/HomePage';
-import { updateAddress } from './services/homepage.service';
-import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
-import { configureChains, createConfig, mainnet, sepolia, WagmiConfig } from 'wagmi';
-import { createPublicClient, http } from 'viem';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { http, createPublicClient } from 'viem';
+import { WagmiConfig, configureChains, createConfig, mainnet, sepolia } from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
-import EthereumIcon from './assets/ethereum.png';
+import Web3Modal from 'web3modal';
 import AvalancheIcon from './assets/avalanche.png';
 import BrcIcon from './assets/brc.png';
+import EthereumIcon from './assets/ethereum.png';
+import HomePage from './pages/HomePage';
+import { updateAddress } from './services/homepage.service';
 import './styles.css'; // Import your styles
 import './styles/color.css';
 import './styles/font.css';
@@ -91,7 +91,7 @@ function App() {
 
   const unisatHandler = async () => {
     try {
-      let accounts = await window.unisat.requestAccounts();
+      const accounts = await window.unisat.requestAccounts();
       if (accounts[0].substring(0, 3) === 'bc1') {
         setUnisatAddress(accounts[0]);
         setUserDetails((prev) => {
@@ -121,7 +121,7 @@ function App() {
       setIsMobile(true);
     } else {
       try {
-        let res = await window.unisat.getNetwork();
+        const res = await window.unisat.getNetwork();
         if (res === 'livenet') {
           await unisatHandler();
         } else {
@@ -135,6 +135,34 @@ function App() {
 
   console.log(toChain);
 
+  useEffect(() => {
+    // To Check Metamask is connected after page refreshing
+    const MetamaskAccount = window.ethereum?.request({ method: 'eth_accounts' });
+    MetamaskAccount.then((res) => {
+      if (res?.length > 0) {
+        setUserDetails((prev) => {
+          const address = { ...prev, metamask_address: res[0] };
+          return address;
+        });
+        setMetamaskAddress(res[0]);
+        walletUpdate({ ...userDetails, metamask_address: res[0] });
+      }
+    });
+
+    // To Check Unisat is connected after page refreshing
+    const UnisatAccount = window.unisat.requestAccounts();
+    UnisatAccount.then((res) => {
+      if (res?.length > 0) {
+        setUnisatAddress(res[0]);
+        setUserDetails((prev) => {
+          const address = { ...prev, unisat_address: res[0] };
+          return address;
+        });
+        walletUpdate({ ...userDetails, unisat_address: res[0] });
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const MetaMaskConnection = async () => {
     try {
       const web3instance = await web3Modal.connect();
@@ -172,7 +200,6 @@ function App() {
   const connectMetamaskWallet = async (desiredChainId) => {
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     const appChainId = isNaN(desiredChainId) ? getEvmChain().chainId : desiredChainId;
-
     if (chainId === appChainId) {
       MetaMaskConnection();
     } else {

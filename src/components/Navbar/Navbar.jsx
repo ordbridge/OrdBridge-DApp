@@ -1,12 +1,13 @@
 import React from 'react';
 import '../../styles/navbar.css';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { AiOutlineArrowRight } from 'react-icons/ai';
-import SideMenu from '../SideMenu';
-import ConnectUnisatWallet from './ConnectUnisatWallet';
-import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
 import { toast } from 'react-toastify';
+import { AiOutlineArrowRight } from 'react-icons/ai';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import '../../styles/navbar.css';
+import SideMenu from '../SideMenu';
 import Text from '../Text';
+import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
+import ConnectUnisatWallet from './ConnectUnisatWallet';
 
 const Navbar = ({
   connectUnisatWallet,

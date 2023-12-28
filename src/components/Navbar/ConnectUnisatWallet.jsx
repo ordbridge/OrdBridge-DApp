@@ -15,6 +15,7 @@ const ConnectUnisatWallet = ({ onConnectClick, address, text }) => {
         color={`${text === 'Connect Wallets' ? 'deep_purple_A200_a3' : 'deep_purple_A200_cc'}`}
         size="sm"
         variant="outline">
+        {' '}
         <img src={UnisatIcon} style={{ width: '20px' }} alt="" /> {truncatedAddress}
       </Button>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
-import processIcon from '../assets/Process.svg';
 import { toast } from 'react-toastify';
+import processIcon from '../assets/Process.svg';
 
 export const AddressPopup = ({
   toChain,

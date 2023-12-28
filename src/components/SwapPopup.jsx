@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
+import { IoIosArrowDown, IoIosInformationCircleOutline } from 'react-icons/io';
+import { toast } from 'react-toastify';
+import { PendingEntries } from '../pages/PendingEntries';
+import { Button } from './Button';
+import { CustomDropdown } from './Dropdown';
 import { CustomTokenModal } from './CustomTokenModal';
 import { AddressPopup } from './AddressPopup';
 import { LuClock3 } from 'react-icons/lu';
+import { initiateBridge } from '../services/homepage.service';
 import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
 import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
 import { Step1 } from './ProcessSteps/Step1';
-import { Step4 } from './ProcessSteps/Step4';
 import { Step2 } from './ProcessSteps/Step2';
 import { Step3 } from './ProcessSteps/Step3';
-import { initiateBridge } from '../services/homepage.service';
+import { Step4 } from './ProcessSteps/Step4';
 import Web3 from 'web3';
 import AVAX_ABI from '../utils/avax';
 import ETH_ABI from '../utils/eth';
-import { PendingEntries } from '../pages/PendingEntries';
-import { IoIosArrowDown, IoIosInformationCircleOutline } from 'react-icons/io';
-import { toast } from 'react-toastify';
-import { Button } from './Button';
-import { CustomDropdown } from './Dropdown';
 
 export const SwapPopup = ({
   step,
@@ -32,13 +32,11 @@ export const SwapPopup = ({
   unisatAddress,
   connectUnisatWallet,
   setType,
-  type,
   metaMaskAddress,
   connectMetamaskWallet,
   session_key,
   pendingEntryPopup,
-  setPendingEntryPopup,
-  pageLoader
+  setPendingEntryPopup
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [swap, setSwap] = useState(true);
@@ -112,7 +110,10 @@ export const SwapPopup = ({
   const factoryContractAddress = getEvmChain().factoryAddress;
   const ABI = getEvmChain().tag === 'ETH' ? ETH_ABI : AVAX_ABI;
   const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
-  // const MetaMaskContractHandler = new ethWeb3.eth.Contract(ABI, appContractAddress);
+  // const MetaMaskContractHandler = new ethWeb3.eth.Contract(
+  //   ABI,
+  //   appContractAddress,
+  // );
   const callContractFunction = async () => {
     try {
       const result = await contractHandler.methods
@@ -144,7 +145,7 @@ export const SwapPopup = ({
     }
   };
   const burnMetamaskHandler = async () => {
-    let val = 1000000000000000000;
+    const val = 1000000000000000000;
     const BN = web3.utils.toBN;
     // const DIVIDER = Math.pow(10, 18);
     const amount = new BN(tokenValue).mul(new BN(val));
@@ -216,7 +217,7 @@ export const SwapPopup = ({
   };
   const initateBridgeHandler = async () => {
     setPendingInscriptionId('');
-    let body = {
+    const body = {
       tickername: swap ? token : 'w' + token,
       tickerval: tokenValue,
       unisat_address: unisatAddress,
@@ -270,7 +271,12 @@ export const SwapPopup = ({
                   {/* </div> */}
                 </header>
 
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
                   <button
                     onClick={handleModal}
                     className="border-1 rounded-full px-4 pt-2 pb-2 mt-2"
@@ -343,7 +349,11 @@ export const SwapPopup = ({
                     {!addressModal && (
                       <div
                         className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center sm:h-7 sm:w-7 sm:top-[30%] top-[28%]"
-                        style={{ background: '#111331', zIndex: '10', left: '45%' }}
+                        style={{
+                          background: '#111331',
+                          zIndex: '10',
+                          left: '45%'
+                        }}
                         onClick={swapChains}>
                         <img
                           src="swap.png"
@@ -398,7 +408,11 @@ export const SwapPopup = ({
                     {unisatAddress && metaMaskAddress ? (
                       <div className="initiate_bridge_cta">
                         <p
-                          style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.2rem'
+                          }}
                           className="text-sm !mb-2">
                           Estimated arrival <LuClock3 /> : 3 block confirmations
                         </p>
@@ -511,7 +525,7 @@ export const SwapPopup = ({
 
   // const requestChainChange = async () => {
   //   const chain = getEvmChain();
-  //   const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+  //   const chainId = await window.ethereum.request({ method: "eth_chainId" });
   //   if (chainId !== chain.chainId) {
   //     connectMetamaskWallet(chain.chainId);
   //   }

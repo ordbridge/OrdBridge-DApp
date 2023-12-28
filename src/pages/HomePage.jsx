@@ -2,16 +2,8 @@ import '../styles/home.page.css';
 import React, { useEffect, useState } from 'react';
 import { SwapPopup } from '../components/SwapPopup';
 import { Footer } from '../components/Footer';
-import { Button, Line } from '../components';
 import Navbar from '../components/Navbar/Navbar';
-import { MdContentCopy, MdOutlineOpenInNew } from 'react-icons/md';
-import { toast } from 'react-toastify';
-import AVAX_ABI from '../utils/avax';
-import ETH_ABI from '../utils/eth';
-import Web3 from 'web3';
-import ProofOfReserve from '../components/ProofOfReserve';
 import axios from 'axios';
-import Text from '../components/Text';
 import { FaArrowUp } from 'react-icons/fa';
 import { UnisatAlertModal } from '../components/UnisatAlertModal';
 
@@ -35,8 +27,7 @@ const HomePage = ({
 }) => {
   // const [tokenList, setTokenList] = useState([]);
   const [step, setStep] = useState(0);
-  const [brcBalances, setBrcBalances] = useState([]);
-  const [lastPrice, setLastPrice] = useState(null);
+
   const [tokenList, setTokenList] = useState([]);
   const [token, setToken] = useState('');
   const [isScrolledToTop, setIsScrolledToTop] = useState(true);
@@ -56,53 +47,13 @@ const HomePage = ({
     };
   }, []); // Empty dependency array ensures that the effect runs only once when the component mounts
 
-  async function copyToClipboard(text) {
-    try {
-      const toCopy = text.slice(0, text.length);
-      await navigator.clipboard.writeText(toCopy);
-      toast.success('Copied Value to Clipboard');
-    } catch (err) {}
-  }
-
-  const ethChain = appChains[0];
-  const avaxChain = appChains[2];
-  const ethWeb3 = new Web3('https://mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86');
-  const avaxWeb3 = new Web3(
-    'https://avalanche-mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86'
-  );
-  const ethContractHandler = new ethWeb3.eth.Contract(ETH_ABI, ethChain.contractAddress);
-  const avaxContractHandler = new avaxWeb3.eth.Contract(AVAX_ABI, avaxChain.contractAddress);
-
-  useEffect(() => {
-    fetch('https://api.ordbridge.io/bapi/token/btc/balance')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const balanceList = data.data[0].balanceList;
-        const balances = balanceList.map((item) => ({ token: item.token, balance: item.balance }));
-
-        // console.log('brgeItem', brgeItem);
-
-        setBrcBalances(balances);
-      });
-
-    fetch('https://api.ordbridge.io/bapi/reporting')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok for reporting API');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data && data.data && data.data.length > 0) {
-          setLastPrice(data.data[0].lastPrice);
-        }
-      });
-  }, []);
+  // async function copyToClipboard(text) {
+  //   try {
+  //     const toCopy = text.slice(0, text.length);
+  //     await navigator.clipboard.writeText(toCopy);
+  //     toast.success('Copied Value to Clipboard');
+  //   } catch (err) {}
+  // }
 
   useEffect(() => {
     (async () => {

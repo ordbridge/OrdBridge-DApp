@@ -1,11 +1,9 @@
 import React from 'react';
-import '../../styles/FormStep.css';
 import { toast } from 'react-toastify';
+import '../../styles/FormStep.css';
 
 export const Step2 = ({
   ethChain,
-  setStep,
-  handleBack,
   res,
   metaMaskAddress,
   unisatAddress,
@@ -16,7 +14,7 @@ export const Step2 = ({
   tokenValue,
   burnMetamaskHandler
 }) => {
-  let val = 1000000000000000000;
+  const val = 1000000000000000000;
   const appChainId = ethChain.chainId;
   // const [changeNetworkPopup, setChangeNetworkPopup] = useState(false);
   // const handleChangeNetwork = () => {

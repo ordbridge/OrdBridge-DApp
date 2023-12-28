@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import '../styles/customModal.css';
 import { MdClose } from 'react-icons/md';
+import '../styles/customModal.css';
 import { FiSearch } from 'react-icons/fi';
 import Modal from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';

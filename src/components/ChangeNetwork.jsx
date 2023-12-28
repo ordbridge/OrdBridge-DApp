@@ -1,6 +1,5 @@
-import React from 'react';
-import processIcon from '../assets/Process.svg';
-
+import React from "react";
+import processIcon from "../assets/Process.svg";
 export const ChangeNetwork = ({ onCloseModal }) => {
   return (
     <div id="myModal" className="custom_modal address_modal">
@@ -16,13 +15,13 @@ export const ChangeNetwork = ({ onCloseModal }) => {
             <div className="flex">
               <div className="connect_wallet_button">
                 <button className="initiate_button" onClick={onCloseModal}>
-                  {' '}
+                  {" "}
                   {`<Back`}
                 </button>
               </div>
               <div className="connect_wallet_button">
                 <button className="initiate_button" onClick={onCloseModal}>
-                  {' '}
+                  {" "}
                   {`Change It`}
                 </button>
               </div>

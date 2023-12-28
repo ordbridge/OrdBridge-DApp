@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { MdContentCopy, MdOutlineLock } from 'react-icons/md';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
-import '../../styles/FormStep.css';
-import { toast } from 'react-toastify';
-import StepWizard from 'react-step-wizard';
-import { fetchFeeRate, inscribeService } from '../../services/homepage.service';
 import { IoIosAdd } from 'react-icons/io';
 import { LuMinus } from 'react-icons/lu';
+import { MdContentCopy, MdOutlineLock } from 'react-icons/md';
+import StepWizard from 'react-step-wizard';
+import { toast } from 'react-toastify';
+import { fetchFeeRate, inscribeService } from '../../services/homepage.service';
+import '../../styles/FormStep.css';
 
 export const Step1 = ({
   ethChain,
@@ -25,6 +25,7 @@ export const Step1 = ({
   const [inscribe, setInscribe] = useState(false);
   const [hideContent, setHideContent] = useState(true);
   const [finalInscriptionId, setFinalInscriptionId] = useState('');
+  // const [embedId, setEmbedId] = useState("oRRauF_tzV8");
   const [feeRate, setFeeRate] = useState('');
   useEffect(() => {
     if (pendingInscriptionId) {
@@ -81,7 +82,7 @@ export const Step1 = ({
   }
   const handleStepChange = (e) => {};
 
-  let inscribeJSON = (
+  const inscribeJSON = (
     <>
       {' '}
       {'{'}
@@ -95,7 +96,7 @@ export const Step1 = ({
     </>
   );
 
-  let textJSON = {
+  const textJSON = {
     p: `${res?.inscribe?.p}`,
     op: `${res?.inscribe?.op}`,
     tick: `${res?.inscribe?.tick}`,
@@ -115,7 +116,7 @@ export const Step1 = ({
       }
     };
     const inscriptionHandler = ({ nextStep, setProcessStep }) => {
-      setProcessStep((prev) => prev + 1);
+      // setProcessStep((prev) => prev + 1);
       nextStep();
       props.setFinalInscriptionId(inscriptionId);
     };
@@ -177,7 +178,9 @@ export const Step1 = ({
                 className={`${
                   inscribe ? 'active_button' : 'inactive_button'
                 } rounded-lg font-syne text-s font-normal flex justify-between items-center`}
-                style={{ color: `${!inscribe ? 'rgba(255, 255, 255, 0.40)' : '#ffffff'}` }}>
+                style={{
+                  color: `${!inscribe ? 'rgba(255, 255, 255, 0.40)' : '#ffffff'}`
+                }}>
                 <span>
                   <span
                     className="font-bold mr-2"
@@ -251,6 +254,7 @@ export const Step1 = ({
                       : () => {
                           inscriptionHandler({
                             nextStep: props.nextStep
+                            // setProcessStep: setProcessStep
                           });
                         }
                   }>
@@ -283,6 +287,7 @@ export const Step1 = ({
                     !inscribe &&
                       inscribeHandler({
                         nextStep: props.nextStep
+                        // setProcessStep: setProcessStep
                       });
                   }}>
                   <button className="">

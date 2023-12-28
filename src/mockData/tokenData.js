@@ -1,1 +1,1 @@
-export const tokenList = ['Ordi', 'Oxbt', 'Sats', 'Trac', 'BRGE'];
+export const tokenList = ["Ordi", "Oxbt", "Sats", "Trac", "BRGE"];

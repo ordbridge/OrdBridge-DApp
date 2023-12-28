@@ -41,8 +41,8 @@ export const Footer = () => {
           <a
             className="footer_content"
             target="_blank"
-            rel="noreferrer"
-            href="https://ordbridge.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/how-it-works/technical-overview/brc-20-and-ARC-20">
+            href="https://ordbridge.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/how-it-works/technical-overview/brc-20-and-ARC-20"
+            rel="noreferrer">
             What is BRC-20
           </a>
         </div>

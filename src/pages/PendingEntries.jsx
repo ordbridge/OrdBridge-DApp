@@ -1,9 +1,10 @@
+import { Dropdown } from 'flowbite-react';
+import '../styles/pending-entries.css';
 import React, { useEffect, useState } from 'react';
 import { pendingEntryService } from '../services/homepage.service';
 import { useNavigate } from 'react-router-dom';
 import '../styles/pending-entries.css';
 import { IoIosArrowDown } from 'react-icons/io';
-import { Dropdown } from 'flowbite-react';
 import Web3 from 'web3';
 import ETH_ABI from '../utils/eth';
 import AVAX_ABI from '../utils/avax';
@@ -12,7 +13,6 @@ import Text from '../components/Text';
 export const PendingEntries = ({
   appChains,
   toChain,
-  fromChain,
   setToChain,
   setFromChain,
   sessionKey,
@@ -33,7 +33,7 @@ export const PendingEntries = ({
   connectMetamaskWallet
 }) => {
   const navigate = useNavigate();
-  let val = 1000000000000000000;
+  const val = 1000000000000000000;
   const [unprocessedEntries, setUnprocessedEntries] = useState([]);
   const [filterUnprocessedEntries, setFilterUnprocessedEntries] = useState([]);
   const [pendingTickers, setPendngTickers] = useState([]);
@@ -61,7 +61,7 @@ export const PendingEntries = ({
         metaMaskAddress: metaMaskAddress
       }).then((res) => {
         setUnprocessedEntries(res?.unprocessed);
-        let filterData = res?.unprocessed?.filter((ele) => ele.chain === 'BRC_TO_ETH');
+        const filterData = res?.unprocessed?.filter((ele) => ele.chain === 'BRC_TO_ETH');
         setFilterUnprocessedEntries(filterData);
         callContractHandler(res?.pending_tickers);
         setPendngTickers(res?.pending_tickers);
@@ -213,7 +213,7 @@ export const PendingEntries = ({
                 className="hover:outline-none"
                 onClick={() => {
                   setEntriesNetwork(ele.label);
-                  let filterData = unprocessedEntries?.filter((elem) => elem.chain === ele.value);
+                  const filterData = unprocessedEntries?.filter((elem) => elem.chain === ele.value);
                   setFilterUnprocessedEntries(filterData);
                 }}>
                 <div
@@ -260,7 +260,9 @@ export const PendingEntries = ({
                     onClick={() => {
                       setPendingEntryPopup((prev) => !prev);
                       setPendingInscriptionId(ele?.inscription_id);
-                      setInitiateBridgeResponse({ inscribe: ele?.transaction_data?.inscribe_json });
+                      setInitiateBridgeResponse({
+                        inscribe: ele?.transaction_data?.inscribe_json
+                      });
                       setTokenName(ele?.transaction_data?.inscribe_json?.tick);
                       setStep(1);
                     }}>

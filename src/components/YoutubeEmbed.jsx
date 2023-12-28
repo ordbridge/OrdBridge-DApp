@@ -1,3 +1,5 @@
+import React, { memo } from "react";
+import YouTube from "react-youtube";
 import React, { memo } from 'react';
 
 const YoutubeEmbed = ({ embedId }) => {
@@ -15,7 +17,8 @@ const YoutubeEmbed = ({ embedId }) => {
       src="https://player.vimeo.com/video/839731536"
       frameborder="0"
       allow="autoplay"
-      allowFullScreen></iframe>
+      allowFullScreen
+    ></iframe>
   );
 };
 export default memo(YoutubeEmbed);

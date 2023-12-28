@@ -1,14 +1,13 @@
 import React from 'react';
-import '../styles/sidemenu.css';
 import { AiOutlineClose } from 'react-icons/ai';
-import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
-import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
 import { toast } from 'react-toastify';
+import '../styles/sidemenu.css';
+import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
+import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
 import Text from './Text';
 
 const SideMenu = ({
   handleSideMenu,
-  type,
   unisatAddress,
   connectUnisatWallet,
   metaMaskAddress,
