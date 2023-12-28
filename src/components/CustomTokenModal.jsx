@@ -44,8 +44,8 @@ export const CustomTokenModal = ({
         overlay: 'custom-token-modal-overlay',
         modal: 'custom-token-modal-container'
       }}
-      closeIcon={<MdClose className="text-white position-relative  right-[-25px] text-[40px] " />}>
-      <div className="w-[400px] position-relative m-auto">
+      closeIcon={<MdClose className="custom-token-modal-close-button" />}>
+      <div className="md:w-[90vw] w-[400px] position-relative m-auto">
         <div className="custom-token-modal">
           <div className="custom_modal_body ">
             {type !== 'etob' && <div className="fw-bold fs-4">W</div>}

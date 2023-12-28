@@ -17,13 +17,18 @@ const SideMenu = ({
 }) => {
   return (
     <>
-      <div id="side_menu" className="side_menu closed">
+      <div id="side_menu" className=" navbar-sidemenu-container ">
         <div className="side_overlay"></div>
-        <div className="new_menu ">
+        <div className="">
           <div className="side_header">
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
-          <div className="right_section">
+          <div className="flex flex-col gap-4">
+            <Text
+              className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
+              size="txtSyneBold20">
+              Home
+            </Text>
             <Text
               className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
               size="txtSyneBold20"
@@ -35,8 +40,9 @@ const SideMenu = ({
               }}>
               Docs
             </Text>
-            <div
-              className="pending_button sm:block hidden"
+            <Text
+              className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
+              size="txtSyneBold20"
               onClick={() => {
                 if (!unisatAddress || !metaMaskAddress) {
                   toast.error('Please Connect Wallets First');
@@ -45,7 +51,7 @@ const SideMenu = ({
                 }
               }}>
               Pending Entries
-            </div>
+            </Text>
             <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
             <ConnectMetaMaskWallet
               onConnectClick={connectMetamaskWallet}
