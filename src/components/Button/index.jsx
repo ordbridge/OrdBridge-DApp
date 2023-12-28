@@ -15,9 +15,11 @@ const variants = {
     white_A700_19:
       "border bg-gradient  border border-solid border-white-A700_19 text-white-A700",
     purple_900: "border border-purple-900 border-solid text-white-A700",
-    deep_purple_A200_a3: "border-deep_purple-A200_a3 border-solid",
+    deep_purple_A200_a3: "border-deep_purple-A200_a3 !border-solid",
     deep_purple_A200_cc:
-      "border border-deep_purple-A200_cc border-solid text-white-A700",
+    "border !border-deep_purple-A200_cc border-solid text-white-A700",
+    light_purple_A200_cc:
+    "border-[1px] !border-[#794effa3] border-solid text-white-A700",
   },
 };
 const sizes = { xs: "p-1.5", sm: "p-[12px]", md: "p-5" };
@@ -63,6 +65,7 @@ Button.propTypes = {
     "purple_900",
     "deep_purple_A200_a3",
     "deep_purple_A200_cc",
+    'light_purple_A200_cc'
   ]),
 };
 
