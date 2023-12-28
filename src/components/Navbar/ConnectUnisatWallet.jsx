@@ -21,7 +21,8 @@ const ConnectUnisatWallet = ({ onConnectClick, address, text }) => {
         size="sm"
         variant="outline"
       >
-        <img src={UnisatIcon} style={{ width: "20px" }} /> {truncatedAddress}
+        <img src={UnisatIcon} style={{ width: "20px" }} alt="" />{" "}
+        <span className="text-white">{truncatedAddress}</span>
       </Button>
     );
   }
@@ -39,7 +40,7 @@ const ConnectUnisatWallet = ({ onConnectClick, address, text }) => {
         variant="outline"
         onClick={onConnectClick}
       >
-        {text ? text : "Connect Unisat"}
+        <span className="text-white">{text ? text : "Connect Unisat"}</span>
       </Button>
     );
   }

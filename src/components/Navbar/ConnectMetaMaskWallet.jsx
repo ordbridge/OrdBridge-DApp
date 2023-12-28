@@ -23,8 +23,8 @@ const ConnectMetaMaskWallet = ({ onConnectClick, address, text }) => {
         variant="outline"
       >
         <div className="min-w-full py-0 pt-0.5 mt-0.5 mb-0 mx-0 flex items-center gap-2 justify-start">
-          <img src={MetamaskIconIcon} style={{ width: "30px" }} />{" "}
-          {truncatedAddress}
+          <img src={MetamaskIconIcon} style={{ width: "30px" }} alt="" />{" "}
+          <span className="text-white">{truncatedAddress}</span>
         </div>
       </Button>
     );
@@ -43,7 +43,7 @@ const ConnectMetaMaskWallet = ({ onConnectClick, address, text }) => {
         variant="outline"
         onClick={onConnectClick}
       >
-        {text ? text : "Connect Metamask"}
+        <span className="text-white">{text ? text : "Connect Metamask"}</span>
       </Button>
     );
   }

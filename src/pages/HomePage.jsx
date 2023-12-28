@@ -4,22 +4,16 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { MdContentCopy, MdOutlineOpenInNew } from "react-icons/md";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Web3 from "web3";
-import { Button, Img, Line } from "../components";
 import { Footer } from "../components/Footer";
-import Navbar from "../components/Navbar/Navbar";
-import { PageLoader } from "../components/PageLoader";
 import ProofOfReserve from "../components/ProofOfReserve";
 import { SwapPopup } from "../components/SwapPopup";
 import Text from "../components/Text";
 import { UnisatAlertModal } from "../components/UnisatAlertModal";
-import { tokenList } from "../mockData/tokenData";
-import { tickerList } from "../services/homepage.service";
 import AVAX_ABI from "../utils/avax";
 import ETH_ABI from "../utils/eth";
-import TOKEN_ABI from "../utils/tokenAbi";
+import { Button, Line } from "../components";
 
 const HomePage = ({
   toChain,
@@ -133,19 +127,7 @@ const HomePage = ({
   }, []);
   return (
     <>
-      <div className="swap_container">
-        <Navbar
-          unisatAddress={unisatAddress}
-          metaMaskAddress={metaMaskAddress}
-          connectUnisatWallet={connectUnisatWallet}
-          connectMetamaskWallet={connectMetamaskWallet}
-          sessionKey={session_key}
-          type={type}
-          setStep={setStep}
-          pendingEntryPopup={pendingEntryPopup}
-          setPendingEntryPopup={setPendingEntryPopup}
-        />
-
+      <div className="">
         <div className="pt-32 min-h-screen">
           <SwapPopup
             step={step}
