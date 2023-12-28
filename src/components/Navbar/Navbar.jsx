@@ -18,13 +18,12 @@ const Navbar = ({
   type,
   connectMetamaskWallet,
   metaMaskAddress,
-  sessionKey,
   pendingEntryPopup,
   setPendingEntryPopup,
   setStep
 }) => {
   const navigate = useNavigate();
-  const [navItemsOpen, setNavItemsOpen] = useState(false);
+
   const handleSideMenu = () => {
     const side_menu = document.getElementById('side_menu');
     if (side_menu.classList.contains('closed')) {
@@ -33,6 +32,20 @@ const Navbar = ({
       side_menu.classList.add('closed');
     }
   };
+
+  const executeVeryBadLogicForNavigatingToHome = () => {
+    setStep(0);
+    const loc = window.location.pathname;
+
+    if (loc === "/dashboard") {
+      navigate("/");
+    }
+
+    if (pendingEntryPopup) {
+      setPendingEntryPopup((prev) => !prev);
+    }
+  };
+
   return (
     <>
       <SideMenu
@@ -44,22 +57,21 @@ const Navbar = ({
         unisatAddress={unisatAddress}
         connectUnisatWallet={connectUnisatWallet}
         setStep={setStep}
+        navToHome={executeVeryBadLogicForNavigatingToHome}
       />
       <div className="flex py-3 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6 z-[10000]">
         <section className="flex gap-2 font-syne items-center justify-start w-auto">
           <Text
             className="text-3xl text-blue-200 pr-12 cursor-pointer !mb-0"
             size="txtPlusJakartaSansRomanBold36"
-            onClick={
-              pendingEntryPopup
-                ? () => {
-                    setPendingEntryPopup((prev) => !prev);
-                    setStep(0);
-                  }
-                : () => setStep(0)
-            }>
-            <span className="text-purple-700 font-syne text-left font-bold">Ord</span>
-            <span className="text-white-A700 font-syne text-left font-normal">Bridge</span>
+            onClick={executeVeryBadLogicForNavigatingToHome}
+          >
+            <span className="text-purple-700 font-syne text-left font-bold">
+              Ord
+            </span>
+            <span className="text-white-A700 font-syne text-left font-normal">
+              Bridge
+            </span>
           </Text>
 
           <Text
@@ -79,6 +91,8 @@ const Navbar = ({
               if (!unisatAddress || !metaMaskAddress) {
                 toast.error('Please Connect Wallets First');
               } else {
+                navigate("/");
+
                 setPendingEntryPopup((prev) => (!prev ? !prev : prev));
               }
             }}
@@ -86,9 +100,17 @@ const Navbar = ({
             Pending Entries
           </Text>
         </section>
+        <Link to="/dashboard">
+          <Text
+            className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden"
+            size="txtSyneBold20"
+          >
+            Dashboard
+          </Text>
+        </Link>
 
-        <section className="flex items-start gap-2  block md:hidden justify-end">
-          {type === 'Bitcoin' ? (
+        <section className="flex items-start gap-2  visible md:hidden justify-end">
+          {type === "Bitcoin" ? (
             <>
               <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
               <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />

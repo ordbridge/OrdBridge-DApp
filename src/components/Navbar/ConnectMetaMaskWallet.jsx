@@ -1,16 +1,13 @@
-// import EthererumIcon from "../../assets/ethereum.png"
-import MetamaskIconIcon from "../../assets/metamask.png";
-import "../../styles/connect-wallet.css";
-
-import React from "react";
-import { Button, Text } from "..";
+import React from 'react';
+import MetamaskIconIcon from '../../assets/metamask.png';
+import '../../styles/connect-wallet.css';
+import { Button } from '..';
 
 const ConnectMetaMaskWallet = ({ onConnectClick, address, text }) => {
   if (address) {
     const firstHalf = address && address.substring(0, 5);
-    const lastHalf =
-      address && address.substring(address.length - 3, address.length - 1);
-    const truncatedAddress = firstHalf + "........" + lastHalf;
+    const lastHalf = address && address.substring(address.length - 3, address.length - 1);
+    const truncatedAddress = firstHalf + '........' + lastHalf;
     return (
       <Button
         className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] rounded-[29px] text-base text-center px-8 sm:px-6 break-all md:w-max sm:w-full"
@@ -41,9 +38,8 @@ const ConnectMetaMaskWallet = ({ onConnectClick, address, text }) => {
         }`}
         size="sm"
         variant="outline"
-        onClick={onConnectClick}
-      >
-        {text ? text : "Connect Metamask"}
+        onClick={onConnectClick}>
+        {text ? text : 'Connect Metamask'}
       </Button>
     );
   }

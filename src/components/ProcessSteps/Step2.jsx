@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
-// import { ChangeNetwork } from '../ChangeNetwork';
-import { toast } from "react-toastify";
-import "../../styles/FormStep.css";
+import React from 'react';
+import { toast } from 'react-toastify';
+import '../../styles/FormStep.css';
 
 export const Step2 = ({
   ethChain,
-  setStep,
-  handleBack,
   res,
   metaMaskAddress,
   unisatAddress,
@@ -15,7 +12,7 @@ export const Step2 = ({
   swap,
   token,
   tokenValue,
-  burnMetamaskHandler,
+  burnMetamaskHandler
 }) => {
   const val = 1000000000000000000;
   const appChainId = ethChain.chainId;
@@ -24,14 +21,14 @@ export const Step2 = ({
   //   setChangeNetworkPopup((prev) => !prev);
   // };
   const checkNetwork = async () => {
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId === appChainId) {
       MetamaskClaimHandler();
     } else {
       try {
         await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: appChainId }],
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: appChainId }]
         });
         MetamaskClaimHandler();
       } catch (error) {
@@ -54,19 +51,13 @@ export const Step2 = ({
               <div className="swap_header">You have done your part :)</div>
             </div>
           </header>
-          <section
-            className="bg-[#FFFFFF1A] rounded-xl mt-4"
-            style={{ width: "90%" }}
-          >
+          <section className="bg-[#FFFFFF1A] rounded-xl mt-4" style={{ width: '90%' }}>
             {swap ? (
               <>
                 <div className="field_container">
                   <div className="form_label">Token Id: </div>
                   <div className="form_value">
-                    $
-                    {pendingEntriesDataById
-                      ? pendingEntriesDataById?.[0]?.[0]
-                      : res[0][0]}
+                    ${pendingEntriesDataById ? pendingEntriesDataById?.[0]?.[0] : res[0][0]}
                   </div>
                 </div>
                 <div className="field_container">
@@ -94,30 +85,22 @@ export const Step2 = ({
               <>
                 <div className="field_container">
                   <div className="form_label">From (BTC Address):</div>
-                  <div className="form_value">
-                    {unisatAddress.slice(0, 15)}....
-                  </div>
+                  <div className="form_value">{unisatAddress.slice(0, 15)}....</div>
                 </div>
                 <div className="field_container">
                   <div className="form_label">To (ETH Address):</div>
-                  <div className="form_value">
-                    {metaMaskAddress.slice(0, 15)}....
-                  </div>
+                  <div className="form_value">{metaMaskAddress.slice(0, 15)}....</div>
                 </div>
               </>
             ) : (
               <>
                 <div className="field_container">
                   <div className="form_label">To (ETH Address):</div>
-                  <div className="form_value">
-                    {metaMaskAddress.slice(0, 15)}....
-                  </div>
+                  <div className="form_value">{metaMaskAddress.slice(0, 15)}....</div>
                 </div>
                 <div className="field_container">
                   <div className="form_label">From (BTC Address):</div>
-                  <div className="form_value">
-                    {unisatAddress.slice(0, 15)}....
-                  </div>
+                  <div className="form_value">{unisatAddress.slice(0, 15)}....</div>
                 </div>
               </>
             )}
@@ -125,24 +108,20 @@ export const Step2 = ({
           {!swap && (
             <div
               className="mt-3 swap_header fs-6 fw-bold"
-              style={{ width: "80%", textAlign: "center" }}
-            >
-              Bridge will take 0.01e as fees to cover gas cost while sending you
-              BRC-20 on Bitcoin network.
+              style={{ width: '80%', textAlign: 'center' }}>
+              Bridge will take 0.01e as fees to cover gas cost while sending you BRC-20 on Bitcoin
+              network.
             </div>
           )}
           <footer className="flex min-w-full p-4">
             <div
               className="connect_wallet_button bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               onClick={() => {
                 swap ? checkNetwork() : burnMetamaskHandler();
-              }}
-            >
+              }}>
               <button className="min-w-full initiate_button">
-                <span className="min-w-full text-white font-syne text-xl">
-                  Claim
-                </span>
+                <span className="min-w-full text-white font-syne text-xl">Claim</span>
               </button>
             </div>
           </footer>
