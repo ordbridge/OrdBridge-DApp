@@ -11,7 +11,7 @@ const ConnectUnisatWallet = ({ onConnectClick, address, text }) => {
     const truncatedAddress = firstHalf + '.....' + lastHalf;
     return (
       <Button
-        className="!text-white-A700 cursor-pointer font-bold font-syne rounded-full text-base flex justify-start px-8 w-max sm:px-6 gap-2 break-all	sm:text-[20px] font-normal md:w-max sm:w-full sm:mt-4"
+        className="!text-white-A700 cursor-pointer font-bold font-syne rounded-full text-base flex justify-start px-8 w-max sm:px-6 gap-2 break-all	sm:text-[20px] font-normal md:w-max sm:w-full"
         color={`${text === 'Connect Wallets' ? 'deep_purple_A200_a3' : 'light_purple_A200_cc'}`}
         size="sm"
         variant="outline">
@@ -23,7 +23,7 @@ const ConnectUnisatWallet = ({ onConnectClick, address, text }) => {
   if (!address) {
     return (
       <Button
-        className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] rounded-[29px] text-base text-center py-3 sm:text-3 sm:px-4 px-6 sm:mt-4"
+        className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] rounded-[29px] text-base text-center py-3 sm:text-3 sm:px-4 px-6"
         color={`${text === 'Connect Wallets' ? 'deep_purple_A200_a3' : 'light_purple_A200_cc'}`}
         size="sm"
         variant="outline"

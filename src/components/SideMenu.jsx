@@ -21,24 +21,17 @@ const SideMenu = ({
   return (
     <>
       <div id="side_menu" className=" navbar-sidemenu-container closed">
-        <div className="side_overlay"></div>
+        {/* <div className="side_overlay"></div> */}
         <div className="">
           <div className="side_header">
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
           <div className="flex flex-col gap-4">
             <Text
-              className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
-              size="txtSyneBold20"
-              onClick={() => {
-                navToHome();
-              }}>
-              Home
-            </Text>
-            <Text
               className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
               onClick={() => {
                 handleSideMenu();
+                navigate('/')
                 setStep(0);
               }}>
               Home
@@ -70,9 +63,7 @@ const SideMenu = ({
             </Text>
 
             <Link to="/dashboard">
-              <Text
-                className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
-                size="txtSyneBold20">
+              <Text className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal">
                 Dashboard
               </Text>
             </Link>

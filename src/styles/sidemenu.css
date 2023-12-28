@@ -19,7 +19,7 @@
 .side_menu .right_section {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 2rem;
     margin-top: 2rem;
 }
 

@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import { Dropdown } from 'flowbite-react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IoIosArrowDown, IoIosInformationCircleOutline } from 'react-icons/io';
-import { toast } from 'react-toastify';
-import { PendingEntries } from '../pages/PendingEntries';
-import { Button } from './Button';
-import { CustomDropdown } from './Dropdown';
-import { CustomTokenModal } from './CustomTokenModal';
-import { AddressPopup } from './AddressPopup';
 import { LuClock3 } from 'react-icons/lu';
+import { toast } from 'react-toastify';
+import Web3 from 'web3';
+import { PendingEntries } from '../pages/PendingEntries';
 import { initiateBridge } from '../services/homepage.service';
+import AVAX_ABI from '../utils/avax';
+import ETH_ABI from '../utils/eth';
+import { AddressPopup } from './AddressPopup';
+import { Button } from './Button';
+import { CustomTokenModal } from './CustomTokenModal';
+import { CustomDropdown } from './Dropdown';
 import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
 import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
 import { Step1 } from './ProcessSteps/Step1';
 import { Step2 } from './ProcessSteps/Step2';
 import { Step3 } from './ProcessSteps/Step3';
 import { Step4 } from './ProcessSteps/Step4';
-import Web3 from 'web3';
-import AVAX_ABI from '../utils/avax';
-import ETH_ABI from '../utils/eth';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 export const SwapPopup = ({
   step,
@@ -36,7 +38,8 @@ export const SwapPopup = ({
   connectMetamaskWallet,
   session_key,
   pendingEntryPopup,
-  setPendingEntryPopup
+  setPendingEntryPopup,
+  pageLoader
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [swap, setSwap] = useState(true);
@@ -51,6 +54,8 @@ export const SwapPopup = ({
   const [tokenName, setTokenName] = useState(tokenList[0]);
   const [claimButton, setClaimButton] = useState(false);
   const [claimStatus, setClaimStatus] = useState('success');
+
+  const isMob = useMediaQuery('(max-width:630px)');
 
   // isRedundant and is placed in app.jsx as well
   const getEvmChain = () => {
@@ -118,6 +123,7 @@ export const SwapPopup = ({
     try {
       const result = await contractHandler.methods
         .checkPendingERCToClaimForWalletWithTickers(metaMaskAddress, [tokenName])
+        .checkPendingERCToClaimForWalletWithTickers(metaMaskAddress, [tokenName])
         .call();
       setLoader(true);
       if (result?.[0]?.length > 0) {
@@ -154,7 +160,6 @@ export const SwapPopup = ({
       // const bigNumberValue = new BigNumber(tokenValue * val);
 
       const evmChain = getEvmChain();
-
       if (evmChain.tag === 'ETH') {
         const contractHandler = new ethWeb3.eth.Contract(ETH_ABI, appChains[0].contractAddress);
 
@@ -163,7 +168,6 @@ export const SwapPopup = ({
           .send({ from: accounts[0] });
       } else {
         const contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, appChains[2].contractAddress);
-
         await contractHandler.methods
           .burnERCTokenForBRC('BRC', token, amount, unisatAddress)
           .send({ from: accounts[0] });
@@ -180,9 +184,7 @@ export const SwapPopup = ({
     try {
       const accounts = await ethWeb3.eth.getAccounts();
       setStep(3);
-
       let contractHandler;
-
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       if (chainId === '0x1') {
         contractHandler = new ethWeb3.eth.Contract(ETH_ABI, appChains[0].contractAddress);
@@ -248,79 +250,36 @@ export const SwapPopup = ({
       case 0:
         return (
           <>
-            <div className="first_container">
-              {/* <div className="bg-gradient border border-solid border-yellow-900 flex flex-col gap-9 items-center"> */}
+            {isMob ? (
+              <header className="flex-col justify-between items-between swap_mobile px-6 pt-3 pb-8">
+                <div className="relative sm:px-3 text-center">
+                  <header className="popup_header">
+                    <div className="swap_subheading">
+                      {swap ? <div>Select Token</div> : <div>Select Token</div>}
+                    </div>{' '}
+                  </header>
 
-              <div className="px-6 py-3 rounded-3xl background_popup swap_subheading relative sm:px-3">
-                <header className="popup_header">
-                  <div className="swap_subheading">
-                    {swap ? (
-                      <div>
-                        Select Token
-                        {/* <span className="sub_yellow"> BRC-20 </span>Token to Avalanche C-Chain */}
-                        {/* <span className="sub_violet">Ethereum chain</span> */}
-                      </div>
-                    ) : (
-                      <div>
-                        Select Token
-                        {/* <span className="sub_yellow"> ARC-20</span> Token back to BRC-20 */}
-                        {/* <span className="sub_yellow">BRC-20</span> */}
-                      </div>
-                    )}
-                  </div>{' '}
-                  {/* </div> */}
-                </header>
+                  <section className="flex justify-center items-center mt-2">
+                    <button
+                      onClick={handleModal}
+                      style={{ background: 'rgba(121, 78, 255, 0.10)' }}
+                      className="border-1 rounded-full px-4 pt-2 pb-2 mt-2 border-[#281a5e]">
+                      <p className="flex justify-center items-center">
+                        <span className="font-syne !text-2xl uppercase font-bold token_name_mob">
+                          {token}
+                        </span>
+                        <IoIosArrowDown className="ml-2 text-white" />
+                      </p>
+                    </button>
+                  </section>
 
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
-                  <button
-                    onClick={handleModal}
-                    className="border-1 rounded-full px-4 pt-2 pb-2 mt-2"
-                    style={{
-                      borderWidth: '.001rem !important',
-                      borderColor: '#281a5e',
-                      background: 'rgba(121, 78, 255, 0.10)'
-                    }}>
-                    <div className="flex justify-center items-center">
-                      <span
-                        className="font-syne !text-base uppercase font-bold"
-                        style={{ color: '#794EFF' }}>
-                        {token}
-                      </span>
-                      <IoIosArrowDown className="ml-2" />
-                    </div>
-                  </button>
-
-                  <button
-                    className="absolute left-2/3 border-1 rounded-full pl-1 pr-3 pt-2 pb-2 mt-2 sm:p-1"
-                    style={{
-                      borderWidth: '.001rem !important',
-                      borderColor: '#281a5e',
-                      border: '1px rgba(121, 78, 255, 0.83) solid'
-                    }}>
+                  <section className="pt-2 relative mt-8">
                     <div
-                      className="flex justify-center items-center"
-                      onClick={() => scrollToElement('proof-of-reserves')}>
-                      <IoIosInformationCircleOutline
-                        className="ml-2"
-                        style={{ color: '#794EFF' }}
-                      />
-                      <span
-                        className="font-syne text-xm normal ml-2 !text-sm sm:!text-[10px]"
-                        style={{ color: '#794EFF' }}>
-                        Proof of Reserve
-                      </span>
-                    </div>
-                  </button>
-                </div>
-
-                <section className="pt-2 relative mt-2">
-                  <div>
-                    <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1">
+                      className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1"
+                      style={{
+                        background:
+                          'inear-gradient(180deg, rgba(0, 0, 0, 0.70) 0%, rgba(3, 23, 26, 0.70) 100%)'
+                      }}>
                       <div
                         className="absolute sm:text-xs text-left !mb-1 sm:!mb-2"
                         style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
@@ -329,7 +288,7 @@ export const SwapPopup = ({
                       <div className="min-w-full flex">
                         <input
                           type="number"
-                          className="amount_input bg-transparent border-none font-syne text-2xl pl-0 pr-0 mt-1"
+                          className="amount_input bg-transparent border-none font-syne text-2xl pl-0 pr-0 text-5xl"
                           value={tokenValue}
                           onChange={(e) => {
                             setTokenValue(e.target.value);
@@ -348,12 +307,7 @@ export const SwapPopup = ({
 
                     {!addressModal && (
                       <div
-                        className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center sm:h-7 sm:w-7 sm:top-[30%] top-[28%]"
-                        style={{
-                          background: '#111331',
-                          zIndex: '10',
-                          left: '45%'
-                        }}
+                        className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center left-[45%] sm:h-12 sm:w-12 sm:top-[34%] top-[28%] bg-[#111331] z-10"
                         onClick={swapChains}>
                         <img
                           src="swap.png"
@@ -375,7 +329,7 @@ export const SwapPopup = ({
                         <input
                           disabled
                           value={tokenValue * tokenResponse.conversion_factor}
-                          className="amount_input bg-transparent font-syne border-none text-2xl pl-0 pr-0 mt-1"
+                          className="amount_input bg-transparent font-syne border-none text-2xl pl-0 pr-0 text-5xl"
                         />
                         <span className="flex justify-end items-center gap-4 !mb-0 sm:gap-2 sm:!w-auto">
                           <CustomDropdown
@@ -387,17 +341,195 @@ export const SwapPopup = ({
                         </span>
                       </div>
                     </div>
+
+                    <div className="form_link_description mt-4">Bridging to ETH chain - ORDI Tokens</div>
+                  </section>
+                </div>
+                <div className="text-center">
+                  {unisatAddress && metaMaskAddress ? (
+                    <div className="initiate_bridge_cta">
+                      <p
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.2rem'
+                        }}
+                        className="text-sm !mb-2">
+                        Estimated arrival <LuClock3 /> : 3 block confirmations
+                      </p>
+                      <div
+                        onClick={handleAddressModal}
+                        className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
+                        <Button
+                          className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
+                          color="deep_purple_A200_a3"
+                          size="sm"
+                          variant="outline">
+                          Initiate Bridge
+                        </Button>
+                      </div>
+                    </div>
+                  ) : unisatAddress ? (
+                    <div
+                      className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
+                      onClick={connectMetamaskWallet}>
+                      <ConnectMetaMaskWallet
+                        onConnectClick={connectMetamaskWallet}
+                        address={metaMaskAddress}
+                        text="Connect Wallets"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full py-1 cursor-pointer mt-3"
+                      onClick={connectUnisatWallet}>
+                      <ConnectUnisatWallet
+                        onConnectClick={connectUnisatWallet}
+                        address={unisatAddress}
+                        text="Connect Wallets"
+                      />
+                    </div>
+                  )}
+                  <div className="form_link_description">
+                    $wBRGE token contract | OrdBridge Factory contract{' '}
                   </div>
-                  <footer>
-                    {/* <div
+                </div>
+              </header>
+            ) : (
+              <div className="first_container">
+                <div className="px-6 py-3 rounded-3xl background_popup swap_subheading relative sm:px-3">
+                  <header className="popup_header">
+                    <div className="swap_subheading">
+                      {swap ? <div>Select Token</div> : <div>Select Token</div>}
+                    </div>{' '}
+                  </header>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                    <button
+                      onClick={handleModal}
+                      className="border-1 rounded-full px-4 pt-2 pb-2 mt-2"
+                      style={{
+                        borderWidth: '.001rem !important',
+                        borderColor: '#281a5e',
+                        background: 'rgba(121, 78, 255, 0.10)'
+                      }}>
+                      <div className="flex justify-center items-center">
+                        <span
+                          className="font-syne !text-base uppercase font-bold"
+                          style={{ color: '#794EFF' }}>
+                          {token}
+                        </span>
+                        <IoIosArrowDown className="ml-2" />
+                      </div>
+                    </button>
+
+                    <button
+                      className="absolute left-2/3 border-1 rounded-full pl-1 pr-3 pt-2 pb-2 mt-2 sm:p-1"
+                      style={{
+                        borderWidth: '.001rem !important',
+                        borderColor: '#281a5e',
+                        border: '1px rgba(121, 78, 255, 0.83) solid'
+                      }}>
+                      <div
+                        className="flex justify-center items-center"
+                        onClick={() => scrollToElement('proof-of-reserves')}>
+                        <IoIosInformationCircleOutline
+                          className="ml-2"
+                          style={{ color: '#794EFF' }}
+                        />
+                        <span
+                          className="font-syne text-xm normal ml-2 !text-sm sm:!text-[10px]"
+                          style={{ color: '#794EFF' }}>
+                          Proof of Reserve
+                        </span>
+                      </div>
+                    </button>
+                  </div>
+
+                  <section className="pt-2 relative mt-2">
+                    <div>
+                      <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1">
+                        <div
+                          className="absolute sm:text-xs text-left !mb-1 sm:!mb-2"
+                          style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
+                          Amount (of {token})
+                        </div>
+                        <div className="min-w-full flex">
+                          <input
+                            type="number"
+                            className="amount_input bg-transparent border-none font-syne text-2xl pl-0 pr-0 mt-1"
+                            value={tokenValue}
+                            onChange={(e) => {
+                              setTokenValue(e.target.value);
+                            }}
+                          />
+                          <div className="flex justify-end items-center gap-4 !mb-0">
+                            <CustomDropdown
+                              Chain={fromChain}
+                              appChains={appChains}
+                              setChain={setChain}
+                              type={'From'}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {!addressModal && (
+                        <div
+                          className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center sm:h-7 sm:w-7 sm:top-[30%] top-[28%]"
+                          style={{
+                            background: '#111331',
+                            zIndex: '10',
+                            left: '45%'
+                          }}
+                          onClick={swapChains}>
+                          <img
+                            src="swap.png"
+                            width={20}
+                            height={20}
+                            onClick={handleSwap}
+                            className="cursor-pointer h-5 w-5"
+                          />
+                        </div>
+                      )}
+                      <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1">
+                        <div
+                          className="absolute text-left sm:text-xs"
+                          style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
+                          Amount (of {token})
+                        </div>
+                        <div className="min-w-full flex">
+                          <input
+                            disabled
+                            value={tokenValue * tokenResponse.conversion_factor}
+                            className="amount_input bg-transparent font-syne border-none text-2xl pl-0 pr-0 mt-1"
+                          />
+                          <span className="flex justify-end items-center gap-4 !mb-0 sm:gap-2 sm:!w-auto">
+                            <CustomDropdown
+                              Chain={toChain}
+                              appChains={appChains}
+                              setChain={setChain}
+                              type={'To'}
+                            />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <footer>
+                      {/* <div
                       className="text-xs text-right font-syne mt-2 mb-4"
                       style={{ color: 'rgba(255, 255, 255, 0.70)' }}>
                       Bridging to {fromChain.tag} chain to {toChain.tag} chain - {token} Tokens
                     </div> */}
-                    {/* <div className="label mt-2" style={{ color: '#FFD200' }}>
+                      {/* <div className="label mt-2" style={{ color: '#FFD200' }}>
                       {swap ? 'ETH' : 'BTC'} address to receive {swap ? 'A' : 'B'}RC-20
                     </div> */}
-                    {/* <div className="eth_address_container">
+                      {/* <div className="eth_address_container">
                       {unisatAddress && metaMaskAddress ? (
                         <span className="text">{swap ? metaMaskAddress : unisatAddress}</span>
                       ): (
@@ -405,66 +537,67 @@ export const SwapPopup = ({
                       )}
                     </div> */}
 
-                    {unisatAddress && metaMaskAddress ? (
-                      <div className="initiate_bridge_cta">
-                        <p
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.2rem'
-                          }}
-                          className="text-sm !mb-2">
-                          Estimated arrival <LuClock3 /> : 3 block confirmations
-                        </p>
-                        <div
-                          onClick={handleAddressModal}
-                          className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
-                          <Button
-                            className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
-                            color="deep_purple_A200_a3"
-                            size="sm"
-                            variant="outline">
-                            Initiate Bridge
-                          </Button>
+                      {unisatAddress && metaMaskAddress ? (
+                        <div className="initiate_bridge_cta">
+                          <p
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.2rem'
+                            }}
+                            className="text-sm !mb-2">
+                            Estimated arrival <LuClock3 /> : 3 block confirmations
+                          </p>
+                          <div
+                            onClick={handleAddressModal}
+                            className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
+                            <Button
+                              className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
+                              color="deep_purple_A200_a3"
+                              size="sm"
+                              variant="outline">
+                              Initiate Bridge
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    ) : unisatAddress ? (
-                      <div
-                        className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-                        onClick={connectMetamaskWallet}>
-                        <ConnectMetaMaskWallet
-                          onConnectClick={connectMetamaskWallet}
-                          address={metaMaskAddress}
-                          text="Connect Wallets"
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full py-1 cursor-pointer mt-3"
-                        onClick={connectUnisatWallet}>
-                        <ConnectUnisatWallet
-                          onConnectClick={connectUnisatWallet}
-                          address={unisatAddress}
-                          text="Connect Wallets"
-                        />
-                      </div>
-                      // <div className="w-full">
+                      ) : unisatAddress ? (
+                        <div
+                          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
+                          onClick={connectMetamaskWallet}>
+                          <ConnectMetaMaskWallet
+                            onConnectClick={connectMetamaskWallet}
+                            address={metaMaskAddress}
+                            text="Connect Wallets"
+                          />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full py-1 cursor-pointer mt-3"
+                          onClick={connectUnisatWallet}>
+                          <ConnectUnisatWallet
+                            onConnectClick={connectUnisatWallet}
+                            address={unisatAddress}
+                            text="Connect Wallets"
+                          />
+                        </div>
+                        // <div className="w-full">
 
-                      // </div>
-                    )}
-                  </footer>
-                </section>
-              </div>
+                        // </div>
+                      )}
+                    </footer>
+                  </section>
+                </div>
 
-              <div className="form_link_description">
-                $wBRGE token contract {''}
-                <a href="/">{factoryContractAddress}</a>
+                <div className="form_link_description">
+                  $wBRGE token contract {''}
+                  <a href="/">{factoryContractAddress}</a>
+                </div>
+                <div className="form_link_description">
+                  OrdBridge Factory contract {''}
+                  <a href="/">{appContractAddress}</a>
+                </div>
               </div>
-              <div className="form_link_description">
-                OrdBridge Factory contract {''}
-                <a href="/">{appContractAddress}</a>
-              </div>
-            </div>
+            )}
           </>
         );
       case 1:
@@ -530,10 +663,17 @@ export const SwapPopup = ({
   //     connectMetamaskWallet(chain.chainId);
   //   }
   // };
+  const requestChainChange = async () => {
+    const chain = getEvmChain();
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (chainId !== chain.chainId) {
+      connectMetamaskWallet(chain.chainId);
+    }
+  };
   // !pendingEntryPopup && requestChainChange();
 
   return (
-    <div className="mb-20">
+    <div>
       {!pendingEntryPopup && getStepContent(step)}
 
       {showModal && (
