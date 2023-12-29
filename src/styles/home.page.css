@@ -392,6 +392,10 @@
   .form_link_description {
     font-size: 12px;
     line-height: 16px;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    /* justify-content: center; */
   }
 
   .custom_popup section {

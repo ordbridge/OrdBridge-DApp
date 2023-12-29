@@ -59,7 +59,7 @@ const ProofOfReserve = ({
             });
         }
       });
-  }, []);
+  });
 
   return (
     <div className="dashboard-stat-card">
