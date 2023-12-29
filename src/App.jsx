@@ -154,7 +154,11 @@ function App() {
     <div>
       Seems like you don't have {tag} chain added to your metamask wallet. Please add {type}-Chain
       via{' '}
-      <a href={`https://chainlist.org/chain/${id}`} target="_blank" rel="noreferrer">
+      <a
+        href={`https://chainlist.org/chain/${id}`}
+        target="_blank"
+        rel="noreferrer"
+        className="text-blue-500">
         this link.
       </a>
     </div>
