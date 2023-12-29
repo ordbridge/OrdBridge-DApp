@@ -13,9 +13,6 @@ import {
 } from "wagmi";
 import { publicProvider } from "wagmi/providers/public";
 import Web3Modal from "web3modal";
-import AvalancheIcon from "./assets/avalanche.png";
-import BrcIcon from "./assets/brc.png";
-import EthereumIcon from "./assets/ethereum.png";
 import HomePage from "./pages/HomePage";
 import { updateAddress } from "./services/homepage.service";
 import "./styles.css"; // Import your styles
@@ -28,41 +25,7 @@ import useMediaQuery from "./hooks/useMediaQuery";
 import Navbar from "./components/Navbar/Navbar";
 import { Footer } from "./components/Footer";
 
-const appChains = [
-  {
-    isEvm: true,
-    name: "ETHEREUM",
-    key: "ethchain",
-    value: "ETHEREUM",
-    tag: "ETH",
-    tokenTag: "ERC20",
-    chainId: "0x1",
-    contractAddress: "0xa237f89cb12bff9932c7503f854ad881dcead73a",
-    factoryAddress: "0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e",
-    icon: EthereumIcon,
-  },
-  {
-    isEvm: false,
-    name: "BRC",
-    value: "BRC",
-    tokenTag: "BRC20",
-    tag: "BRC",
-    contractAddress: "",
-    icon: BrcIcon,
-  },
-  {
-    isEvm: true,
-    name: "AVALANCHE",
-    key: "avaxchain",
-    value: "AVALANCHE",
-    tokenTag: "ARC20",
-    tag: "AVAX",
-    chainId: "0xa86a",
-    factoryAddress: "0x5f880678320A9445824bB15d18EF67b5ECbAA42a",
-    contractAddress: "0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384",
-    icon: AvalancheIcon,
-  },
-];
+import { appChains } from "./utils/chains";
 
 const { webSocketPublicClient } = configureChains(
   [sepolia],
@@ -149,36 +112,35 @@ function App() {
     }
   };
 
-  console.log(toChain);
-
-  // useEffect(() => {
-  //   // To Check Metamask is connected after page refreshing
-  //   const MetamaskAccount = window.ethereum?.request({ method: 'eth_accounts' });
-  //   MetamaskAccount.then((res) => {
-  //     if (res?.length > 0) {
-  //       setUserDetails((prev) => {
-  //         const address = { ...prev, metamask_address: res[0] };
-  //         return address;
-  //       });
-  //       setMetamaskAddress(res[0]);
-  //       walletUpdate({ ...userDetails, metamask_address: res[0] });
-  //     }
-  //   });
-  //
-  //   // To Check Unisat is connected after page refreshing
-  //   const UnisatAccount = window.unisat.requestAccounts();
-  //   UnisatAccount.then((res) => {
-  //     if (res?.length > 0) {
-  //       setUnisatAddress(res[0]);
-  //       setUserDetails((prev) => {
-  //         const address = { ...prev, unisat_address: res[0] };
-  //         return address;
-  //       });
-  //       walletUpdate({ ...userDetails, unisat_address: res[0] });
-  //     }
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    // To Check Metamask is connected after page refreshing
+    const MetamaskAccount = window.ethereum.request({ method: 'eth_accounts' });
+    MetamaskAccount.then((res) => {
+      if (res?.length > 0) {
+        setUserDetails((prev) => {
+          const address = { ...prev, metamask_address: res[0] };
+          return address;
+        });
+        setMetamaskAddress(res[0]);
+        walletUpdate({ ...userDetails, metamask_address: res[0] });
+      }
+    });
+   
+    // To Check Unisat is connected after page refreshing
+    if(!isMob){
+      const UnisatAccount = window.unisat.requestAccounts();
+      UnisatAccount.then((res) => {
+        if (res?.length > 0) {
+          setUnisatAddress(res[0]);
+          setUserDetails((prev) => {
+            const address = { ...prev, unisat_address: res[0] };
+            return address;
+          });
+          walletUpdate({ ...userDetails, unisat_address: res[0] });
+        }
+      });
+    }
+  }, []);
   const MetaMaskConnection = async () => {
     try {
       const web3instance = await web3Modal.connect();
