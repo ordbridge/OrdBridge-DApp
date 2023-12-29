@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 import YouTube from "react-youtube";
-import React, { memo } from 'react';
 
 const YoutubeEmbed = ({ embedId }) => {
   return (
