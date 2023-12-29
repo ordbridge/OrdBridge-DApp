@@ -65,7 +65,7 @@ const Dashboard = ({ appChains }) => {
           />
           <DashboardStatCard
             title="Total Volume"
-            value={parseInt(statsData?.volume24h, 10)?.toLocaleString()}
+            value={`$${parseInt(statsData?.volume24h, 10)?.toLocaleString()}`}
           />
         </div>
         <h1 className="dashboard-heading mt-10">PROOF OF RESERVES</h1>
