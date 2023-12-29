@@ -16,6 +16,8 @@ export const appChains = [
     infuraTag: 'mainnet',
     factoryAddress: '0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e',
     contractAddress: '0xa237f89cb12bff9932c7503f854ad881dcead73a',
+    factoryAddress: '0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e',
+    chain_flag:'BRC_TO_ETH',
     icon: EthereumIcon
   },
   {
@@ -39,6 +41,7 @@ export const appChains = [
     factoryAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
     contractAddress: '0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384',
     chainListId: 43114,
+    chain_flag:'BRC_TO_AVAX',
     icon: AvalancheIcon
   },
   {
@@ -53,6 +56,7 @@ export const appChains = [
     factoryAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
     contractAddress: '0xa237f89Cb12bfF9932C7503F854ad881Dcead73a',
     chainListId: 42161,
+    chain_flag:'BRC_TO_ARBI',
     icon: ArbitrumIcon
   },
   {
@@ -67,6 +71,7 @@ export const appChains = [
     factoryAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
     contractAddress: '0xa237f89Cb12bfF9932C7503F854ad881Dcead73a',
     chainListId: 8453,
+    chain_flag:'BRC_TO_BASE',
     icon: BaseIcon
   }
 ];

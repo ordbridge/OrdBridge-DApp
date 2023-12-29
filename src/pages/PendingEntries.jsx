@@ -39,7 +39,14 @@ export const PendingEntries = ({
   const [filterUnprocessedEntries, setFilterUnprocessedEntries] = useState([]);
   const [pendingTickers, setPendngTickers] = useState([]);
 
-  const [chainTypeFilter, setChainTypeFilter] = useState(chain.tag);
+  const [chainTypeFilter, setChainTypeFilter] = useState({
+    name: chain.tag,
+    icon: chain.icon
+  });
+  const [unprocessedFilter, setUnProcessedFilter] = useState({
+    name: chain.tag,
+    icon: chain.icon
+  });
   const dropDownItems = [
     {
       label: 'ETH',
@@ -83,10 +90,10 @@ export const PendingEntries = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setEntriesNetwork = async (type) => {
-    setChainTypeFilter(type);
+  const setEntriesNetwork = async ({ name, icon }) => {
+    setChainTypeFilter({ name, icon });
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    const requestedChain = getChainByTag(type);
+    const requestedChain = getChainByTag(name);
 
     if (chainId !== requestedChain.chainId) {
       connectMetamaskWallet(requestedChain.chainId);
@@ -118,35 +125,45 @@ export const PendingEntries = ({
 
   const claimEntriesColumns = ['Ticker', 'Amount', 'Wallet Address', 'Actions'];
   return (
-    <div className="pending_container gap-16">
+    <div className="pending_container gap-16 pb-8">
       <div className="bg-gradient5 border-deep_purple-A200_7f border-solid flex flex-col h-max inset-[0] items-center justify-center m-auto p-[54px] md:px-10 sm:px-5 rounded-[25px] w-[84%]">
         <div className="flex !w-full !m-0">
           <Dropdown
             className="bg-black p-0 m-0 border-red z-10 max-w-[120px] border-none"
             dismissOnClick={true}
             renderTrigger={() => (
-              <div className="flex items-center justify-center text-center pt-3 px-4 bg-black border-none text-white rounded-full !w-[160px] !mb-0 cursor-pointer">
-                <div className="flex items-center justify-end">
-                  <span>{chainTypeFilter}</span>
-                  <div>
-                    <IoIosArrowDown className="absolute font-white" />
+              <div className="flex items-center justify-center text-center py-2 px-4 bg-black border-none text-white rounded-full !w-max !mb-0 cursor-pointer">
+                <p className="flex items-center justify-end gap-3">
+                  <div className={`flex justify-center text-white gap-2 items-center !mb-0`}>
+                    <img
+                      src={chainTypeFilter.icon}
+                      className="w-[20px]"
+                      alt={chainTypeFilter.name}
+                    />
+                    {chainTypeFilter.name}
                   </div>
-                </div>
+                  <IoIosArrowDown className="font-white" />
+                </p>
               </div>
             )}>
-            {dropDownItems.map((ele, index) => (
-              <Dropdown.Item
-                className="hover:outline-none"
-                onClick={() => {
-                  setEntriesNetwork(ele.label);
-                  getPendingEntries({ type: ele.chainType });
-                }}>
-                <div
-                  className={`w-full flex justify-center text-white ${index === 0 ? 'mt-4' : ''}`}>
-                  {ele.label}
-                </div>
-              </Dropdown.Item>
-            ))}
+            {appChains.map((ele, index) => {
+              if (ele.tag !== 'BRC') {
+                return (
+                  <Dropdown.Item
+                    className="hover:outline-none"
+                    onClick={() => {
+                      setEntriesNetwork({ name: ele.tag, icon: ele.icon });
+                      getPendingEntries({ type: ele.tag });
+                    }}>
+                    <div
+                      className={`w-full flex justify-center text-white gap-2 items-center !mb-0 my-1`}>
+                      <img src={ele.icon} className="w-[20px]" alt={ele.tag} />
+                      {ele.tag}
+                    </div>
+                  </Dropdown.Item>
+                );
+              }
+            })}
           </Dropdown>
           <Text
             className="bg-clip-text bg-gradient6 sm:text-4xl md:text-[38px] text-[40px] text-transparent !w-full text-center !mb-0"
@@ -207,29 +224,41 @@ export const PendingEntries = ({
             className="bg-black p-0 m-0 border-red z-10 max-w-[120px] border-none"
             dismissOnClick={true}
             renderTrigger={() => (
-              <div className="flex items-center justify-center text-center pt-3 px-4 bg-black border-none text-white rounded-full !w-[160px] !mb-0 cursor-pointer">
-                <div className="flex items-center justify-end">
-                  <span>{chainTypeFilter}</span>
-                  <div>
-                    <IoIosArrowDown className="absolute font-white" />
+              <div className="flex items-center justify-center text-center py-2 px-4 bg-black border-none text-white rounded-full !w-max !mb-0 cursor-pointer">
+                <p className="flex items-center justify-end gap-3">
+                  <div className={`flex justify-center text-white gap-2 items-center !mb-0`}>
+                    <img
+                      src={unprocessedFilter.icon}
+                      className="w-[20px]"
+                      alt={unprocessedFilter.name}
+                    />
+                    {unprocessedFilter.name}
                   </div>
-                </div>
+                  <IoIosArrowDown className="font-white" />
+                </p>
               </div>
             )}>
-            {dropDownItems.map((ele, index) => (
-              <Dropdown.Item
-                className="hover:outline-none"
-                onClick={() => {
-                  setEntriesNetwork(ele.label);
-                  const filterData = unprocessedEntries?.filter((elem) => elem.chain === ele.value);
-                  setFilterUnprocessedEntries(filterData);
-                }}>
-                <div
-                  className={`w-full flex justify-center text-white ${index === 0 ? 'mt-4' : ''}`}>
-                  {ele.label}
-                </div>
-              </Dropdown.Item>
-            ))}
+            {appChains.map((ele, index) => {
+              if (ele.tag !== 'BRC') {
+                return (
+                  <Dropdown.Item
+                    className="hover:outline-none"
+                    onClick={() => {
+                      setUnProcessedFilter({ name: ele.tag, icon: ele.icon });
+                      const filterData = unprocessedEntries?.filter(
+                        (elem) => elem.chain === ele.chain_flag
+                      );
+                      setFilterUnprocessedEntries(filterData);
+                    }}>
+                    <div
+                      className={`w-full flex justify-center text-white gap-2 items-center !mb-0 my-1`}>
+                      <img src={ele.icon} className="w-[20px]" alt={ele.tag} />
+                      {ele.tag}
+                    </div>
+                  </Dropdown.Item>
+                );
+              }
+            })}
           </Dropdown>
 
           <Text
