@@ -86,7 +86,6 @@ export const PendingEntries = ({
   const setEntriesNetwork = async (type) => {
     setChainTypeFilter(type);
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    console.log({ chainId, type });
     const requestedChain = getChainByTag(type);
 
     if (chainId !== requestedChain.chainId) {
@@ -104,7 +103,9 @@ export const PendingEntries = ({
     const requestedChain = getChainByTag(type);
 
     const web3 = new Web3(
-      `https://${requestedChain.infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`
+      type !== 'BASE'
+        ? `https://${requestedChain.infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`
+        : 'https://base-mainnet.g.alchemy.com/v2/MiFWZXgXz9fVhntEMJ3qZzti8RCGh9bP'
     );
     const appContractAddress =
       type === 'ETH'

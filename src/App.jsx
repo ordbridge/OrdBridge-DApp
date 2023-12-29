@@ -48,9 +48,6 @@ function App() {
   const [isMobile, setIsMobile] = useState();
   const isMob = useMediaQuery('(max-width:630px)');
   const walletUpdate = async (address) => {
-    if (!address.unisat_address || !address.metamask_address) {
-      return;
-    }
     await updateAddress({
       user_details: address
     }).then((res) => {
@@ -102,35 +99,38 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    // To Check Metamask is connected after page refreshing
-    const MetamaskAccount = window.ethereum.request({ method: 'eth_accounts' });
-    MetamaskAccount.then((res) => {
-      if (res?.length > 0) {
-        setUserDetails((prev) => {
-          const address = { ...prev, metamask_address: res[0] };
-          return address;
-        });
-        setMetamaskAddress(res[0]);
-        walletUpdate({ ...userDetails, metamask_address: res[0] });
-      }
-    });
-
+  useEffect(async () => {
     // To Check Unisat is connected after page refreshing
     if (!isMob) {
-      const UnisatAccount = window.unisat.requestAccounts();
-      UnisatAccount.then((res) => {
-        if (res?.length > 0) {
-          setUnisatAddress(res[0]);
-          setUserDetails((prev) => {
-            const address = { ...prev, unisat_address: res[0] };
-            return address;
-          });
-          walletUpdate({ ...userDetails, unisat_address: res[0] });
+      try {
+        var UnisatAccount = await window.unisat.requestAccounts();
+        if (UnisatAccount?.length > 0) {
+          setUnisatAddress(UnisatAccount[0]);
         }
-      }).catch((err) => {
+      } catch (err) {
         toast.error(err.message);
-      });
+      }
+    }
+
+    // To Check Metamask is connected after page refreshing
+    try {
+      var MetamaskAccount = await window?.ethereum?.request({ method: 'eth_accounts' });
+      if (MetamaskAccount?.length > 0) {
+        setMetamaskAddress(MetamaskAccount[0]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    let payload = {};
+    if (MetamaskAccount?.length > 0) {
+      payload = { metamask_address: MetamaskAccount[0] };
+    }
+    if (UnisatAccount?.length > 0) {
+      payload = { ...payload, unisat_address: UnisatAccount[0] };
+    }
+    if (MetamaskAccount?.length > 0 || UnisatAccount?.length > 0) {
+      setUserDetails(payload);
+      walletUpdate(payload);
     }
   }, []);
 
