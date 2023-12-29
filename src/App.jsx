@@ -114,7 +114,7 @@ function App() {
 
   useEffect(() => {
     // To Check Metamask is connected after page refreshing
-    const MetamaskAccount = window.ethereum.request({ method: 'eth_accounts' });
+    const MetamaskAccount = window.ethereum.request({ method: "eth_accounts" });
     MetamaskAccount.then((res) => {
       if (res?.length > 0) {
         setUserDetails((prev) => {
@@ -125,9 +125,9 @@ function App() {
         walletUpdate({ ...userDetails, metamask_address: res[0] });
       }
     });
-   
+
     // To Check Unisat is connected after page refreshing
-    if(!isMob){
+    if (!isMob) {
       const UnisatAccount = window.unisat.requestAccounts();
       UnisatAccount.then((res) => {
         if (res?.length > 0) {
@@ -138,9 +138,12 @@ function App() {
           });
           walletUpdate({ ...userDetails, unisat_address: res[0] });
         }
+      }).catch((err) => {
+        toast.error(err.message);
       });
     }
-  }, []);
+  });
+
   const MetaMaskConnection = async () => {
     try {
       const web3instance = await web3Modal.connect();
