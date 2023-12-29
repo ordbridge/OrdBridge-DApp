@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { MdClose } from 'react-icons/md';
-import '../styles/customModal.css';
-import { FiSearch } from 'react-icons/fi';
-import Modal from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
-import { FaCircle } from 'react-icons/fa';
+import React, { useState } from "react";
+import { MdClose } from "react-icons/md";
+import "../styles/customModal.css";
+import { FiSearch } from "react-icons/fi";
+import Modal from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import { FaCircle } from "react-icons/fa";
 
 export const CustomTokenModal = ({
   onCloseModal,
@@ -12,10 +12,10 @@ export const CustomTokenModal = ({
   setToken,
   type,
   setTokenName,
-  showModal
+  showModal,
 }) => {
   const [suggestions, setSugesstions] = useState(tokenList?.map((ele) => ele));
-  const [selectedVal, setSelectedVal] = useState('');
+  const [selectedVal, setSelectedVal] = useState("");
   const [lengthError, setLengthError] = useState(false);
 
   const onChange = () => {};
@@ -25,7 +25,7 @@ export const CustomTokenModal = ({
       tokenList?.filter((i) => {
         // console.log(i?.includes(e.target.value))
         return i?.toLowerCase().includes(e.target.value.toLowerCase());
-      })
+      }),
     );
   };
 
@@ -41,19 +41,20 @@ export const CustomTokenModal = ({
       open={showModal}
       id="myModal"
       classNames={{
-        overlay: 'custom-token-modal-overlay',
-        modal: 'custom-token-modal-container'
+        overlay: "custom-token-modal-overlay",
+        modal: "custom-token-modal-container",
       }}
-      closeIcon={<MdClose className="custom-token-modal-close-button" />}>
+      closeIcon={<MdClose className="custom-token-modal-close-button" />}
+    >
       <div className="md:w-[90vw] w-[400px] position-relative m-auto">
         <div className="custom-token-modal">
           <div className="custom_modal_body ">
-            {type !== 'etob' && <div className="fw-bold fs-4">W</div>}
+            {type !== "etob" && <div className="fw-bold fs-4">W</div>}
             <FiSearch className="text-gray-400 position-absolute left-[50px]" />
             <input
               // type="search"
               placeholder="Search Token"
-              maxLength={'4'}
+              maxLength={"4"}
               value={selectedVal}
               onChange={handleChange}
               onKeyUp={handler}
@@ -71,7 +72,8 @@ export const CustomTokenModal = ({
                       setToken(el);
                       setTokenName(el);
                       onCloseModal();
-                    }}>
+                    }}
+                  >
                     <FaCircle />
                     &nbsp;
                     {el.toUpperCase()}
@@ -90,7 +92,8 @@ export const CustomTokenModal = ({
                       setTokenName(selectedVal);
                       onCloseModal();
                     }
-                  }}>
+                  }}
+                >
                   {selectedVal}
                 </div>
                 {lengthError && <p>Name should be 4 letters</p>}

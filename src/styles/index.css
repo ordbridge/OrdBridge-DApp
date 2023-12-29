@@ -10,7 +10,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #1c1c1c !important;
-  background-image: url('../../public/base_bg.svg');
+  background-color: #0A080F;
+  background-image: url('../assets/bg-image.png');
   letter-spacing: 1px !important;
 }
 

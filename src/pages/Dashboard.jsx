@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Web3 from 'web3';
-import AVAX_ABI from '../utils/avax';
-import ETH_ABI from '../utils/eth';
-import ProofOfReserve from '../components/ProofOfReserve';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Web3 from "web3";
+import AVAX_ABI from "../utils/avax";
+import ETH_ABI from "../utils/eth";
+import ProofOfReserve from "../components/ProofOfReserve";
 
 const DashboardStatCard = ({ title, value }) => {
   return (
@@ -20,29 +20,39 @@ const Dashboard = ({ appChains }) => {
 
   const ethChain = appChains[0];
   const avaxChain = appChains[2];
-  const ethWeb3 = new Web3('https://mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86');
-  const avaxWeb3 = new Web3(
-    'https://avalanche-mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86'
+  const ethWeb3 = new Web3(
+    "https://mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86",
   );
-  const ethContractHandler = new ethWeb3.eth.Contract(ETH_ABI, ethChain.contractAddress);
-  const avaxContractHandler = new avaxWeb3.eth.Contract(AVAX_ABI, avaxChain.contractAddress);
+  const avaxWeb3 = new Web3(
+    "https://avalanche-mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86",
+  );
+  const ethContractHandler = new ethWeb3.eth.Contract(
+    ETH_ABI,
+    ethChain.contractAddress,
+  );
+  const avaxContractHandler = new avaxWeb3.eth.Contract(
+    AVAX_ABI,
+    avaxChain.contractAddress,
+  );
 
-  console.log(ethWeb3, 'Eth web2');
+  console.log(ethWeb3, "Eth web2");
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get('https://api.ordbridge.io/bapi/reporting');
-      console.log(res.data?.data[0], 'Dataa');
+      const res = await axios.get("https://api.ordbridge.io/bapi/reporting");
+      console.log(res.data?.data[0], "Dataa");
       setStatsData(res?.data?.data?.[0]);
     })();
     (async () => {
-      const res = await axios.get('https://api.ordbridge.io/bapi/token/btc/balance');
+      const res = await axios.get(
+        "https://api.ordbridge.io/bapi/token/btc/balance",
+      );
       const balanceList = res?.data?.data?.[0].balanceList;
       const balances = balanceList.map((item) => ({
         token: item.token,
-        balance: item.balance
+        balance: item.balance,
       }));
-      console.log(balanceList, balances, 'BALANCE LIST');
+      console.log(balanceList, balances, "BALANCE LIST");
       setReservesData(balances);
     })();
   }, []);
@@ -54,7 +64,11 @@ const Dashboard = ({ appChains }) => {
         <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 gap-5 text-white">
           <DashboardStatCard
             title="Price"
-            value={`$${statsData?.lastPrice ? statsData.lastPrice.substring(0, 7) : 'Loading...'}`}
+            value={`$${
+              statsData?.lastPrice
+                ? statsData.lastPrice.substring(0, 7)
+                : "Loading..."
+            }`}
           />
           <DashboardStatCard
             title="Total Volume"

@@ -115,7 +115,9 @@ function App() {
 
   useEffect(() => {
     // To Check Metamask is connected after page refreshing
-    const MetamaskAccount = window.ethereum?.request({ method: "eth_accounts" });
+    const MetamaskAccount = window.ethereum?.request({
+      method: "eth_accounts",
+    });
     MetamaskAccount?.then((res) => {
       if (res?.length > 0) {
         setUserDetails((prev) => {

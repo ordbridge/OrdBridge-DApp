@@ -16,7 +16,8 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
               {type}
             </span>
             <span className="flex items-center sm:text-sm w-max gap-1">
-              <img src={Chain?.icon} style={{ width: "20px" }} alt="" /> {Chain?.tag}
+              <img src={Chain?.icon} style={{ width: "20px" }} alt="" />{" "}
+              {Chain?.tag}
             </span>
             {!dropdownState ? (
               <IoIosArrowDown className="font-white" />
@@ -42,7 +43,8 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
           >
             <span className="dropdown__link !w-max flex justify-start text-white gap-2 items-center">
               {" "}
-              <img src={chain.icon} style={{ width: "20px" }} alt="" /> {chain.tag}
+              <img src={chain.icon} style={{ width: "20px" }} alt="" />{" "}
+              {chain.tag}
             </span>
           </span>
         ))}
