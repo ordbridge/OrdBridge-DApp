@@ -60,7 +60,7 @@
         @apply min-h-[100vh] container mx-auto max-w-[1440px] px-[30px] ;
     }
     .landing-page-hero {
-        @apply grid grid-cols-2 md:grid-cols-1 md:border py-12
+        @apply grid grid-cols-2 md:grid-cols-1 py-12
     }
     .landing-page-hero-content--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
