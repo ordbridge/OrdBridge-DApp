@@ -62,18 +62,28 @@ export const SwapPopup = ({
   const getEvmChain = () => {
     if (fromChain.isEvm) {
       return fromChain;
-    } else {
-      return toChain;
     }
+
+    return toChain;
   };
 
   const setChain = (isFrom, chain) => async () => {
     if (isFrom) {
+      if (chain.tag === toChain.tag) {
+        toast.error('Please select different chain');
+        return;
+      }
+
       setFromChain(chain);
       if (chain.isEvm) {
         setToChain(appChains[1]);
       }
     } else {
+      if (chain.tag === fromChain.tag) {
+        toast.error('Please select different chain');
+        return;
+      }
+
       setToChain(chain);
       if (chain.isEvm) {
         setFromChain(appChains[1]);
@@ -162,13 +172,13 @@ export const SwapPopup = ({
 
       const evmChain = getEvmChain();
       if (evmChain.tag === 'ETH') {
-        const contractHandler = new ethWeb3.eth.Contract(ETH_ABI, appChains[0].contractAddress);
+        const contractHandler = new ethWeb3.eth.Contract(ETH_ABI, evmChain.contractAddress);
 
         await contractHandler.methods
           .burnERCTokenForBRC(token, amount, unisatAddress)
           .send({ from: accounts[0] });
       } else {
-        const contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, appChains[2].contractAddress);
+        const contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, evmChain.contractAddress);
         await contractHandler.methods
           .burnERCTokenForBRC('BRC', token, amount, unisatAddress)
           .send({ from: accounts[0] });
@@ -186,11 +196,13 @@ export const SwapPopup = ({
       const accounts = await ethWeb3.eth.getAccounts();
       setStep(3);
       let contractHandler;
+      const requestedChain = getEvmChain();
+
       const chainId = await window.ethereum.request({ method: 'eth_chainId' });
       if (chainId === '0x1') {
-        contractHandler = new ethWeb3.eth.Contract(ETH_ABI, appChains[0].contractAddress);
+        contractHandler = new ethWeb3.eth.Contract(ETH_ABI, requestedChain.contractAddress);
       } else {
-        contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, appChains[2].contractAddress);
+        contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, requestedChain.contractAddress);
       }
 
       await contractHandler.methods
