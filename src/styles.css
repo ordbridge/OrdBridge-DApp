@@ -38,10 +38,10 @@
         @apply bg-transparent  md:pt-[100px]
     }
     .custom-token-modal-container {
-        @apply bg-transparent shadow-none max-h-[650px] overflow-hidden md:w-full md:m-0 w-[200px] md:absolute md:top-[15vh] md:left-0
+        @apply bg-transparent shadow-none max-h-[650px] overflow-hidden md:w-full md:m-0 md:absolute md:top-[15vh] md:left-0
     }
     .custom-token-modal-close-button {
-        @apply text-[#fff] relative md:right-[40vw] md:top-2 right-[-25px] text-[40px] md:w-[40px] md:h-[40px] md:border md:rounded-full md:bg-[#14151A] md:p-1 md:border-[#14151A] shadow-lg
+        @apply text-[#fff] relative md:right-[40vw] md:top-2 right-[15px] top-[15px]  text-[40px] md:w-[40px] md:h-[40px] md:border md:rounded-full md:bg-[#14151A] md:p-1 md:border-[#14151A] shadow-lg
     }
     .custom-token-modal-input {
         @apply text-[#fff] w-full border-[#808080] font-syne text-xl pl-10 pr-4 font-thin rounded-[40px] bg-[#292146] placeholder-gray-400
