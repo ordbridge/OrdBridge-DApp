@@ -153,8 +153,9 @@ export const SwapPopup = ({
   };
   const burnMetamaskHandler = async () => {
     const val = 1000000000000000000;
+    const BN = web3.utils.toBN;
     // const DIVIDER = Math.pow(10, 18);
-    const amount = new web3.utils.BN(tokenValue).mul(new web3.utils.BN(val));
+    const amount = new BN(tokenValue).mul(new BN(val));
     try {
       const accounts = await ethWeb3.eth.getAccounts();
       // const bigNumberValue = new BigNumber(tokenValue * val);
