@@ -69,6 +69,7 @@ export const PendingEntries = ({
       chainType: 'ARBI'
     }
   ];
+
   useEffect(() => {
     setClaimButton(false);
     setClaimStatus('success');
@@ -79,7 +80,7 @@ export const PendingEntries = ({
         metaMaskAddress: metaMaskAddress
       }).then((res) => {
         setUnprocessedEntries(res?.unprocessed);
-        const filterData = res?.unprocessed?.filter((ele) => ele.chain === 'BRC_TO_ETH');
+        const filterData = res?.unprocessed?.filter((ele) => ele.chain === toChain.chain_flag);
         setFilterUnprocessedEntries(filterData);
         callContractHandler(res?.pending_tickers);
         setPendngTickers(res?.pending_tickers);
@@ -291,9 +292,10 @@ export const PendingEntries = ({
                 <div className="min-w-1/4 flex justify-center text-white font-bold font-plusjakartasans">
                   {ele?.transaction_data?.metamask_address?.slice(0, 10)}...
                 </div>
-                <div className="min-w-1/4 flex justify-center text-white">
-                  <button
-                    className="rounded-2xl border border-white text-white font-syne py-2 px-6"
+                <div className="min-w-1/4 flex justify-center">
+                  <p
+                    className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
+                    style={{ border:'1px solid rgba(121, 78, 255, 0.8)',color:"white" }}
                     onClick={() => {
                       setPendingEntryPopup((prev) => !prev);
                       setPendingInscriptionId(ele?.inscription_id);
@@ -304,7 +306,7 @@ export const PendingEntries = ({
                       setStep(1);
                     }}>
                     Process Entry
-                  </button>
+                  </p>
                 </div>
               </div>
             );
