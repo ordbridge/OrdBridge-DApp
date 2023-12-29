@@ -13,12 +13,12 @@ export const AddressPopup = ({
 }) => {
   const checkNetwork = async () => {
     const appChainId = ethChain.chainId;
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
     if (chainId === appChainId) {
       burnMetamaskHandler();
     } else {
       try {
-        await window.ethereum.request({
+        await window.ethereum?.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: appChainId }]
         });

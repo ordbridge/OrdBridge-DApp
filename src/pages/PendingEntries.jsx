@@ -74,7 +74,7 @@ export const PendingEntries = ({
 
   const setEntriesNetwork = async (type) => {
     setChainTypeFilter(type);
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
     const requestedChainId = type === 'ETH' ? '0x1' : '0xa86a';
     if (chainId !== requestedChainId) {
       connectMetamaskWallet(requestedChainId);

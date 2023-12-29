@@ -81,7 +81,7 @@ export const SwapPopup = ({
     }
 
     if (chain.isEvm) {
-      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+      const chainId = await window.ethereum?.request({ method: "eth_chainId" });
       if (chainId !== chain.chainId) {
         connectMetamaskWallet(chain.chainId);
       }
@@ -199,7 +199,7 @@ export const SwapPopup = ({
       const accounts = await ethWeb3.eth.getAccounts();
       setStep(3);
       let contractHandler;
-      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+      const chainId = await window.ethereum?.request({ method: "eth_chainId" });
       if (chainId === "0x1") {
         contractHandler = new ethWeb3.eth.Contract(
           ETH_ABI,

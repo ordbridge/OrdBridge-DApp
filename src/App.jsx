@@ -115,7 +115,7 @@ function App() {
 
   useEffect(() => {
     // To Check Metamask is connected after page refreshing
-    const MetamaskAccount = window.ethereum.request({ method: "eth_accounts" });
+    const MetamaskAccount = window.ethereum?.request({ method: "eth_accounts" });
     MetamaskAccount?.then((res) => {
       if (res?.length > 0) {
         setUserDetails((prev) => {
@@ -186,7 +186,7 @@ function App() {
   };
 
   const connectMetamaskWallet = async (desiredChainId) => {
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+    const chainId = await window.ethereum?.request({ method: "eth_chainId" });
     const appChainId = isNaN(desiredChainId)
       ? getEvmChain().chainId
       : desiredChainId;
@@ -194,7 +194,7 @@ function App() {
       MetaMaskConnection();
     } else {
       try {
-        await window.ethereum.request({
+        await window.ethereum?.request({
           method: "wallet_switchEthereumChain",
           params: [{ chainId: appChainId }],
         });
