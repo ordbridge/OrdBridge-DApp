@@ -1,5 +1,5 @@
 import AvalancheIcon from '../assets/avalanche.png';
-import BrcIcon from '../assets/bitcoin.webp';
+import BrcIcon from '../assets/bitcoin.png';
 import EthereumIcon from '../assets/ethereum.png';
 import ArbitrumIcon from '../assets/arbitrum.png';
 import BaseIcon from '../assets/base.svg';
