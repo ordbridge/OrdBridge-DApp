@@ -26,6 +26,7 @@ import Navbar from "./components/Navbar/Navbar";
 import { Footer } from "./components/Footer";
 
 import { appChains } from "./utils/chains";
+import LandingPage from "./pages/LandingPage";
 
 const { webSocketPublicClient } = configureChains(
   [sepolia],
@@ -66,7 +67,7 @@ function App() {
 
   const unisatHandler = async () => {
     try {
-      const accounts = await window.unisat.requestAccounts();
+      const accounts = await window.unisat?.requestAccounts();
       if (accounts[0].substring(0, 3) === "bc1") {
         setUnisatAddress(accounts[0]);
         setUserDetails((prev) => {
@@ -115,7 +116,7 @@ function App() {
   useEffect(() => {
     // To Check Metamask is connected after page refreshing
     const MetamaskAccount = window.ethereum.request({ method: "eth_accounts" });
-    MetamaskAccount.then((res) => {
+    MetamaskAccount?.then((res) => {
       if (res?.length > 0) {
         setUserDetails((prev) => {
           const address = { ...prev, metamask_address: res[0] };
@@ -128,8 +129,8 @@ function App() {
 
     // To Check Unisat is connected after page refreshing
     if (!isMob) {
-      const UnisatAccount = window.unisat.requestAccounts();
-      UnisatAccount.then((res) => {
+      const UnisatAccount = window.unisat?.requestAccounts();
+      UnisatAccount?.then((res) => {
         if (res?.length > 0) {
           setUnisatAddress(res[0]);
           setUserDetails((prev) => {
@@ -231,7 +232,7 @@ function App() {
 
           <Routes>
             <Route
-              path="/"
+              path="/swap"
               element={
                 <HomePage
                   step={step}
@@ -259,6 +260,7 @@ function App() {
               element={<Dashboard appChains={appChains} />}
               path="dashboard"
             />
+            <Route element={<LandingPage />} path="/" />
           </Routes>
           <Footer />
         </div>
