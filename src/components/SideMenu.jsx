@@ -1,11 +1,11 @@
-import React from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
-import { toast } from 'react-toastify';
-import '../styles/sidemenu.css';
-import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
-import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
-import Text from './Text';
-import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { toast } from "react-toastify";
+import "../styles/sidemenu.css";
+import ConnectMetaMaskWallet from "./Navbar/ConnectMetaMaskWallet";
+import ConnectUnisatWallet from "./Navbar/ConnectUnisatWallet";
+import Text from "./Text";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideMenu = ({
   handleSideMenu,
@@ -15,9 +15,18 @@ const SideMenu = ({
   connectMetamaskWallet,
   setPendingEntryPopup,
   navToHome,
-  setStep
+  setStep,
 }) => {
   const navigate = useNavigate();
+  const LinkItem = ({ link, text, onClick, ...otherProps }) => {
+    return (
+      <Link to={link} onClick={onClick} {...otherProps}>
+        <Text className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal">
+          {text}
+        </Text>
+      </Link>
+    );
+  };
   return (
     <>
       <div id="side_menu" className=" navbar-sidemenu-container closed">
@@ -27,48 +36,45 @@ const SideMenu = ({
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
           <div className="flex flex-col gap-4">
-            <Text
-              className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
+            <LinkItem
+              link="/"
               onClick={() => {
                 handleSideMenu();
-                navigate('/')
                 setStep(0);
-              }}>
-              Home
-            </Text>
-            <Text
-              className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
+              }}
+              text="Home"
+            />
+            <LinkItem link="/swap" text="Swap" onClick={handleSideMenu}  />
+            <LinkItem link="/" text="Bridge" onClick={handleSideMenu} />
+            <LinkItem link="/" text="Staking" onClick={handleSideMenu} />
+            <LinkItem
               onClick={() => {
                 window.open(
-                  'https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/',
-                  '_blank'
+                  "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
+                  "_blank",
                 );
-              }}>
-              Docs
-            </Text>
+                handleSideMenu();
+              }}
+              text="Docs"
+            />
 
-            <Text
-              className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
-              size="txtSyneBold20"
+            <LinkItem
+              text="Pending Entries"
               onClick={() => {
                 if (!unisatAddress || !metaMaskAddress) {
-                  toast.error('Please Connect Wallets First');
+                  toast.error("Please Connect Wallets First");
                 } else {
-                  navigate('/');
-
+                  navigate("/");
                   setPendingEntryPopup((prev) => !prev);
+                  handleSideMenu();
                 }
-              }}>
-              Pending Entries
-            </Text>
-
-            <Link to="/dashboard">
-              <Text className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal">
-                Dashboard
-              </Text>
-            </Link>
-
-            <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
+              }}
+            />
+            {/*<LinkItem link="/dashboard" text="Dashboard" />*/}
+            <ConnectUnisatWallet
+              onConnectClick={connectUnisatWallet}
+              address={unisatAddress}
+            />
             <ConnectMetaMaskWallet
               onConnectClick={connectMetamaskWallet}
               address={metaMaskAddress}
