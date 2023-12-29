@@ -1,27 +1,41 @@
 import React from "react";
 
-
 const LandingPage = () => {
-
-  const FeatureItem = ({vertical}) => {
+  const FeatureItem = ({ vertical }) => {
     return (
-      <div className={`landing-page-feature-item ${vertical && "landing-page-feature-item--vertical"} `}>
+      <div
+        className={`landing-page-feature-item ${
+          vertical && "landing-page-feature-item--vertical"
+        } `}
+      >
         <div>
           <img
-            className={` ${vertical ? "landing-page-feature-item-image--vertical" : "landing-page-feature-item-image"}`}
+            className={` ${
+              vertical
+                ? "landing-page-feature-item-image--vertical"
+                : "landing-page-feature-item-image"
+            }`}
             src="https://img.freepik.com/free-photo/artistic-blurry-colorful-wallpaper-background_58702-8178.jpg"
             alt=""
           />
         </div>
         <div className="landing-page-feature-item-content-container">
-          <h1 className="landing-page-feature-item--heading">Short heading here</h1>
-          <p className="landing-page-feature-item--para" style={{ color: 'rgba(193, 193, 193, 0.64)' }}>Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit.</p>
-          <button className="landing-page-feature-item--button">Button &gt;</button>
+          <h1 className="landing-page-feature-item--heading">
+            Short heading here
+          </h1>
+          <p
+            className="landing-page-feature-item--para"
+            style={{ color: "rgba(193, 193, 193, 0.64)" }}
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+          </p>
+          <button className="landing-page-feature-item--button">
+            Button &gt;
+          </button>
         </div>
       </div>
-    )
-  }
+    );
+  };
   return (
     <div className="landing-page-wrapper">
       <div className="landing-page-hero">
@@ -58,8 +72,8 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="landing-page-features-container">
-          <FeatureItem/>
-          <FeatureItem/>
+          <FeatureItem />
+          <FeatureItem />
           <FeatureItem vertical={true} />
         </div>
       </div>
