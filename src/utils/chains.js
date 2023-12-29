@@ -36,6 +36,7 @@ export const appChains = [
     chainId: '0xa86a',
     factoryAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
     contractAddress: '0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384',
+    chainListId:43114,
     icon: AvalancheIcon
   },
   {
@@ -48,6 +49,7 @@ export const appChains = [
     chainId: '0xa4b1',
     factoryAddress: '0xa237f89Cb12bfF9932C7503F854ad881Dcead73a',
     contractAddress: '0x8422446a7602DFF5EE44056B01B69Dc677ff17E7',
+    chainListId:42161,
     icon: ArbitrumIcon
   },
   {
@@ -60,6 +62,7 @@ export const appChains = [
     chainId: '0x2105',
     factoryAddress: '0xa237f89Cb12bfF9932C7503F854ad881Dcead73a',
     contractAddress: '0xD278357569307313328C067A4e65d85897CE07dd',
+    chainListId:8453,
     icon: BaseIcon
   }
 ];
