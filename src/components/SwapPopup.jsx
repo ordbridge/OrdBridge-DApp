@@ -1,6 +1,8 @@
 import { Dropdown } from 'flowbite-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoIosArrowDown, IoIosInformationCircleOutline } from 'react-icons/io';
+import { MdContentCopy } from 'react-icons/md';
+
 import { LuClock3 } from 'react-icons/lu';
 import { toast } from 'react-toastify';
 import Web3 from 'web3';
@@ -244,6 +246,14 @@ export const SwapPopup = ({
       element.scrollIntoView({ behavior: 'smooth' });
     }
   }
+  async function copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success('Copied Successfully');
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  }
 
   const getStepContent = (stepIndex) => {
     switch (stepIndex) {
@@ -275,13 +285,13 @@ export const SwapPopup = ({
 
                   <section className="pt-2 relative mt-8">
                     <div
-                      className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1"
+                      className="swap_border pl-8 pr-4 my-1 !py-3 sm:!py-1"
                       style={{
                         background:
                           'inear-gradient(180deg, rgba(0, 0, 0, 0.70) 0%, rgba(3, 23, 26, 0.70) 100%)'
                       }}>
                       <div
-                        className="absolute sm:text-xs text-left !mb-1 sm:!mb-2"
+                        className="absolute sm:text-xs text-left top-[20px]"
                         style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
                         Amount (of {token})
                       </div>
@@ -307,7 +317,7 @@ export const SwapPopup = ({
 
                     {!addressModal && (
                       <div
-                        className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center left-[45%] sm:h-12 sm:w-12 sm:top-[34%] top-[28%] bg-[#111331] z-10"
+                        className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center left-[45%] sm:h-12 sm:w-12 top-[40%] bg-[#111331] z-10"
                         onClick={swapChains}>
                         <img
                           src="swap.png"
@@ -319,9 +329,9 @@ export const SwapPopup = ({
                         />
                       </div>
                     )}
-                    <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1">
+                    <div className="swap_border pl-8 pr-4 !py-3 sm:!py-1 relative">
                       <div
-                        className="absolute text-left sm:text-xs"
+                        className="absolute text-left sm:text-xs top-[8px]"
                         style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
                         Amount (of {token})
                       </div>
@@ -342,7 +352,7 @@ export const SwapPopup = ({
                       </div>
                     </div>
 
-                    <div className="form_link_description mt-4">Bridging to ETH chain - ORDI Tokens</div>
+                    {/* <div className="form_link_description mt-4">Bridging to ETH chain - ORDI Tokens</div> */}
                   </section>
                 </div>
                 <div className="text-center">
@@ -391,7 +401,20 @@ export const SwapPopup = ({
                     </div>
                   )}
                   <div className="form_link_description">
-                    $wBRGE token contract | OrdBridge Factory contract{' '}
+                    $wBRGE token contract{' '}
+                    <MdContentCopy
+                      className="text-[#794EFF]"
+                      onClick={() => {
+                        copyToClipboard(factoryContractAddress);
+                      }}
+                    />{' '}
+                    | OrdBridge Factory contract{' '}
+                    <MdContentCopy
+                      className="text-[#794EFF]"
+                      onClick={() => {
+                        copyToClipboard(appContractAddress);
+                      }}
+                    />{' '}
                   </div>
                 </div>
               </header>

@@ -138,7 +138,9 @@ function App() {
           });
           walletUpdate({ ...userDetails, unisat_address: res[0] });
         }
-      });
+      }).catch((err)=>{
+        toast.error(err.message);
+      })
     }
   }, []);
   const MetaMaskConnection = async () => {
