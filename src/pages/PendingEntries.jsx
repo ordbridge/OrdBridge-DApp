@@ -9,7 +9,7 @@ import Web3 from 'web3';
 import ETH_ABI from '../utils/eth';
 import AVAX_ABI from '../utils/avax';
 import Text from '../components/Text';
-import { getChainByTag } from '../utils/chains';
+import { getChainByTag, getWeb3UrlByTag } from '../utils/chains';
 
 export const PendingEntries = ({
   appChains,
@@ -102,15 +102,8 @@ export const PendingEntries = ({
   const getPendingEntries = async ({ type }) => {
     const requestedChain = getChainByTag(type);
 
-    const web3 = new Web3(
-      type !== 'BASE'
-        ? `https://${requestedChain.infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`
-        : 'https://base-mainnet.g.alchemy.com/v2/MiFWZXgXz9fVhntEMJ3qZzti8RCGh9bP'
-    );
-    const appContractAddress =
-      type === 'ETH'
-        ? '0xa237f89cb12bff9932c7503f854ad881dcead73a'
-        : '0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384';
+    const web3 = new Web3(getWeb3UrlByTag(type));
+    const appContractAddress = requestedChain.contractAddress;
     const ABI = type === 'ETH' ? ETH_ABI : AVAX_ABI;
     const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
     try {
