@@ -65,8 +65,9 @@ const HomePage = ({
   }, []);
   return (
     <>
-      <div className="">
-        <div className="pt-32 min-h-screen">
+      <div className="swap_container">
+
+        <div className="pt-32 min-h-screen swap_mobile_container sm:pt-0">
           <SwapPopup
             step={step}
             setStep={setStep}
