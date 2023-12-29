@@ -233,7 +233,7 @@ export const SwapPopup = ({
   const initateBridgeHandler = async () => {
     setPendingInscriptionId('');
     const body = {
-      tickername: swap ? token : 'w' + token,
+      tickername: toChain.isEvm ? token : 'w' + token,
       tickerval: tokenValue,
       unisat_address: unisatAddress,
       metamask_address: metaMaskAddress,
