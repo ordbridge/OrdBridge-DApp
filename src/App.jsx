@@ -6,18 +6,18 @@ import HomePage from './pages/HomePage';
 import { updateAddress } from './services/homepage.service';
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
-import { PendingEntries } from './pages/PendingEntries';
 import { WagmiConfig, createConfig, mainnet, configureChains, sepolia } from 'wagmi';
 import { createPublicClient, http } from 'viem';
 import { publicProvider } from 'wagmi/providers/public';
-import EthereumIcon from "./assets/ethereum.png";
-import AvalancheIcon from "./assets/avalanche.png";
-import BrcIcon from "./assets/brc.png";
+import EthereumIcon from './assets/ethereum.png';
+import AvalancheIcon from './assets/avalanche.png';
+import BrcIcon from './assets/brc.png';
 import './styles.css'; // Import your styles
 import './styles/color.css';
 import './styles/font.css';
 import './styles/index.css';
 import './styles/tailwind.css';
+import useMediaQuery from './hooks/useMediaQuery';
 
 const appChains = [
   {
@@ -30,7 +30,7 @@ const appChains = [
     chainId: '0x1',
     contractAddress: '0xa237f89cb12bff9932c7503f854ad881dcead73a',
     factoryAddress: '0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e',
-    icon:EthereumIcon
+    icon: EthereumIcon
   },
   {
     isEvm: false,
@@ -39,7 +39,7 @@ const appChains = [
     tokenTag: 'BRC20',
     tag: 'BRC',
     contractAddress: '',
-    icon:BrcIcon
+    icon: BrcIcon
   },
   {
     isEvm: true,
@@ -51,7 +51,7 @@ const appChains = [
     chainId: '0xa86a',
     factoryAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
     contractAddress: '0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384',
-    icon:AvalancheIcon
+    icon: AvalancheIcon
   }
 ];
 
@@ -81,7 +81,8 @@ function App() {
   const [type, setType] = useState('Bitcoin');
   const [sessionKey, setSessionKey] = useState('');
   const [pendingEntryPopup, setPendingEntryPopup] = useState(false);
-
+  const [isMobile, setIsMobile] = useState();
+  const isMob = useMediaQuery('(max-width:630px)');
   const walletUpdate = async (address) => {
     await updateAddress({
       user_details: address
@@ -118,21 +119,21 @@ function App() {
   };
 
   const getUnisatNetwork = async () => {
-    try {
-      let res = await window.unisat.getNetwork();
-      if (res === 'livenet') {
-        unisatHandler();
-      } else {
-        switchUnisatNetwork();
+    if (isMob) {
+      setIsMobile(true);
+    } else {
+      try {
+        let res = await window.unisat.getNetwork();
+        if (res === 'livenet') {
+          unisatHandler();
+        } else {
+          switchUnisatNetwork();
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
   };
-
-
-
-  console.log(toChain);
 
   const MetaMaskConnection = async () => {
     try {
@@ -215,6 +216,8 @@ function App() {
                   unisatAddress={unisatAddress}
                   metaMaskAddress={metaMaskAddress}
                   connectUnisatWallet={connectUnisatWallet}
+                  isMobile={isMobile}
+                  setIsMobile={setIsMobile}
                   connectMetamaskWallet={connectMetamaskWallet}
                   session_key={sessionKey}
                   setType={setType}

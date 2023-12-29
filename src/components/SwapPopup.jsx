@@ -17,6 +17,7 @@ import { IoIosArrowDown, IoIosInformationCircleOutline } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import { Dropdown } from 'flowbite-react';
 import { Button } from './Button';
+import { CustomDropdown } from './Dropdown';
 
 export const SwapPopup = ({
   step,
@@ -272,7 +273,6 @@ export const SwapPopup = ({
                 </header>
 
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  {/* <div></div> */}
                   <button
                     onClick={handleModal}
                     className="border-1 rounded-full px-4 pt-2 pb-2 mt-2"
@@ -332,45 +332,19 @@ export const SwapPopup = ({
                           }}
                         />
                         <div className="flex justify-end items-center gap-4 !mb-0">
-                          <Dropdown
-                            className="bg-black p-0 m-0 border-red z-10 border-none"
-                            dismissOnClick={true}
-                            renderTrigger={() => (
-                              <p className="flex items-center justify-end text-center bg-black border-none text-white rounded-full cursor-pointer !mb-0 py-[12px] sm:!w-auto sm:!px-3 px-3">
-                                <p className="flex items-center justify-end gap-2 sm:!gap-1 !mb-0">
-                                  <span className="font-syne text-white font-light text-xs normal-case pt-0.5">
-                                    From
-                                  </span>
-                                  <span className="flex items-center mx-2 sm:text-sm">
-                                    <img src={fromChain.icon} style={{ width: '20px' }} />{' '}
-                                    {fromChain.tag}
-                                  </span>
-                                  <div>
-                                    <IoIosArrowDown className="absolute font-white" />
-                                  </div>
-                                </p>
-                              </p>
-                            )}>
-                            {appChains.map((chain, index) => (
-                              <Dropdown.Item
-                                className="hover:outline-none"
-                                onClick={setChain(true, chain)}>
-                                <div
-                                  className={`w-full flex justify-center text-white gap-2 items-center  ${
-                                    index === 0 ? 'mt-2' : ''
-                                  }`}>
-                                  <img src={chain.icon} style={{ width: '20px' }} /> {chain.tag}
-                                </div>
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown>
+                          <CustomDropdown
+                            Chain={fromChain}
+                            appChains={appChains}
+                            setChain={setChain}
+                            type={'From'}
+                          />
                         </div>
                       </div>
                     </div>
 
                     {!addressModal && (
                       <div
-                        className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center sm:h-7 sm:w-7 sm:top-[30%] top-[23%]"
+                        className="swap_icon absolute w-14 h-14 justify-center rounded-full items-center sm:h-7 sm:w-7 sm:top-[30%] top-[28%]"
                         style={{ background: '#111331', zIndex: '10', left: '45%' }}
                         onClick={swapChains}>
                         <img
@@ -394,40 +368,14 @@ export const SwapPopup = ({
                           value={tokenValue * tokenResponse.conversion_factor}
                           className="amount_input bg-transparent font-syne border-none text-2xl pl-0 pr-0 mt-1"
                         />
-                        <div className="flex justify-end items-center gap-4 !mb-0 sm:gap-2 sm:!w-auto">
-                          <Dropdown
-                            className="bg-black p-0 m-0 border-red z-20 max-w-[120px] border-none"
-                            dismissOnClick={true}
-                            renderTrigger={() => (
-                              <p className="flex items-center justify-end text-center bg-black border-none text-white rounded-full cursor-pointer !mb-0 py-[12px] sm:!w-auto sm:!px-3 px-3">
-                                <p className="flex items-center justify-end gap-2 sm:!gap-1 !mb-0">
-                                  <span className="font-syne text-white font-light text-xs normal-case pt-0.5">
-                                    To
-                                  </span>
-                                  <span className="flex items-center mx-2 sm:text-sm">
-                                    <img src={toChain.icon} style={{ width: '20px' }} />{' '}
-                                    {toChain.tag}
-                                  </span>
-                                  <div>
-                                    <IoIosArrowDown className="absolute font-white" />
-                                  </div>
-                                </p>
-                              </p>
-                            )}>
-                            {appChains.map((chain, index) => (
-                              <Dropdown.Item
-                                className="hover:outline-none"
-                                onClick={setChain(false, chain)}>
-                                <div
-                                  className={`w-full flex justify-center text-white gap-2 items-center ${
-                                    index === 0 ? 'mt-2' : ''
-                                  }`}>
-                                  <img src={chain.icon} style={{ width: '20px' }} /> {chain.tag}
-                                </div>
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown>
-                        </div>
+                        <span className="flex justify-end items-center gap-4 !mb-0 sm:gap-2 sm:!w-auto">
+                          <CustomDropdown
+                            Chain={toChain}
+                            appChains={appChains}
+                            setChain={setChain}
+                            type={'To'}
+                          />
+                        </span>
                       </div>
                     </div>
                   </div>
