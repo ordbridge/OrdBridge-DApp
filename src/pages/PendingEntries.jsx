@@ -197,15 +197,16 @@ export const PendingEntries = ({
                   {metaMaskAddress?.slice(0, 10)}...
                 </div>
                 <div className="min-w-1/4 flex justify-center text-white font-bold font-plusjakartasans">
-                  <button
-                    className="rounded-2xl border border-white text-white font-syne py-2 px-6"
+                  <p
+                    className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
+                    style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}
                     onClick={() => {
                       setPendingEntryPopup((prev) => !prev);
                       setStep(2);
                       setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
                     }}>
                     Claim Entry
-                  </button>
+                  </p>
                 </div>
               </div>
             );
@@ -295,7 +296,12 @@ export const PendingEntries = ({
                 <div className="min-w-1/4 flex justify-center">
                   <p
                     className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
-                    style={{ border:'1px solid rgba(121, 78, 255, 0.8)',color:"white" }}
+                    style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}>
+                    Claim Entry
+                  </p>
+                  <p
+                    className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
+                    style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}
                     onClick={() => {
                       setPendingEntryPopup((prev) => !prev);
                       setPendingInscriptionId(ele?.inscription_id);
