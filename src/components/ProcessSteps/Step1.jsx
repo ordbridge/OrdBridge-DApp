@@ -299,7 +299,8 @@ export const Step1 = ({
               </>
             )}
             {!expandedState && !inscribe ? (
-              <div className="youtube_container sm_yt">
+              <div className="youtube_container sm_yt flex flex-col">
+                <div className='flex min-w-full'>
                 <YoutubeEmbed embedId={embedId} />
                 <div className="fw-normal flex gap-2 flex-column">
                   {/* <AiOutlineYoutube color="#d9d9d9" fontSize={30} /> */}
@@ -311,6 +312,23 @@ export const Step1 = ({
                     style={{ color: 'rgba(255, 255, 255, 0.60)' }}>
                     2min 05s
                   </span>
+                </div>
+                </div>
+                <div
+                  className="connect_wallet_button text-center bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
+                  style={{ width: '100%' }}
+                  onClick={() => {
+                    {
+                      !inscribe &&
+                        inscribeHandler({
+                          nextStep: props.nextStep,
+                          setProcessStep: setProcessStep
+                        });
+                    }
+                  }}>
+                  <button className="">
+                    <span className="text-white font-syne text-xl">Inscribe on Unisat</span>
+                  </button>
                 </div>
               </div>
             ) : (
