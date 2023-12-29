@@ -13,6 +13,7 @@ export const CustomTokenModal = ({
   type,
   setTokenName,
   showModal,
+  token,
   tokenName,
 }) => {
   const [suggestions, setSugesstions] = useState(tokenList?.map((ele) => ele));
@@ -50,8 +51,8 @@ export const CustomTokenModal = ({
       <div className="md:w-[90vw] w-[400px] position-relative m-auto">
         <div className="custom-token-modal">
           <div className="custom_modal_body ">
-            {type !== "etob" && <div className="fw-bold fs-4">W</div>}
-            <FiSearch className="text-gray-400 position-absolute left-[15%]" />
+            {/*{type !== "etob" && <div className="fw-bold fs-4">W</div>}*/}
+            <FiSearch className="text-gray-400 position-absolute left-[10%]" />
             <input
               // type="search"
               placeholder="Search Token"
@@ -68,7 +69,7 @@ export const CustomTokenModal = ({
                 return (
                   <div
                     className={`token_name font-syne my-2 ${
-                      el === tokenName && "token_name--active"
+                      el === token && "token_name--active"
                     } `}
                     key={index}
                     onClick={() => {

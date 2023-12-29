@@ -23,7 +23,7 @@
         border: 1.35px solid #794EFF;
         background: linear-gradient(180deg, #1C143A 0%, #241A49 100%);
         backdrop-filter: blur(33.75px);
-        @apply border-[1.5px] border-[#3D2A70] rounded-[27px] p-[42px];
+        @apply border-[1.5px] border-[#3D2A70] rounded-[27px] py-[32px] px-[28px];
     }
     .dashboard-stat-card--title {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
