@@ -744,6 +744,7 @@ export const SwapPopup = ({
           token={token}
           setToken={setToken}
           setTokenName={setTokenName}
+          tokenName={tokenName}
           type={modalType}
         />
       )}

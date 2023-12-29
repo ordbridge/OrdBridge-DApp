@@ -118,6 +118,11 @@
     background-color: #8e83fe33;
 }
 
+.token_name--active {
+    border-radius: 10px;
+    background-color: #8e83fe33;
+}
+
 .token_input {
     width: 100%;
     padding: 8px;
