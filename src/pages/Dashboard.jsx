@@ -77,7 +77,7 @@ const Dashboard = ({ appChains }) => {
 
   return (
     <div className="font-syne text-white">
-      <div className="container py-[50px] min-h-screen">
+      <div className="container md:px-[30px] py-[50px] min-h-screen">
         <h1 className="dashboard-heading">DASHBOARD</h1>
         <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 gap-5 text-white">
           <DashboardStatCard
