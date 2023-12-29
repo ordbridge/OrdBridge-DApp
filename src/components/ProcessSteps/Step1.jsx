@@ -30,6 +30,7 @@ export const Step1 = ({
 }) => {
   const appChainKey = ethChain.key;
 
+
   const [networkType, setNetworkType] = useState('testnet');
   const [inscribe, setInscribe] = useState(false);
   const [transferred, setTransferred] = useState(false);
