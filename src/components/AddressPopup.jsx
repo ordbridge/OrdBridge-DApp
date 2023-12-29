@@ -22,6 +22,8 @@ export const AddressPopup = ({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: appChainId }]
         });
+        console.log('calling here');
+
         burnMetamaskHandler();
       } catch (error) {
         onCloseModal();
@@ -44,8 +46,7 @@ export const AddressPopup = ({
                 <img style={{ width: '6rem' }} src={processIcon} alt="" />
                 <div className="modal_head_gradient_text">Please Verify your</div>
                 <div className="modal_head_gradient_text">
-                  {toChainIsEvm ? (toChain.tag === 'AVAX' ? 'Avalanche' : 'Ethereum') : 'Bitcoin'}{' '}
-                  Address
+                  {toChainIsEvm ? toChain.name : 'Bitcoin'} Address
                 </div>
               </div>
               <div

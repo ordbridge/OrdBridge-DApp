@@ -9,6 +9,7 @@ import Web3 from 'web3';
 import ETH_ABI from '../utils/eth';
 import AVAX_ABI from '../utils/avax';
 import Text from '../components/Text';
+import { getChainByTag } from '../utils/chains';
 
 export const PendingEntries = ({
   appChains,
@@ -49,6 +50,16 @@ export const PendingEntries = ({
       label: 'AVAX',
       value: 'BRC_TO_AVAX',
       chainType: 'AVAX'
+    },
+    {
+      label: 'BASE',
+      value: 'BRC_TO_BASE',
+      chainType: 'BASE'
+    },
+    {
+      label: 'ARBI',
+      value: 'BRC_TO_ARBI',
+      chainType: 'ARBI'
     }
   ];
   useEffect(() => {
@@ -75,23 +86,26 @@ export const PendingEntries = ({
   const setEntriesNetwork = async (type) => {
     setChainTypeFilter(type);
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-    const requestedChainId = type === 'ETH' ? '0x1' : '0xa86a';
-    if (chainId !== requestedChainId) {
-      connectMetamaskWallet(requestedChainId);
+    console.log({ chainId, type });
+    const requestedChain = getChainByTag(type);
+
+    if (chainId !== requestedChain.chainId) {
+      connectMetamaskWallet(requestedChain.chainId);
     }
 
-    const changedChain = type === 'ETH' ? appChains[0] : appChains[2];
-
     if (toChain.isEvm) {
-      setToChain(changedChain);
+      setToChain(requestedChain);
     } else {
-      setFromChain(changedChain);
+      setFromChain(requestedChain);
     }
   };
 
   const getPendingEntries = async ({ type }) => {
-    const infuraTag = type === 'ETH' ? 'mainnet' : 'avalanche-mainnet';
-    const web3 = new Web3(`https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`);
+    const requestedChain = getChainByTag(type);
+
+    const web3 = new Web3(
+      `https://${requestedChain.infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`
+    );
     const appContractAddress =
       type === 'ETH'
         ? '0xa237f89cb12bff9932c7503f854ad881dcead73a'

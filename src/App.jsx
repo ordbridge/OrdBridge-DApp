@@ -48,6 +48,9 @@ function App() {
   const [isMobile, setIsMobile] = useState();
   const isMob = useMediaQuery('(max-width:630px)');
   const walletUpdate = async (address) => {
+    if (!address.unisat_address || !address.metamask_address) {
+      return;
+    }
     await updateAddress({
       user_details: address
     }).then((res) => {
@@ -180,7 +183,9 @@ function App() {
         MetaMaskConnection();
       } catch (error) {
         if (error.code === 4902) {
-          let { chainListId, tag, value } = appChains?.filter((ele) => ele['chainId'] === desiredChainId)[0];
+          let { chainListId, tag, value } = appChains?.filter(
+            (ele) => ele['chainId'] === desiredChainId
+          )[0];
           toast.info(<CustomToastWithLink id={chainListId} tag={tag} type={value} />);
         } else {
           toast.error(error.message);
