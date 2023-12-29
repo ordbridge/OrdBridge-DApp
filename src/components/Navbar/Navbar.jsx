@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { AiOutlineArrowRight } from 'react-icons/ai';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { Button, Img, Line } from '../';
-import '../../styles/navbar.css';
-import { Logo } from '../Logo';
-import SideMenu from '../SideMenu';
-import Text from '../Text';
-import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
-import ConnectUnisatWallet from './ConnectUnisatWallet';
-import HamburderIcon from '../../assets/hamburger.png';
+import React from "react";
+import { AiOutlineArrowRight } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "../../styles/navbar.css";
+import SideMenu from "../SideMenu";
+import Text from "../Text";
+import ConnectMetaMaskWallet from "./ConnectMetaMaskWallet";
+import ConnectUnisatWallet from "./ConnectUnisatWallet";
+import HamburderIcon from "../../assets/hamburger.png";
 
 const Navbar = ({
   connectUnisatWallet,
@@ -20,16 +17,16 @@ const Navbar = ({
   metaMaskAddress,
   pendingEntryPopup,
   setPendingEntryPopup,
-  setStep
+  setStep,
 }) => {
   const navigate = useNavigate();
 
   const handleSideMenu = () => {
-    const side_menu = document.getElementById('side_menu');
-    if (side_menu.classList.contains('closed')) {
-      side_menu.classList.remove('closed');
+    const side_menu = document.getElementById("side_menu");
+    if (side_menu.classList.contains("closed")) {
+      side_menu.classList.remove("closed");
     } else {
-      side_menu.classList.add('closed');
+      side_menu.classList.add("closed");
     }
   };
 
@@ -79,24 +76,26 @@ const Navbar = ({
             size="txtSyneBold20"
             onClick={() => {
               window.open(
-                'https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/',
-                '_blank'
+                "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
+                "_blank",
               );
-            }}>
+            }}
+          >
             Docs
           </Text>
           <Text
             className="text-white-A700 text-base whitespace-nowrap cursor-pointer mt-1 !mb-0 block sm:hidden"
             onClick={() => {
               if (!unisatAddress || !metaMaskAddress) {
-                toast.error('Please Connect Wallets First');
+                toast.error("Please Connect Wallets First");
               } else {
                 navigate("/");
 
                 setPendingEntryPopup((prev) => (!prev ? !prev : prev));
               }
             }}
-            size="txtSyneBold20">
+            size="txtSyneBold20"
+          >
             Pending Entries
           </Text>
         </section>
@@ -112,7 +111,10 @@ const Navbar = ({
         <section className="flex items-start gap-2  visible md:hidden justify-end">
           {type === "Bitcoin" ? (
             <>
-              <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
+              <ConnectUnisatWallet
+                onConnectClick={connectUnisatWallet}
+                address={unisatAddress}
+              />
               <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
               <ConnectMetaMaskWallet
                 onConnectClick={connectMetamaskWallet}
@@ -126,7 +128,10 @@ const Navbar = ({
                 address={metaMaskAddress}
               />
               <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-              <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
+              <ConnectUnisatWallet
+                onConnectClick={connectUnisatWallet}
+                address={unisatAddress}
+              />
             </>
           )}
         </section>
@@ -135,6 +140,7 @@ const Navbar = ({
           className="hamburger hidden md:block text-white text-xl"
           onClick={handleSideMenu}
           id="menu-btn"
+          alt=""
         />
       </div>
     </>

@@ -14,34 +14,6 @@ const DashboardStatCard = ({ title, value }) => {
   );
 };
 
-const DashboardReserveCard = ({
-  tokenName,
-  conversion1,
-  amount1,
-  conversion2,
-  amount2,
-  conversion3,
-  amount3,
-}) => {
-  return (
-    <div className="dashboard-stat-card">
-      <h1 className="dashboard-stat-card--title font-bold">{tokenName}</h1>
-      <p className="text-muted">Token Supply</p>
-      <div className="flex justify-content-between mb-3">
-        <p>{conversion1}</p>
-        <p>{amount1}</p>
-      </div>
-      <div className="flex justify-content-between mb-3">
-        <p>{conversion2}</p>
-        <p>{amount2}</p>
-      </div>
-      <div className="flex justify-content-between ">
-        <p>{conversion3}</p>
-        <p>{amount3}</p>
-      </div>
-    </div>
-  );
-};
 const Dashboard = ({ appChains }) => {
   const [statsData, setStatsData] = useState({});
   const [reservesData, setReservesData] = useState([]);
