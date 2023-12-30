@@ -145,7 +145,7 @@ function App() {
         toast.error(err.message);
       });
     }
-  });
+  },[]);
 
   const MetaMaskConnection = async () => {
     try {
