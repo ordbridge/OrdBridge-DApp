@@ -9,6 +9,7 @@ import { Logo } from "../Logo";
 import SideMenu from "../SideMenu";
 import Text from "../Text";
 import ConnectMetaMaskWallet from "./ConnectMetaMaskWallet";
+import ConnectPhantomWallet from "./ConnectPhantomWallet";
 import ConnectUnisatWallet from "./ConnectUnisatWallet";
 
 const Navbar = ({
@@ -17,6 +18,8 @@ const Navbar = ({
   type,
   connectMetamaskWallet,
   metaMaskAddress,
+  connectPhantomWallet,
+  phantomAddress,
   sessionKey,
   pendingEntryPopup,
   setPendingEntryPopup,
@@ -32,6 +35,17 @@ const Navbar = ({
       side_menu.classList.add("closed");
     }
   };
+  const [walletsSet, setWalletsSet] = useState(false);
+
+  useEffect(() => {
+    if(unisatAddress && unisatAddress !== "" && metaMaskAddress && metaMaskAddress !== ""){
+      setWalletsSet(true)
+    } else if(unisatAddress && unisatAddress !== "" && phantomAddress && phantomAddress !== ""){
+      setWalletsSet(true);
+    } else {
+      setWalletsSet(false);
+    }
+  }, [unisatAddress, metaMaskAddress, phantomAddress]);
   return (
     <>
       <SideMenu
@@ -42,6 +56,8 @@ const Navbar = ({
         metaMaskAddress={metaMaskAddress}
         unisatAddress={unisatAddress}
         connectUnisatWallet={connectUnisatWallet}
+        phantomAddress={phantomAddress}
+        connectPhantomWallet={connectPhantomWallet}
       />
       <div className="flex py-3 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6 z-[10000]">
         <section className="flex gap-2 font-syne items-center justify-start w-auto">
@@ -80,8 +96,8 @@ const Navbar = ({
           <Text
             className="text-white-A700 text-base whitespace-nowrap cursor-pointer mt-1 !mb-0 block sm:hidden"
             onClick={() => {
-              if (!unisatAddress || !metaMaskAddress) {
-                toast.error("Please Connect Wallets First");
+              if (!walletsSet) {
+                toast.error("Please connect wallets first");
               } else {
                 setPendingEntryPopup((prev) => (!prev ? !prev : prev));
               }
@@ -93,7 +109,7 @@ const Navbar = ({
         </section>
 
         <section className="flex items-start gap-2  block md:hidden justify-end">
-          {type === "Bitcoin" ? (
+          {type === "btoe" && (
             <>
               <ConnectUnisatWallet
                 onConnectClick={connectUnisatWallet}
@@ -105,11 +121,38 @@ const Navbar = ({
                 address={metaMaskAddress}
               />
             </>
-          ) : (
+          )}
+          {type === "etob" && (
             <>
               <ConnectMetaMaskWallet
                 onConnectClick={connectMetamaskWallet}
                 address={metaMaskAddress}
+              />
+              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
+              <ConnectUnisatWallet
+                onConnectClick={connectUnisatWallet}
+                address={unisatAddress}
+              />
+            </>
+          )}
+          {type === "btos" && (
+            <>
+              <ConnectUnisatWallet
+                onConnectClick={connectUnisatWallet}
+                address={unisatAddress}
+              />
+              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
+              <ConnectPhantomWallet
+                onConnectClick={connectPhantomWallet}
+                address={phantomAddress}
+              />
+            </>
+          )}
+          {type === "stob" && (
+            <>
+              <ConnectPhantomWallet
+                onConnectClick={connectPhantomWallet}
+                address={phantomAddress}
               />
               <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
               <ConnectUnisatWallet

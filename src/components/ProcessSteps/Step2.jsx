@@ -16,6 +16,7 @@ export const Step2 = ({
   token,
   tokenValue,
   burnMetamaskHandler,
+  burnSolanaTokensHandler
 }) => {
   const val = 1000000000000000000;
   const appChainId = ethChain.chainId;

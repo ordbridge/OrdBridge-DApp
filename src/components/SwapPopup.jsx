@@ -4,20 +4,38 @@ import { IoIosArrowDown, IoIosInformationCircleOutline } from "react-icons/io";
 import { LuClock3 } from "react-icons/lu";
 import { toast } from "react-toastify";
 import Web3 from "web3";
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  TransactionInstruction,
+  SystemProgram,
+  LAMPORTS_PER_SOL
+} from '@solana/web3.js';
+import { Buffer } from 'buffer';
 import { PendingEntries } from "../pages/PendingEntries";
 import { initiateBridge } from "../services/homepage.service";
 import AVAX_ABI from "../utils/avax";
 import ETH_ABI from "../utils/eth";
+import {
+  getGlobalState,
+  getConfig,
+  getWrappedMint,
+  getWrappedState,
+  getUserAccount
+} from "../utils/pdas";
 import { AddressPopup } from "./AddressPopup";
 import { Button } from "./Button";
 import { CustomTokenModal } from "./CustomTokenModal";
 import { CustomDropdown } from "./Dropdown";
 import ConnectMetaMaskWallet from "./Navbar/ConnectMetaMaskWallet";
+import ConnectPhantomWallet from "./Navbar/ConnectPhantomWallet";
 import ConnectUnisatWallet from "./Navbar/ConnectUnisatWallet";
 import { Step1 } from "./ProcessSteps/Step1";
 import { Step2 } from "./ProcessSteps/Step2";
 import { Step3 } from "./ProcessSteps/Step3";
 import { Step4 } from "./ProcessSteps/Step4";
+import usePhantomWallet from "../hooks/usePhantomWallet";
 
 export const SwapPopup = ({
   step,
@@ -36,6 +54,8 @@ export const SwapPopup = ({
   type,
   metaMaskAddress,
   connectMetamaskWallet,
+  phantomAddress,
+  connectPhantomWallet,
   session_key,
   pendingEntryPopup,
   setPendingEntryPopup,
@@ -54,6 +74,10 @@ export const SwapPopup = ({
   const [tokenName, setTokenName] = useState(tokenList[0]);
   const [claimButton, setClaimButton] = useState(false);
   const [claimStatus, setClaimStatus] = useState("success");
+  const [fromChainConnected, setFromChainConnected] = useState(false);
+  const [toChainConnected, setToChainConnected] = useState(false);
+
+  const { provider: phantomProvider } = usePhantomWallet();
 
   // isRedundant and is placed in app.jsx as well
   const getEvmChain = () => {
@@ -65,17 +89,27 @@ export const SwapPopup = ({
   };
 
   const setChain = (isFrom, chain) => async () => {
-    if (isFrom) {
+    // If user selects the same token on the other side, just swap
+    if(
+      (isFrom && chain === toChain) ||
+      (!isFrom && chain === fromChain)
+    ){
+      swapChains();
+    } 
+    // If neither token is BRC, change to other to BRC
+    else if (isFrom && chain.tag !== "BRC") {
       setFromChain(chain);
-      if (chain.isEvm) {
-        setToChain(appChains[1]);
-      }
+      setToChain(appChains[1]);
+    } else if (!isFrom && chain.tag !== "BRC") {
+      setToChain(chain);
+      setFromChain(appChains[1]);
+    }
+    else if (isFrom){
+      setFromChain(chain);
     } else {
       setToChain(chain);
-      if (chain.isEvm) {
-        setFromChain(appChains[1]);
-      }
     }
+
 
     if (chain.isEvm) {
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
@@ -84,6 +118,99 @@ export const SwapPopup = ({
       }
     }
   };
+
+  const chainConnectButton = (chain) => {
+    if(chain.tag === "BRC"){
+      return (
+        <div
+          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
+          onClick={connectUnisatWallet}
+        >
+        <ConnectUnisatWallet
+          onConnectClick={connectUnisatWallet}
+          address={unisatAddress}
+          text="Connect Wallets"
+          />
+        </div>
+      )
+    } else if(chain.tag === "SOL"){
+      return (
+        <div
+          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
+          onClick={connectPhantomWallet}
+        >
+        <ConnectPhantomWallet
+          onConnectClick={connectPhantomWallet}
+          address={phantomAddress}
+          text="Connect Wallets"
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div
+          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
+          onClick={connectMetamaskWallet}
+        >
+        <ConnectMetaMaskWallet
+          onConnectClick={connectMetamaskWallet}
+          address={metaMaskAddress}
+          text="Connect Wallets"
+          />
+        </div>
+      )
+    }
+  };
+
+  const fromChainConnectButton = () => {
+    return chainConnectButton(fromChain);
+  }
+
+  const toChainConnectButton = () => {
+    return chainConnectButton(toChain);
+  }
+
+  // Handles the 
+  useEffect(()=> {
+    if(fromChain.tag === "BRC" && unisatAddress && unisatAddress !== "") {
+      setFromChainConnected(true);
+    } else if(fromChain.tag === "SOL" && phantomAddress && phantomAddress !== ""){
+      setFromChainConnected(true);
+    } else if(metaMaskAddress && metaMaskAddress !== ""){
+      setFromChainConnected(true);
+    } else {
+      setFromChainConnected(false);
+    };
+
+    if(toChain.tag === "BRC" && unisatAddress && unisatAddress !== "") {
+      setToChainConnected(true);
+    } else if(toChain.tag === "SOL" && phantomAddress && phantomAddress !== ""){
+      setToChainConnected(true);
+    } else if(metaMaskAddress && metaMaskAddress !== ""){
+      setToChainConnected(true);
+    } else {
+      setToChainConnected(false);
+    };
+
+  }, [metaMaskAddress, unisatAddress, phantomAddress, fromChain, toChain])
+
+  useEffect(() => {
+    let newType;
+    if(fromChain.tag === "BRC"){
+      if(toChain.tag === "SOL"){
+        newType = "btos"
+      } else {
+        newType = "btoe"
+      }
+    } else if(fromChain.tag === "SOL"){
+      newType = "stob"
+    } else {
+      newType = "etob"
+    }
+    setModalType(newType);
+    setSwap(!swap);
+    setType(newType);
+  }, [fromChain, toChain])
 
   const swapChains = () => {
     const temp = fromChain;
@@ -222,20 +349,91 @@ export const SwapPopup = ({
     }
   };
 
+  const signTransactionWithPhantom = async (transaction) => {
+
+    if (!phantomProvider) {
+      throw new Error("Wallet is not connected");
+    }
+  
+    const signedTransaction = await phantomProvider.signTransaction(transaction);
+    return signedTransaction;
+  };
+
+  const burnSolanaTokensHandler = async () => {
+    const connection = new Connection("https://api.devnet.solana.com"); // Update URL as needed
+    const programId = new PublicKey('gnLppSzkeLGCHrLjhy3pM9rQ8AjnPh6YMz4XBavxu4Y'); // Update with actual program ID
+    const walletPublicKey = new PublicKey(phantomAddress);
+    const ticker = tokenName;
+    const amount = tokenValue * LAMPORTS_PER_SOL; 
+  
+    // Deriving necessary PDAs
+    const globalStateAccount = getGlobalState(programId);
+    const configAccount = getConfig(programId);
+    const wrappedMintAccount = getWrappedMint(programId, ticker);
+    const wrappedStateAccount = getWrappedState(programId, ticker);
+    const userAccount = getUserAccount(programId, walletPublicKey);
+  
+    const burnTokensArgs = {
+      chain: fromChain.tag, // TODO: What's the convention here?
+      ticker: ticker, 
+      amount: web3.utils.toBN(amount),
+      crossChainAddress: unisatAddress 
+    };
+
+    // Create the transaction to burn tokens
+    const transaction = new Transaction().add(
+      new TransactionInstruction({
+        keys: [
+          { pubkey: globalStateAccount, isSigner: false, isWritable: true },
+          { pubkey: configAccount, isSigner: false, isWritable: false },
+          { pubkey: wrappedMintAccount, isSigner: false, isWritable: true },
+          { pubkey: wrappedStateAccount, isSigner: false, isWritable: false },
+          { pubkey: userAccount, isSigner: false, isWritable: true },
+          { pubkey: walletPublicKey, isSigner: true, isWritable: false },
+        ],
+        programId,
+        data: Buffer.from(JSON.stringify(burnTokensArgs)), // TODO: Needs serialization?
+      })
+    );
+
+    // Sign and send the transaction
+    try {
+      const { blockhash } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+      transaction.feePayer = walletPublicKey;
+
+      const signedTransaction = await signTransactionWithPhantom(transaction);
+      const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+      const confirmation = await connection.confirmTransaction({
+        signature: signature,
+        blockhash: blockhash,
+        lastValidBlockHeight: null,
+      }, 'finalized');
+
+      // Check confirmation status
+      if (confirmation.value.err) {
+        throw new Error('Transaction failed: ' + confirmation.value.err);
+      }
+      // Handle success
+      setStep(4);
+    } catch (error) {
+      console.error('Error burning Solana tokens:', error);
+      setStep(4);
+      setClaimStatus("failure");
+      toast.error("Transaction failed");
+    }
+  };
+
   const handleModal = () => {
     setShowModal((prev) => !prev);
   };
   const handleAddressModal = () => {
     setAddressModal((prev) => !prev);
   };
-  const handleSwap = () => {
-    setModalType((prev) => (prev === "btoe" ? "etob" : "btoe"));
-    setSwap((prev) => !prev);
-    setType(swap === true ? "Ethereum" : "Bitcoin");
-  };
   const handleBack = () => {
     setStep((prev) => prev - 1);
   };
+  
   const initateBridgeHandler = async () => {
     setPendingInscriptionId("");
     const body = {
@@ -244,6 +442,27 @@ export const SwapPopup = ({
       unisat_address: unisatAddress,
       metamask_address: metaMaskAddress,
       chain: getEvmChain().tag.toLowerCase(),
+    };
+    if (tokenValue > 0) {
+      initiateBridge({ body: body, session_key: session_key }).then((res) => {
+        console.log({ res });
+        setStep(1);
+        handleAddressModal();
+        setInitiateBridgeResponse(res);
+      });
+    } else {
+      toast.error("Please select a specific Token amount");
+    }
+  };
+
+  const initiateSolanaBridgeHandler = async () => {
+    setPendingInscriptionId("");
+    const body = {
+      tickername: swap ? token : "w" + token,
+      tickerval: tokenValue,
+      unisat_address: unisatAddress,
+      phantom_address: phantomAddress, // TODO: changed this to phantom, but initiateBridge might be fully reusable
+      chain: toChain.tag, // TODO: Check convention here
     };
     if (tokenValue > 0) {
       initiateBridge({ body: body, session_key: session_key }).then((res) => {
@@ -388,7 +607,7 @@ export const SwapPopup = ({
                           src="swap.png"
                           width={20}
                           height={20}
-                          onClick={handleSwap}
+                          onClick={swapChains}
                           className="cursor-pointer h-5 w-5"
                         />
                       </div>
@@ -418,74 +637,34 @@ export const SwapPopup = ({
                     </div>
                   </div>
                   <footer>
-                    {/* <div
-                      className="text-xs text-right font-syne mt-2 mb-4"
-                      style={{ color: 'rgba(255, 255, 255, 0.70)' }}>
-                      Bridging to {fromChain.tag} chain to {toChain.tag} chain - {token} Tokens
-                    </div> */}
-                    {/* <div className="label mt-2" style={{ color: '#FFD200' }}>
-                      {swap ? 'ETH' : 'BTC'} address to receive {swap ? 'A' : 'B'}RC-20
-                    </div> */}
-                    {/* <div className="eth_address_container">
-                      {unisatAddress && metaMaskAddress ? (
-                        <span className="text">{swap ? metaMaskAddress : unisatAddress}</span>
-                      ): (
-                        'Please connect wallets to view address'
-                      )}
-                    </div> */}
-
-                    {unisatAddress && metaMaskAddress ? (
-                      <div className="initiate_bridge_cta">
-                        <p
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0.2rem",
-                          }}
-                          className="text-sm !mb-2"
-                        >
-                          Estimated arrival <LuClock3 /> : 3 block confirmations
-                        </p>
-                        <div
-                          onClick={handleAddressModal}
-                          className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
-                        >
-                          <Button
-                            className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
-                            color="deep_purple_A200_a3"
-                            size="sm"
-                            variant="outline"
+                    {fromChainConnected && toChainConnected ? (
+                        <div className="initiate_bridge_cta">
+                          <p
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.2rem",
+                            }}
+                            className="text-sm !mb-2"
                           >
-                            Initiate Bridge
-                          </Button>
+                            Estimated arrival <LuClock3 /> : 3 block confirmations
+                          </p>
+                          <div
+                            onClick={handleAddressModal}
+                            className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
+                          >
+                            <Button
+                              className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
+                              color="deep_purple_A200_a3"
+                              size="sm"
+                              variant="outline"
+                            >
+                              Initiate Bridge
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    ) : unisatAddress ? (
-                      <div
-                        className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-                        onClick={connectMetamaskWallet}
-                      >
-                        <ConnectMetaMaskWallet
-                          onConnectClick={connectMetamaskWallet}
-                          address={metaMaskAddress}
-                          text="Connect Wallets"
-                        />
-                      </div>
-                    ) : (
-                      <div
-                        className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full py-1 cursor-pointer mt-3"
-                        onClick={connectUnisatWallet}
-                      >
-                        <ConnectUnisatWallet
-                          onConnectClick={connectUnisatWallet}
-                          address={unisatAddress}
-                          text="Connect Wallets"
-                        />
-                      </div>
-                      // <div className="w-full">
-
-                      // </div>
-                    )}
+                      ) : fromChainConnected ? toChainConnectButton() : fromChainConnectButton()
+                    }
                   </footer>
                 </section>
               </div>
@@ -539,6 +718,7 @@ export const SwapPopup = ({
             swap={swap}
             token={token}
             burnMetamaskHandler={burnMetamaskHandler}
+            burnSolanaTokensHandler={burnSolanaTokensHandler}
             tokenValue={tokenValue}
             pendingEntriesDataById={pendingEntriesDataById}
           />
@@ -593,9 +773,12 @@ export const SwapPopup = ({
           onCloseModal={handleAddressModal}
           setStep={setStep}
           initateBridgeHandler={initateBridgeHandler}
+          initiateSolanaBridgeHandler={initiateSolanaBridgeHandler}
           metaMaskAddress={metaMaskAddress}
           unisatAddress={unisatAddress}
+          phantomAddress={phantomAddress}
           burnMetamaskHandler={burnMetamaskHandler}
+          burnSolanaTokensHandler={burnSolanaTokensHandler}
         />
       )}
       {pendingEntryPopup && (

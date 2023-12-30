@@ -13,7 +13,7 @@ export const Step3 = ({ setStep, handleBack }) => {
           {/* <img src="BackIcon.png" className="back_icon" onClick={handleBack} /> */}
           <header className="popup_header">
             <div className="text-center">
-              <div className="swap_header">Transaction under process</div>
+              <div className="swap_header">Transaction in progress</div>
             </div>
           </header>
           <section className="form_data_section3">

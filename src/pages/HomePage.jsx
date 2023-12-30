@@ -33,6 +33,8 @@ const HomePage = ({
   type,
   metaMaskAddress,
   connectMetamaskWallet,
+  phantomAddress,
+  connectPhantomWallet,
   session_key,
   pendingEntryPopup,
   setPendingEntryPopup,
@@ -73,6 +75,7 @@ const HomePage = ({
 
   const ethChain = appChains[0];
   const avaxChain = appChains[2];
+  const solanaChain = appChains[3];
   const ethWeb3 = new Web3(
     "https://mainnet.infura.io/v3/18b346ece35742b2948e73332f85ad86",
   );
@@ -137,8 +140,10 @@ const HomePage = ({
         <Navbar
           unisatAddress={unisatAddress}
           metaMaskAddress={metaMaskAddress}
+          phantomAddress={phantomAddress}
           connectUnisatWallet={connectUnisatWallet}
           connectMetamaskWallet={connectMetamaskWallet}
+          connectPhantomWallet={connectPhantomWallet}
           sessionKey={session_key}
           type={type}
           setStep={setStep}
@@ -163,8 +168,10 @@ const HomePage = ({
             type={type}
             unisatAddress={unisatAddress}
             metaMaskAddress={metaMaskAddress}
+            phantomAddress={phantomAddress}
             connectUnisatWallet={connectUnisatWallet}
             connectMetamaskWallet={connectMetamaskWallet}
+            connectPhantomWallet={connectPhantomWallet}
             session_key={session_key}
             pendingEntryPopup={pendingEntryPopup}
             setPendingEntryPopup={setPendingEntryPopup}
@@ -264,7 +271,7 @@ const HomePage = ({
                       </Text>
                       <MdOutlineOpenInNew
                         style={{ color: "#fff" }}
-                        className="mt-0.5 sm:min-w-[18px]"
+                        className="mt-0.5 sm:min-w-[18px] cursor-pointer"
                         onClick={() => {
                           window.open("https://unisat.io/brc20/BRGE", "_blank");
                         }}
@@ -277,7 +284,7 @@ const HomePage = ({
                       </Text>
                       <MdOutlineOpenInNew
                         style={{ color: "#fff" }}
-                        className="mt-0.5 sm:min-w-[18px]"
+                        className="mt-0.5 sm:min-w-[18px] cursor-pointer"
                         onClick={() => {
                           window.open(
                             "https://www.oklink.com/btc/token/brc20/46694089",
@@ -304,7 +311,7 @@ const HomePage = ({
                       </Text>
                       <MdContentCopy
                         style={{ color: "#fff" }}
-                        className="mt-1"
+                        className="mt-1 cursor-pointer"
                         onClick={() => {
                           copyToClipboard(
                             "0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e",
@@ -330,10 +337,35 @@ const HomePage = ({
                       </Text>
                       <MdContentCopy
                         style={{ color: "#fff" }}
-                        className="mt-1"
+                        className="mt-1 cursor-pointer"
                         onClick={() => {
                           copyToClipboard(
                             "0x5f880678320A9445824bB15d18EF67b5ECbAA42a",
+                          );
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="min-w-full flex md:flex-col flex-row items-start justify-between w-full p-0 m-0">
+                    <Text
+                      className="text-md text-orange-50"
+                      size="txtSyneMedium32"
+                    >
+                      Solana program ID
+                    </Text>
+                    <div className="m-0 p-0 flex gap-2 justify-end items-start">
+                      <Text
+                        className="text-md text-white-A700"
+                        size="txtSyneMedium32WhiteA700"
+                      >
+                        gnLpp...xu4Y
+                      </Text>
+                      <MdContentCopy
+                        style={{ color: "#fff" }}
+                        className="mt-1 cursor-pointer"
+                        onClick={() => {
+                          copyToClipboard(
+                            "gnLppSzkeLGCHrLjhy3pM9rQ8AjnPh6YMz4XBavxu4Y",
                           );
                         }}
                       />

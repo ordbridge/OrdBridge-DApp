@@ -16,7 +16,10 @@ import Web3Modal from "web3modal";
 import AvalancheIcon from "./assets/avalanche.png";
 import BrcIcon from "./assets/brc.png";
 import EthereumIcon from "./assets/ethereum.png";
+import SolanaIcon from "./assets/solana.png";
+import PhantomProvider from "./contexts/PhantomProvider";
 import useMediaQuery from "./hooks/useMediaQuery";
+import usePhantomWallet from "./hooks/usePhantomWallet";
 import HomePage from "./pages/HomePage";
 import { updateAddress } from "./services/homepage.service";
 import "./styles.css"; // Import your styles
@@ -59,6 +62,16 @@ const appChains = [
     contractAddress: "0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384",
     icon: AvalancheIcon,
   },
+  {
+    isEvm: false,
+    name: "SOLANA",
+    value: "SOLANA",
+    tokenTag: "SPL",
+    tag: "SOL",
+    // factoryAddress: "<SOLANA FACTORY ADDRESS>",
+    contractAddress: "",
+    icon: SolanaIcon,
+  },
 ];
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -83,8 +96,9 @@ function App() {
   const [toChain, setToChain] = useState(appChains[0]);
   const [unisatAddress, setUnisatAddress] = useState("");
   const [metaMaskAddress, setMetamaskAddress] = useState("");
+  const [phantomAddress, setPhantomAddress] = useState("");
   const [userDetails, setUserDetails] = useState();
-  const [type, setType] = useState("Bitcoin");
+  const [type, setType] = useState("btoe");
   const [sessionKey, setSessionKey] = useState("");
   const [pendingEntryPopup, setPendingEntryPopup] = useState(false);
   const [isMobile, setIsMobile] = useState();
@@ -96,6 +110,8 @@ function App() {
       setSessionKey(res.data.user_details.session_key);
     });
   };
+
+  const { connect: connectPhantom, account: phantomAccount } = usePhantomWallet();
 
   const unisatHandler = async () => {
     try {
@@ -215,6 +231,21 @@ function App() {
     getUnisatNetwork();
   };
 
+  const connectPhantomWallet = async () => {
+    if (!phantomAccount || phantomAccount === "") {
+      // If not connected, call the connect function from the hook
+      await connectPhantom();
+    }       
+    setPhantomAddress(phantomAccount);
+  }
+
+  useEffect(() => {
+    // Additional useEffect to handle the case where the account or connection status changes
+    if (phantomAccount) {
+      setPhantomAddress(phantomAccount);
+    }
+  }, [phantomAccount]);
+
   return (
     <WagmiConfig config={config}>
       <ToastContainer />
@@ -233,10 +264,12 @@ function App() {
                   appChains={appChains}
                   unisatAddress={unisatAddress}
                   metaMaskAddress={metaMaskAddress}
+                  phantomAddress={phantomAddress}
                   connectUnisatWallet={connectUnisatWallet}
                   isMobile={isMobile}
                   setIsMobile={setIsMobile}
                   connectMetamaskWallet={connectMetamaskWallet}
+                  connectPhantomWallet={connectPhantomWallet}
                   session_key={sessionKey}
                   setType={setType}
                   type={type}

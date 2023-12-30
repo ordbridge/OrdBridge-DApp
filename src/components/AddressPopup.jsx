@@ -11,11 +11,15 @@ export const AddressPopup = ({
   handleConfirm,
   setStep,
   initateBridgeHandler,
+  initiateSolanaBridgeHandler,
   unisatAddress,
   metaMaskAddress,
+  phantomAddress,
   swap,
   burnMetamaskHandler,
+  burnSolanaTokensHandler
 }) => {
+
   const checkNetwork = async () => {
     const appChainId = ethChain.chainId;
     const chainId = await window.ethereum.request({ method: "eth_chainId" });
@@ -37,7 +41,33 @@ export const AddressPopup = ({
     onCloseModal();
   };
 
+  const handleBRC2SOL = async () => {
+
+    onCloseModal();
+  };
+
+  const handleSOL2BRC = async () => {
+    await burnSolanaTokensHandler();
+    onCloseModal();    
+  };
+
   const toChainIsEvm = toChain.isEvm;
+
+  const handleBridgeInitiation = async () => {
+    console.log(`Initiating bridge from ${fromChain.tag} to ${toChain.tag}`);
+    if(fromChain.tag === "SOL"){
+      handleSOL2BRC();
+      return
+    } else if(toChain.tag === "SOL"){
+      initiateSolanaBridgeHandler();
+      return
+    }
+    if(toChainIsEvm){
+      initateBridgeHandler()
+    } else {
+      checkNetwork();
+    }
+  }
 
   return (
     <>
@@ -51,19 +81,21 @@ export const AddressPopup = ({
                   Please Verify your
                 </div>
                 <div className="modal_head_gradient_text">
-                  {toChainIsEvm
-                    ? toChain.tag === "AVAX"
-                      ? "Avalanche"
-                      : "Ethereum"
-                    : "Bitcoin"}{" "}
-                  Address
+                  {toChain.tag === "BRC" && "Bitcoin"}
+                  {toChain.tag === "SOL" && "Solana"}
+                  {toChain.tag === "AVAX" && "Avalanche"}
+                  {toChain.tag === "ETH" && "Ethereum"}
+                  <span> address</span>
                 </div>
               </div>
               <div
                 className="address_modal_label rounded-full border-none px-4 py-3"
                 style={{ background: "#794EFF33" }}
               >
-                {toChainIsEvm ? metaMaskAddress : unisatAddress}
+                  {toChain.tag === "BRC" && unisatAddress}
+                  {toChain.tag === "SOL" && phantomAddress}
+                  {toChain.tag === "AVAX" && metaMaskAddress}
+                  {toChain.tag === "ETH" && metaMaskAddress}
               </div>
               {/* <div className="address_modal_description"> You can not edit or change it later.</div> */}
               <div className="address_modal_description">
@@ -71,7 +103,7 @@ export const AddressPopup = ({
               </div>
               <div className="flex">
                 <div
-                  className="connect_wallet_button border-1 rounded-full"
+                  className="cancel-wallet-button rounded-3xl py-1 cursor-pointer border-1"
                   style={{ borderColor: "#FF4E4E", width: "100%" }}
                   onClick={onCloseModal}
                 >
@@ -86,11 +118,7 @@ export const AddressPopup = ({
                 <div
                   className="connect_wallet_button bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
                   style={{ width: "100%" }}
-                  onClick={() => {
-                    {
-                      toChainIsEvm ? initateBridgeHandler() : checkNetwork();
-                    }
-                  }}
+                  onClick={handleBridgeInitiation}
                 >
                   <button className="initiate_button">
                     <span className="text-white font-syne text-xl">

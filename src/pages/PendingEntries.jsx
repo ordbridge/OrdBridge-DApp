@@ -33,6 +33,7 @@ export const PendingEntries = ({
   chain,
   connectMetamaskWallet,
 }) => {
+
   const navigate = useNavigate();
   const val = 1000000000000000000;
   const [unprocessedEntries, setUnprocessedEntries] = useState([]);
@@ -51,7 +52,13 @@ export const PendingEntries = ({
       value: "BRC_TO_AVAX",
       chainType: "AVAX",
     },
+    {
+      label: "SOL",
+      value: "BRC_TO_SOL",
+      chainType: "SOL",
+    },
   ];
+
   useEffect(() => {
     setClaimButton(false);
     setClaimStatus("success");

@@ -22,10 +22,10 @@ export const Step4 = ({
           <section className="form_data_section3 p-2">
             <div className="fw-normal font-syne">
               {claimStatus === "failure" ? (
-                <>The transaction failed as user rejected</>
+                <>The transaction failed. Try again.</>
               ) : (
                 <>
-                  Your tokens have been{" "}
+                  Your tokens have been received{" "}
                   <span className="fw-bold">successfully</span>
                 </>
               )}
@@ -34,14 +34,14 @@ export const Step4 = ({
           {claimStatus === "success" && !swap && (
             <section className="form_data_section3 p-2 font-syne">
               <div className="fw-semibold">
-                ' However you can check into pendingEntries at anytime.'
+                You can check pending entries at anytime.
               </div>
             </section>
           )}
           {!swap && claimStatus === "success" && (
             <section className="form_data_section p-2 font-syne">
               <div className="fw-normal flex align-items-center">
-                <>Please Wait 30 mins to complete Transaction.</>
+                <>Please Wait 30 minutes for the bridging process to complete.</>
               </div>
             </section>
           )}
@@ -55,7 +55,7 @@ export const Step4 = ({
                 setStep(0);
               }}
             >
-              Initiate Another Bridge
+              Initiate another bridge
             </button>
           </footer>
         </div>

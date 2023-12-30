@@ -44,7 +44,6 @@ function PhantomProvider({ children }) {
         setProvider(provider);
 
         const resp = await provider.connect();
-        console.log(resp.publicKey.toString());
 
         setAccount(resp.publicKey.toString());
       }
