@@ -5,6 +5,7 @@ import { LuClock3 } from "react-icons/lu";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import {
+  clusterApiUrl,
   Connection,
   PublicKey,
   Transaction,
@@ -360,7 +361,7 @@ export const SwapPopup = ({
   };
 
   const burnSolanaTokensHandler = async () => {
-    const connection = new Connection("https://api.devnet.solana.com"); // Update URL as needed
+    const connection = new Connection(clusterApiUrl('devnet')); // Update URL as needed
     const programId = new PublicKey('gnLppSzkeLGCHrLjhy3pM9rQ8AjnPh6YMz4XBavxu4Y'); // Update with actual program ID
     const walletPublicKey = new PublicKey(phantomAddress);
     const ticker = tokenName;
@@ -796,6 +797,7 @@ export const SwapPopup = ({
           setTokenName={setTokenName}
           unisatAddress={unisatAddress}
           metaMaskAddress={metaMaskAddress}
+          phantomAddress={phantomAddress}
           setPendingEntryPopup={setPendingEntryPopup}
           setStep={setStep}
           callContractHandler={PendingCallContractFunction}

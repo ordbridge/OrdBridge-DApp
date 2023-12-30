@@ -3,12 +3,21 @@ import React, { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Web3 from "web3";
+import {
+  clusterApiUrl,
+  Connection,
+  PublicKey,
+} from '@solana/web3.js';
+import {
+  getUserAccount
+} from "../utils/pdas";
 import { Button, Img, ReactTable } from "../components";
 import Text from "../components/Text";
 import { pendingEntryService } from "../services/homepage.service";
 import "../styles/pending-entries.css";
 import AVAX_ABI from "../utils/avax";
 import ETH_ABI from "../utils/eth";
+
 
 export const PendingEntries = ({
   appChains,
@@ -19,6 +28,7 @@ export const PendingEntries = ({
   sessionKey,
   unisatAddress,
   metaMaskAddress,
+  phantomAddress,
   setPendingEntryPopup,
   setStep,
   setPendingInscriptionId,
@@ -63,6 +73,9 @@ export const PendingEntries = ({
     setClaimButton(false);
     setClaimStatus("success");
     if (sessionKey) {
+      // TODO: The API endpoint to grab the solana based transactions doesn't exist.
+      // It could be as simple as replacing metaMaskAddress with phantomAddress here,
+      // but we shoould probably have better naming
       pendingEntryService({
         session_key: sessionKey,
         unisatAddress: unisatAddress,
@@ -107,26 +120,51 @@ export const PendingEntries = ({
   };
 
   const getPendingEntries = async ({ type }) => {
-    const infuraTag = type === "ETH" ? "mainnet" : "avalanche-mainnet";
-    const web3 = new Web3(
-      `https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`,
-    );
-    const appContractAddress =
-      type === "ETH"
-        ? "0xa237f89cb12bff9932c7503f854ad881dcead73a"
-        : "0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384";
-    const ABI = type === "ETH" ? ETH_ABI : AVAX_ABI;
-    const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
-    try {
-      const result = await contractHandler.methods
-        .checkPendingERCToClaimForWalletWithTickers(
-          metaMaskAddress,
-          pendingTickers,
-        )
-        .call();
-      setMetamaskResponse(result);
-    } catch (error) {
-      console.error(error);
+    if(type === "SOL"){
+      const connection = new Connection(clusterApiUrl('devnet')); // Update URL as needed
+      const programId = new PublicKey('gnLppSzkeLGCHrLjhy3pM9rQ8AjnPh6YMz4XBavxu4Y'); // Update with actual program ID
+      const walletPublicKey = new PublicKey(phantomAddress);
+      
+      const userAccountPda = getUserAccount(programId, walletPublicKey);
+    
+      try {
+        const accountInfo = await connection.getAccountInfo(userAccountPda);
+        if (accountInfo === null) {
+          throw new Error('User account not found');
+        }
+    
+        // TODO: check if data is JSON at all?
+        const deserializedData = JSON.parse(accountInfo.data);
+    
+        // TODO: This result should go somewhere??
+        console.log("User Entries:", deserializedData.pendingClaims);
+        return deserializedData.pendingClaims; 
+      } catch (error) {
+        console.error('Error fetching user entries:', error);
+        throw error;
+      }
+    } else {
+      const infuraTag = type === "ETH" ? "mainnet" : "avalanche-mainnet";
+      const web3 = new Web3(
+        `https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`,
+      );
+      const appContractAddress =
+        type === "ETH"
+          ? "0xa237f89cb12bff9932c7503f854ad881dcead73a"
+          : "0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384";
+      const ABI = type === "ETH" ? ETH_ABI : AVAX_ABI;
+      const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
+      try {
+        const result = await contractHandler.methods
+          .checkPendingERCToClaimForWalletWithTickers(
+            metaMaskAddress,
+            pendingTickers,
+          )
+          .call();
+        setMetamaskResponse(result);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
