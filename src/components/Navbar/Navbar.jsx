@@ -107,7 +107,14 @@ const Navbar = ({
             Dashboard
           </Text>
         </Link>
-
+        <Link to="/swap">
+          <Text
+            className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden"
+            size="txtSyneBold20"
+          >
+            Swap
+          </Text>
+        </Link>
         <section className="flex items-start gap-2  visible md:hidden justify-end">
           {type === "Bitcoin" ? (
             <>
