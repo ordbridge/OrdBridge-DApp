@@ -1,28 +1,20 @@
-import { Dropdown } from "flowbite-react";
-import React, { useEffect, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import Web3 from "web3";
-import {
-  clusterApiUrl,
-  Connection,
-  PublicKey,
-} from '@solana/web3.js';
-import {
-  getUserAccount
-} from "../utils/pdas";
-import { Button, Img, ReactTable } from "../components";
-import Text from "../components/Text";
-import { pendingEntryService } from "../services/homepage.service";
-import "../styles/pending-entries.css";
-import AVAX_ABI from "../utils/avax";
-import ETH_ABI from "../utils/eth";
-
+import React, { useEffect, useState } from 'react';
+import { Dropdown } from 'flowbite-react';
+import Web3 from 'web3';
+import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import { useNavigate } from 'react-router-dom';
+import { IoIosArrowDown } from 'react-icons/io';
+import ETH_ABI from '../utils/eth';
+import AVAX_ABI from '../utils/avax';
+import Text from '../components/Text';
+import { getUserAccount } from '../utils/pdas';
+import { getChainByTag, getWeb3UrlByTag } from '../utils/chains';
+import { pendingEntryService } from '../services/homepage.service';
+import '../styles/pending-entries.css';
 
 export const PendingEntries = ({
   appChains,
   toChain,
-  fromChain,
   setToChain,
   setFromChain,
   sessionKey,
@@ -41,37 +33,26 @@ export const PendingEntries = ({
   setTokenName,
   setInitiateBridgeResponse,
   chain,
-  connectMetamaskWallet,
+  connectMetamaskWallet
 }) => {
-
   const navigate = useNavigate();
   const val = 1000000000000000000;
   const [unprocessedEntries, setUnprocessedEntries] = useState([]);
   const [filterUnprocessedEntries, setFilterUnprocessedEntries] = useState([]);
   const [pendingTickers, setPendngTickers] = useState([]);
 
-  const [chainTypeFilter, setChainTypeFilter] = useState(chain.tag);
-  const dropDownItems = [
-    {
-      label: "ETH",
-      value: "BRC_TO_ETH",
-      chainType: "ETH",
-    },
-    {
-      label: "AVAX",
-      value: "BRC_TO_AVAX",
-      chainType: "AVAX",
-    },
-    {
-      label: "SOL",
-      value: "BRC_TO_SOL",
-      chainType: "SOL",
-    },
-  ];
+  const [chainTypeFilter, setChainTypeFilter] = useState({
+    name: chain.tag,
+    icon: chain.icon
+  });
+  const [unprocessedFilter, setUnProcessedFilter] = useState({
+    name: chain.tag,
+    icon: chain.icon
+  });
 
   useEffect(() => {
     setClaimButton(false);
-    setClaimStatus("success");
+    setClaimStatus('success');
     if (sessionKey) {
       // TODO: The API endpoint to grab the solana based transactions doesn't exist.
       // It could be as simple as replacing metaMaskAddress with phantomAddress here,
@@ -79,87 +60,70 @@ export const PendingEntries = ({
       pendingEntryService({
         session_key: sessionKey,
         unisatAddress: unisatAddress,
-        metaMaskAddress: metaMaskAddress,
+        metaMaskAddress: metaMaskAddress
       }).then((res) => {
         setUnprocessedEntries(res?.unprocessed);
-        const filterData = res?.unprocessed?.filter(
-          (ele) => ele.chain === "BRC_TO_ETH",
-        );
+        const filterData = res?.unprocessed?.filter((ele) => ele.chain === toChain.chain_flag);
         setFilterUnprocessedEntries(filterData);
         callContractHandler(res?.pending_tickers);
         setPendngTickers(res?.pending_tickers);
       });
     } else {
-      navigate("/");
+      navigate('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getEvmChain = () => {
-    if (fromChain.isEvm) {
-      return fromChain;
-    } else {
-      return toChain;
-    }
-  };
+  const setEntriesNetwork = async ({ name, icon }) => {
+    setChainTypeFilter({ name, icon });
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    const requestedChain = getChainByTag(name);
 
-  const setEntriesNetwork = async (type) => {
-    setChainTypeFilter(type);
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    const requestedChainId = type === "ETH" ? "0x1" : "0xa86a";
-    if (chainId !== requestedChainId) {
-      connectMetamaskWallet(requestedChainId);
+    if (chainId !== requestedChain.chainId) {
+      connectMetamaskWallet(requestedChain.chainId);
     }
-
-    const changedChain = type === "ETH" ? appChains[0] : appChains[2];
 
     if (toChain.isEvm) {
-      setToChain(changedChain);
+      setToChain(requestedChain);
     } else {
-      setFromChain(changedChain);
+      setFromChain(requestedChain);
     }
   };
 
   const getPendingEntries = async ({ type }) => {
-    if(type === "SOL"){
+    if (type === 'SOL') {
       const connection = new Connection(clusterApiUrl('devnet')); // Update URL as needed
       const programId = new PublicKey('gnLppSzkeLGCHrLjhy3pM9rQ8AjnPh6YMz4XBavxu4Y'); // Update with actual program ID
       const walletPublicKey = new PublicKey(phantomAddress);
-      
+
       const userAccountPda = getUserAccount(programId, walletPublicKey);
-    
+
       try {
         const accountInfo = await connection.getAccountInfo(userAccountPda);
         if (accountInfo === null) {
           throw new Error('User account not found');
         }
-    
+
         // TODO: check if data is JSON at all?
         const deserializedData = JSON.parse(accountInfo.data);
-    
+
         // TODO: This result should go somewhere??
-        console.log("User Entries:", deserializedData.pendingClaims);
-        return deserializedData.pendingClaims; 
+        console.log('User Entries:', deserializedData.pendingClaims);
+        return deserializedData.pendingClaims;
       } catch (error) {
         console.error('Error fetching user entries:', error);
         throw error;
       }
     } else {
-      const infuraTag = type === "ETH" ? "mainnet" : "avalanche-mainnet";
-      const web3 = new Web3(
-        `https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`,
-      );
-      const appContractAddress =
-        type === "ETH"
-          ? "0xa237f89cb12bff9932c7503f854ad881dcead73a"
-          : "0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384";
-      const ABI = type === "ETH" ? ETH_ABI : AVAX_ABI;
+      const requestedChain = getChainByTag(type);
+
+      const web3 = new Web3(getWeb3UrlByTag(type));
+      const appContractAddress = requestedChain.contractAddress;
+      const ABI = type === 'ETH' ? ETH_ABI : AVAX_ABI;
       const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
       try {
         const result = await contractHandler.methods
-          .checkPendingERCToClaimForWalletWithTickers(
-            metaMaskAddress,
-            pendingTickers,
-          )
+          .checkPendingERCToClaimForWalletWithTickers(metaMaskAddress, pendingTickers)
           .call();
         setMetamaskResponse(result);
       } catch (error) {
@@ -168,47 +132,51 @@ export const PendingEntries = ({
     }
   };
 
-  const claimEntriesColumns = ["Ticker", "Amount", "Wallet Address", "Actions"];
+  const claimEntriesColumns = ['Ticker', 'Amount', 'Wallet Address', 'Actions'];
   return (
-    <div className="pending_container gap-16">
+    <div className="pending_container gap-16 pb-8">
       <div className="bg-gradient5 border-deep_purple-A200_7f border-solid flex flex-col h-max inset-[0] items-center justify-center m-auto p-[54px] md:px-10 sm:px-5 rounded-[25px] w-[84%]">
         <div className="flex !w-full !m-0">
           <Dropdown
             className="bg-black p-0 m-0 border-red z-10 max-w-[120px] border-none"
             dismissOnClick={true}
             renderTrigger={() => (
-              <div className="flex items-center justify-center text-center pt-3 px-4 bg-black border-none text-white rounded-full !w-[160px] !mb-0 cursor-pointer">
-                <div className="flex items-center justify-end">
-                  <span>{chainTypeFilter}</span>
-                  <div>
-                    <IoIosArrowDown className="absolute font-white" />
+              <div className="flex items-center justify-center text-center py-2 px-4 bg-black border-none text-white rounded-full !w-max !mb-0 cursor-pointer">
+                <p className="flex items-center justify-end gap-3">
+                  <div className={`flex justify-center text-white gap-2 items-center !mb-0`}>
+                    <img
+                      src={chainTypeFilter.icon}
+                      className="w-[20px]"
+                      alt={chainTypeFilter.name}
+                    />
+                    {chainTypeFilter.name}
                   </div>
-                </div>
+                  <IoIosArrowDown className="font-white" />
+                </p>
               </div>
-            )}
-          >
-            {dropDownItems.map((ele, index) => (
-              <Dropdown.Item
-                className="hover:outline-none"
-                onClick={() => {
-                  setEntriesNetwork(ele.label);
-                  getPendingEntries({ type: ele.chainType });
-                }}
-              >
-                <div
-                  className={`w-full flex justify-center text-white ${
-                    index === 0 ? "mt-4" : ""
-                  }`}
-                >
-                  {ele.label}
-                </div>
-              </Dropdown.Item>
-            ))}
+            )}>
+            {appChains.map((ele, index) => {
+              if (ele.tag !== 'BRC') {
+                return (
+                  <Dropdown.Item
+                    className="hover:outline-none"
+                    onClick={() => {
+                      setEntriesNetwork({ name: ele.tag, icon: ele.icon });
+                      getPendingEntries({ type: ele.tag });
+                    }}>
+                    <div
+                      className={`w-full flex justify-center text-white gap-2 items-center !mb-0 my-1`}>
+                      <img src={ele.icon} className="w-[20px]" alt={ele.tag} />
+                      {ele.tag}
+                    </div>
+                  </Dropdown.Item>
+                );
+              }
+            })}
           </Dropdown>
           <Text
             className="bg-clip-text bg-gradient6 sm:text-4xl md:text-[38px] text-[40px] text-transparent !w-full text-center !mb-0"
-            size="txtSyneBold40DeeppurpleA200"
-          >
+            size="txtSyneBold40DeeppurpleA200">
             Claim pending entries
           </Text>
         </div>
@@ -217,8 +185,7 @@ export const PendingEntries = ({
             <div className="min-w-1/4 flex justify-center py-2 mb-0">
               <Text
                 className="min-w-1/4 text-2xl md:text-[22px] text-white-A700 sm:text-xl w-auto !mb-0"
-                size="txtSyneSemiBold24"
-              >
+                size="txtSyneSemiBold24">
                 {ele}
               </Text>
             </div>
@@ -238,19 +205,16 @@ export const PendingEntries = ({
                   {metaMaskAddress?.slice(0, 10)}...
                 </div>
                 <div className="min-w-1/4 flex justify-center text-white font-bold font-plusjakartasans">
-                  <button
-                    className="rounded-2xl border border-white text-white font-syne py-2 px-6"
+                  <p
+                    className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
+                    style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}
                     onClick={() => {
                       setPendingEntryPopup((prev) => !prev);
                       setStep(2);
-                      setPendingEntriesDataById([
-                        [ele],
-                        [ClaimEntriesData[1][index]],
-                      ]);
-                    }}
-                  >
+                      setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
+                    }}>
                     Claim Entry
-                  </button>
+                  </p>
                 </div>
               </div>
             );
@@ -258,8 +222,7 @@ export const PendingEntries = ({
         ) : (
           <Text
             className="text-xl md:text-base text-white-A700_b2 mt-4 !font-normal text-white opacity-70 !mb-0"
-            size="txtSyneSemiBold24WhiteA700b2"
-          >
+            size="txtSyneSemiBold24WhiteA700b2">
             No pending claim entries found
           </Text>
         )}
@@ -271,42 +234,46 @@ export const PendingEntries = ({
             className="bg-black p-0 m-0 border-red z-10 max-w-[120px] border-none"
             dismissOnClick={true}
             renderTrigger={() => (
-              <div className="flex items-center justify-center text-center pt-3 px-4 bg-black border-none text-white rounded-full !w-[160px] !mb-0 cursor-pointer">
-                <div className="flex items-center justify-end">
-                  <span>{chainTypeFilter}</span>
-                  <div>
-                    <IoIosArrowDown className="absolute font-white" />
+              <div className="flex items-center justify-center text-center py-2 px-4 bg-black border-none text-white rounded-full !w-max !mb-0 cursor-pointer">
+                <p className="flex items-center justify-end gap-3">
+                  <div className={`flex justify-center text-white gap-2 items-center !mb-0`}>
+                    <img
+                      src={unprocessedFilter.icon}
+                      className="w-[20px]"
+                      alt={unprocessedFilter.name}
+                    />
+                    {unprocessedFilter.name}
                   </div>
-                </div>
+                  <IoIosArrowDown className="font-white" />
+                </p>
               </div>
-            )}
-          >
-            {dropDownItems.map((ele, index) => (
-              <Dropdown.Item
-                className="hover:outline-none"
-                onClick={() => {
-                  setEntriesNetwork(ele.label);
-                  const filterData = unprocessedEntries?.filter(
-                    (elem) => elem.chain === ele.value,
-                  );
-                  setFilterUnprocessedEntries(filterData);
-                }}
-              >
-                <div
-                  className={`w-full flex justify-center text-white ${
-                    index === 0 ? "mt-4" : ""
-                  }`}
-                >
-                  {ele.label}
-                </div>
-              </Dropdown.Item>
-            ))}
+            )}>
+            {appChains.map((ele, index) => {
+              if (ele.tag !== 'BRC') {
+                return (
+                  <Dropdown.Item
+                    className="hover:outline-none"
+                    onClick={() => {
+                      setUnProcessedFilter({ name: ele.tag, icon: ele.icon });
+                      const filterData = unprocessedEntries?.filter(
+                        (elem) => elem.chain === ele.chain_flag
+                      );
+                      setFilterUnprocessedEntries(filterData);
+                    }}>
+                    <div
+                      className={`w-full flex justify-center text-white gap-2 items-center !mb-0 my-1`}>
+                      <img src={ele.icon} className="w-[20px]" alt={ele.tag} />
+                      {ele.tag}
+                    </div>
+                  </Dropdown.Item>
+                );
+              }
+            })}
           </Dropdown>
 
           <Text
             className="bg-clip-text bg-gradient6 sm:text-4xl md:text-[38px] text-[40px] text-transparent !w-full text-center !mb-0"
-            size="txtSyneBold40DeeppurpleA200"
-          >
+            size="txtSyneBold40DeeppurpleA200">
             Unprocessed Entries
           </Text>
         </div>
@@ -315,8 +282,7 @@ export const PendingEntries = ({
             <div className="min-w-1/4 flex justify-center py-2 mb-0">
               <Text
                 className="min-w-1/4 text-2xl md:text-[22px] text-white-A700 sm:text-xl w-auto !mb-0"
-                size="txtSyneSemiBold24"
-              >
+                size="txtSyneSemiBold24">
                 {ele}
               </Text>
             </div>
@@ -335,21 +301,21 @@ export const PendingEntries = ({
                 <div className="min-w-1/4 flex justify-center text-white font-bold font-plusjakartasans">
                   {ele?.transaction_data?.metamask_address?.slice(0, 10)}...
                 </div>
-                <div className="min-w-1/4 flex justify-center text-white">
-                  <button
-                    className="rounded-2xl border border-white text-white font-syne py-2 px-6"
+                <div className="min-w-1/4 flex justify-center">
+                  <p
+                    className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
+                    style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}
                     onClick={() => {
                       setPendingEntryPopup((prev) => !prev);
                       setPendingInscriptionId(ele?.inscription_id);
                       setInitiateBridgeResponse({
-                        inscribe: ele?.transaction_data?.inscribe_json,
+                        inscribe: ele?.transaction_data?.inscribe_json
                       });
                       setTokenName(ele?.transaction_data?.inscribe_json?.tick);
                       setStep(1);
-                    }}
-                  >
+                    }}>
                     Process Entry
-                  </button>
+                  </p>
                 </div>
               </div>
             );
@@ -357,8 +323,7 @@ export const PendingEntries = ({
         ) : (
           <Text
             className="text-xl md:text-base text-white-A700_b2 mt-4 !font-normal text-white opacity-70 !mb-0"
-            size="txtSyneSemiBold24WhiteA700b2"
-          >
+            size="txtSyneSemiBold24WhiteA700b2">
             No Unprocessed entries found
           </Text>
         )}

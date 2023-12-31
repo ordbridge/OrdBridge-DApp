@@ -1,111 +1,58 @@
-import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { http, createPublicClient } from "viem";
-import {
-  WagmiConfig,
-  configureChains,
-  createConfig,
-  mainnet,
-  sepolia,
-} from "wagmi";
-import { publicProvider } from "wagmi/providers/public";
-import Web3Modal from "web3modal";
-import AvalancheIcon from "./assets/avalanche.png";
-import BrcIcon from "./assets/brc.png";
-import EthereumIcon from "./assets/ethereum.png";
-import SolanaIcon from "./assets/solana.png";
-import PhantomProvider from "./contexts/PhantomProvider";
-import useMediaQuery from "./hooks/useMediaQuery";
-import usePhantomWallet from "./hooks/usePhantomWallet";
-import HomePage from "./pages/HomePage";
-import { updateAddress } from "./services/homepage.service";
-import "./styles.css"; // Import your styles
-import "./styles/color.css";
-import "./styles/font.css";
-import "./styles/index.css";
-import "./styles/tailwind.css";
+import { ethers } from 'ethers';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { http, createPublicClient } from 'viem';
+import { WagmiConfig, configureChains, createConfig, mainnet, sepolia } from 'wagmi';
+import { publicProvider } from 'wagmi/providers/public';
+import Web3Modal from 'web3modal';
+import HomePage from './pages/HomePage';
+import { updateAddress } from './services/homepage.service';
+import './styles.css'; // Import your styles
+import './styles/color.css';
+import './styles/font.css';
+import './styles/index.css';
+import './styles/tailwind.css';
+import Dashboard from './pages/Dashboard';
+import useMediaQuery from './hooks/useMediaQuery';
+import Navbar from './components/Navbar/Navbar';
+import { Footer } from './components/Footer';
 
-const appChains = [
-  {
-    isEvm: true,
-    name: "ETHEREUM",
-    key: "ethchain",
-    value: "ETHEREUM",
-    tag: "ETH",
-    tokenTag: "ERC20",
-    chainId: "0x1",
-    contractAddress: "0xa237f89cb12bff9932c7503f854ad881dcead73a",
-    factoryAddress: "0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e",
-    icon: EthereumIcon,
-  },
-  {
-    isEvm: false,
-    name: "BRC",
-    value: "BRC",
-    tokenTag: "BRC20",
-    tag: "BRC",
-    contractAddress: "",
-    icon: BrcIcon,
-  },
-  {
-    isEvm: true,
-    name: "AVALANCHE",
-    key: "avaxchain",
-    value: "AVALANCHE",
-    tokenTag: "ARC20",
-    tag: "AVAX",
-    chainId: "0xa86a",
-    factoryAddress: "0x5f880678320A9445824bB15d18EF67b5ECbAA42a",
-    contractAddress: "0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384",
-    icon: AvalancheIcon,
-  },
-  {
-    isEvm: false,
-    name: "SOLANA",
-    value: "SOLANA",
-    tokenTag: "SPL",
-    tag: "SOL",
-    // factoryAddress: "<SOLANA FACTORY ADDRESS>",
-    contractAddress: "",
-    icon: SolanaIcon,
-  },
-];
+import { appChains } from './utils/chains';
+import usePhantomWallet from './hooks/usePhantomWallet';
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia],
-  [publicProvider()],
-);
+const { webSocketPublicClient } = configureChains([sepolia], [publicProvider()]);
+
 const config = createConfig({
   autoConnect: true,
   webSocketPublicClient,
   publicClient: createPublicClient({
     chain: mainnet,
-    transport: http(),
-  }),
+    transport: http()
+  })
 });
 const providerOptions = {};
 const web3Modal = new Web3Modal({
   cacheProvider: true,
-  providerOptions,
+  providerOptions
 });
 function App() {
+  const [step, setStep] = useState(0);
   const [fromChain, setFromChain] = useState(appChains[1]);
   const [toChain, setToChain] = useState(appChains[0]);
-  const [unisatAddress, setUnisatAddress] = useState("");
-  const [metaMaskAddress, setMetamaskAddress] = useState("");
-  const [phantomAddress, setPhantomAddress] = useState("");
+  const [unisatAddress, setUnisatAddress] = useState('');
+  const [metaMaskAddress, setMetamaskAddress] = useState('');
+  const [phantomAddress, setPhantomAddress] = useState('');
   const [userDetails, setUserDetails] = useState();
-  const [type, setType] = useState("btoe");
-  const [sessionKey, setSessionKey] = useState("");
+  const [type, setType] = useState('btoe');
+  const [sessionKey, setSessionKey] = useState('');
   const [pendingEntryPopup, setPendingEntryPopup] = useState(false);
   const [isMobile, setIsMobile] = useState();
-  const isMob = useMediaQuery("(max-width:630px)");
+  const isMob = useMediaQuery('(max-width:630px)');
   const walletUpdate = async (address) => {
     await updateAddress({
-      user_details: address,
+      user_details: address
     }).then((res) => {
       setSessionKey(res.data.user_details.session_key);
     });
@@ -116,29 +63,25 @@ function App() {
   const unisatHandler = async () => {
     try {
       const accounts = await window.unisat.requestAccounts();
-      if (accounts[0].substring(0, 3) === "bc1") {
+      if (accounts[0].substring(0, 3) === 'bc1') {
         setUnisatAddress(accounts[0]);
         setUserDetails((prev) => {
-          const address = { ...prev, unisat_address: accounts[0] };
-          return address;
+          return { ...prev, unisat_address: accounts[0] };
         });
         walletUpdate({ ...userDetails, unisat_address: accounts[0] });
       } else {
-        toast.error(
-          "Please Connect to Native Segwit Address starts with bc1...",
-        );
+        toast.error('Please Connect to Native Segwit Address starts with bc1...');
       }
     } catch (e) {
-      toast.error(
-        "Something went wrong while connecting to wallet, please try again later",
-      );
+      toast.error('Something went wrong while connecting to wallet, please try again later');
     }
   };
 
   const switchUnisatNetwork = async () => {
     try {
-      const res = await window.unisat.switchNetwork("livenet");
-      unisatHandler();
+      // eslint-disable-next-line no-unused-vars
+      let res = await window?.unisat?.switchNetwork('livenet');
+      await unisatHandler();
     } catch (e) {
       console.log(e);
     }
@@ -150,10 +93,10 @@ function App() {
     } else {
       try {
         const res = await window.unisat.getNetwork();
-        if (res === "livenet") {
-          unisatHandler();
+        if (res === 'livenet') {
+          await unisatHandler();
         } else {
-          switchUnisatNetwork();
+          await switchUnisatNetwork();
         }
       } catch (e) {
         console.log(e);
@@ -161,34 +104,67 @@ function App() {
     }
   };
 
+  useEffect(async () => {
+    // To Check Unisat is connected after page refreshing
+    if (!isMob) {
+      try {
+        var UnisatAccount = await window.unisat.requestAccounts();
+        if (UnisatAccount?.length > 0) {
+          setUnisatAddress(UnisatAccount[0]);
+        }
+      } catch (err) {
+        toast.error(err.message);
+      }
+    }
+
+    // To Check Metamask is connected after page refreshing
+    try {
+      var MetamaskAccount = await window?.ethereum?.request({ method: 'eth_requestAccounts' });
+
+      if (MetamaskAccount?.length > 0) {
+        setMetamaskAddress(MetamaskAccount[0]);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    let payload = {};
+    if (MetamaskAccount?.length > 0) {
+      payload = { metamask_address: MetamaskAccount[0] };
+    }
+    if (UnisatAccount?.length > 0) {
+      payload = { ...payload, unisat_address: UnisatAccount[0] };
+    }
+    if (MetamaskAccount?.length > 0 || UnisatAccount?.length > 0) {
+      setUserDetails(payload);
+      walletUpdate(payload);
+    }
+  }, []);
+
   const MetaMaskConnection = async () => {
     try {
       const web3instance = await web3Modal.connect();
       const web3provider = new ethers.providers.Web3Provider(web3instance);
       const accounts = await web3provider.listAccounts();
       setUserDetails((prev) => {
-        const address = { ...prev, metamask_address: accounts[0] };
-        return address;
+        return { ...prev, metamask_address: accounts[0] };
       });
       setMetamaskAddress(accounts[0]);
-      walletUpdate({ ...userDetails, metamask_address: accounts[0] });
+      await walletUpdate({ ...userDetails, metamask_address: accounts[0] });
       // const network = await web3provider.getNetwork();
     } catch (error) {
-      toast.error(
-        "Something went wrong while connecting to wallet, please try again later",
-      );
+      toast.error('Something went wrong while connecting to wallet, please try again later');
     }
   };
 
-  const CustomToastWithLink = () => (
+  const CustomToastWithLink = ({ id, tag, type }) => (
     <div>
-      Seems like you don't have AVAX-C chain added to your metamask wallet.
-      Please add Avalanche C-Chain via{" "}
+      Seems like you don't have {tag} chain added to your metamask wallet. Please add {type}-Chain
+      via{' '}
       <a
-        href="https://chainlist.org/chain/43114"
+        href={`https://chainlist.org/chain/${id}`}
         target="_blank"
         rel="noreferrer"
-      >
+        className="text-blue-500">
         this link.
       </a>
     </div>
@@ -203,23 +179,24 @@ function App() {
   };
 
   const connectMetamaskWallet = async (desiredChainId) => {
-    const chainId = await window.ethereum.request({ method: "eth_chainId" });
-    const appChainId = isNaN(desiredChainId)
-      ? getEvmChain().chainId
-      : desiredChainId;
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
 
+    const appChainId = isNaN(desiredChainId) ? getEvmChain().chainId : desiredChainId;
     if (chainId === appChainId) {
       MetaMaskConnection();
     } else {
       try {
         await window.ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: appChainId }],
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: appChainId }]
         });
         MetaMaskConnection();
       } catch (error) {
         if (error.code === 4902) {
-          toast.info(<CustomToastWithLink />);
+          let { chainListId, tag, value } = appChains?.filter(
+            (ele) => ele['chainId'] === desiredChainId
+          )[0];
+          toast.info(<CustomToastWithLink id={chainListId} tag={tag} type={value} />);
         } else {
           toast.error(error.message);
         }
@@ -232,12 +209,12 @@ function App() {
   };
 
   const connectPhantomWallet = async () => {
-    if (!phantomAccount || phantomAccount === "") {
+    if (!phantomAccount || phantomAccount === '') {
       // If not connected, call the connect function from the hook
       await connectPhantom();
-    }       
+    }
     setPhantomAddress(phantomAccount);
-  }
+  };
 
   useEffect(() => {
     // Additional useEffect to handle the case where the account or connection status changes
@@ -246,17 +223,33 @@ function App() {
     }
   }, [phantomAccount]);
 
+
   return (
     <WagmiConfig config={config}>
-      <ToastContainer />
-      <div className="vh-100">
-        {/* <Img className="h-[1080px] m-auto object-cover w-full" src="base_bg.svg" /> */}
-        <BrowserRouter>
+      <BrowserRouter>
+        <ToastContainer />
+        <div className="vh-100">
+          <Navbar
+            unisatAddress={unisatAddress}
+            metaMaskAddress={metaMaskAddress}
+            phantomAddress={phantomAddress}
+            connectUnisatWallet={connectUnisatWallet}
+            connectMetamaskWallet={connectMetamaskWallet}
+            connectPhantomWallet={connectPhantomWallet}
+            sessionKey={sessionKey}
+            type={type}
+            setStep={setStep}
+            pendingEntryPopup={pendingEntryPopup}
+            setPendingEntryPopup={setPendingEntryPopup}
+          />
+
           <Routes>
             <Route
               path="/"
               element={
                 <HomePage
+                  step={step}
+                  setStep={setStep}
                   toChain={toChain}
                   setToChain={setToChain}
                   fromChain={fromChain}
@@ -278,9 +271,11 @@ function App() {
                 />
               }
             />
+            <Route element={<Dashboard appChains={appChains} />} path="dashboard" />
           </Routes>
-        </BrowserRouter>
-      </div>
+          <Footer />
+        </div>
+      </BrowserRouter>
     </WagmiConfig>
   );
 }

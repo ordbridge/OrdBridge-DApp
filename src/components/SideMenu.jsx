@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "../styles/sidemenu.css";
-import ConnectMetaMaskWallet from "./Navbar/ConnectMetaMaskWallet";
+import React, { useEffect, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { toast } from 'react-toastify';
+import '../styles/sidemenu.css';
+import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
 import ConnectPhantomWallet from "./Navbar/ConnectPhantomWallet";
-import ConnectUnisatWallet from "./Navbar/ConnectUnisatWallet";
-import Text from "./Text";
+import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
+import Text from './Text';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SideMenu = ({
   handleSideMenu,
-  type,
   unisatAddress,
   connectUnisatWallet,
   metaMaskAddress,
@@ -18,6 +17,8 @@ const SideMenu = ({
   phantomAddress,
   connectPhantomWallet,
   setPendingEntryPopup,
+  navToHome,
+  setStep
 }) => {
   const navigate = useNavigate();
   const [walletsSet, setWalletsSet] = useState(false);
@@ -33,41 +34,55 @@ const SideMenu = ({
   }, [unisatAddress, metaMaskAddress, phantomAddress]);
   return (
     <>
-      <div id="side_menu" className="side_menu closed">
-        <div className="side_overlay"></div>
-        <div className="new_menu ">
+      <div id="side_menu" className=" navbar-sidemenu-container closed">
+        {/* <div className="side_overlay"></div> */}
+        <div className="">
           <div className="side_header">
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
-          <div className="right_section">
+          <div className="flex flex-col gap-4">
             <Text
-              className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden"
-              size="txtSyneBold20"
+              className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
+              onClick={() => {
+                handleSideMenu();
+                navigate('/')
+                setStep(0);
+              }}>
+              Home
+            </Text>
+            <Text
+              className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
               onClick={() => {
                 window.open(
-                  "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
-                  "_blank",
+                  'https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/',
+                  '_blank'
                 );
-              }}
-            >
+              }}>
               Docs
             </Text>
-            <div
-              className="pending_button sm:block hidden"
+
+            <Text
+              className="text-white-A700 text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
+              size="txtSyneBold20"
               onClick={() => {
                 if (!walletsSet) {
                   toast.error("Please connect wallets first");
                 } else {
+                  navigate('/');
+
                   setPendingEntryPopup((prev) => !prev);
                 }
-              }}
-            >
+              }}>
               Pending Entries
-            </div>
-            <ConnectUnisatWallet
-              onConnectClick={connectUnisatWallet}
-              address={unisatAddress}
-            />
+            </Text>
+
+            <Link to="/dashboard">
+              <Text className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal">
+                Dashboard
+              </Text>
+            </Link>
+
+            <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
             <ConnectMetaMaskWallet
               onConnectClick={connectMetamaskWallet}
               address={metaMaskAddress}

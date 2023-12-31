@@ -1,11 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../styles/FormStep.css";
 export const Step3 = ({ setStep, handleBack }) => {
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setStep(4);
-  //   }, 5000);
-  // }, []);
   return (
     <>
       <div className="first_container">
@@ -23,7 +18,7 @@ export const Step3 = ({ setStep, handleBack }) => {
             </div>
           </section>
           <footer className="min-w-full flex items-center">
-            <img src="infinity.gif" className="infinity" />
+            <img src="infinity.gif" className="infinity" alt="" />
           </footer>
         </div>
       </div>

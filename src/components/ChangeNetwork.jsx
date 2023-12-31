@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import processIcon from "../assets/Process.svg";
 export const ChangeNetwork = ({ onCloseModal }) => {
   return (
@@ -7,7 +7,7 @@ export const ChangeNetwork = ({ onCloseModal }) => {
         <div className="custom_modal-header">
           <div className="modal_address p-4">
             <div className="confirm_modal_head">
-              <img src={processIcon} />
+              <img src={processIcon} alt="" />
               <span className="fs-4">
                 Please change your Metamask to Ethereum Mainnet Network first.
               </span>
@@ -32,3 +32,5 @@ export const ChangeNetwork = ({ onCloseModal }) => {
     </div>
   );
 };
+
+export default ChangeNetwork;

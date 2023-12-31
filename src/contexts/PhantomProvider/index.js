@@ -66,8 +66,7 @@ function PhantomProvider({ children }) {
         connect: handleConnect,
         disconnect: handleDisconnect,
         account
-      }}
-    >
+      }}>
       {children}
     </Context.Provider>
   );

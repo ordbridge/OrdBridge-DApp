@@ -25,10 +25,11 @@
 }
 
 .form_link_description {
-  color: #b6b6b6;
   font-size: 12px;
   line-height: 16px;
   margin-top: 0.8rem;
+  color: rgba(255, 255, 255, 0.70);
+
   text-align: center;
 }
 
@@ -40,9 +41,10 @@
   display: flex;
   flex-direction: column;
   min-height: calc(100vh);
-  background-color: #111;
+  /* background-color: #111; */
   background-image: url('../../public/base_bg.svg');
-  background-size: contain;
+  background-size: cover;
+  background-repeat: no-repeat;
   /* padding: 5rem 0; */
   overflow: hidden;
   position: relative;
@@ -70,7 +72,7 @@
   font-weight: 600;
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
   padding-right: 2rem;
   background-color: #fff;
   position: absolute;
@@ -275,13 +277,35 @@
     width: 70%;
   }
 }
+
 @media only screen and (max-width: 640px) {
   .first_container {
     width: 96%;
   }
 
+
+  .swap_mobile_container {
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    background: linear-gradient(172deg, rgba(0, 0, 0, 0.70) 6.13%, rgba(3, 23, 26, 0.70) 100.79%);
+    backdrop-filter: blur(33.75px);
+  }
+  .swap_mobile{
+    display: flex;
+    height: calc(100vh - 100px);
+  }
+
+  .token_name_mob {
+    background: linear-gradient(93deg, #794EFF 0.94%, #FFF 123.02%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
   .swap_container {
     /* padding: 3rem 0px; */
+    /* background-image: url('../../public/backgroundImage.png'); */
+    background-image: none !important;
+    background-repeat: no-repeat;
   }
 
   .eth_address_container .text {
@@ -314,8 +338,8 @@
   }
 
   .swap_subheading {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 20px;
+    line-height: 30px;
   }
 
   .popup_heading_icons {
@@ -372,6 +396,10 @@
   .form_link_description {
     font-size: 12px;
     line-height: 16px;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    /* justify-content: center; */
   }
 
   .custom_popup section {
@@ -397,18 +425,18 @@
   overflow: auto;
 }
 
-.suggestions > div {
+.suggestions>div {
   padding: 15px 25px;
   border-bottom: 2px solid #2d2e36;
   transition: all 0.1s ease;
 }
 
-.suggestions > div:hover {
+.suggestions>div:hover {
   background-color: #dbdbdb !important;
   color: #000000;
 }
 
-.suggestions > div,
+.suggestions>div,
 .form-control-auto input {
   font-size: 14px !important;
   background-color: #1e1f26;

@@ -85,7 +85,7 @@ export function getConfig(ordoProgram) {
 }
 
 
-export function getWrappedMint(ordoProgram, ticker: string) {
+export function getWrappedMint(ordoProgram, ticker) {
     const [pda, _] = PublicKey.findProgramAddressSync(
         [
             anchor.utils.bytes.utf8.encode('wrapped_mint'),
@@ -97,7 +97,7 @@ export function getWrappedMint(ordoProgram, ticker: string) {
 }
 
 
-export function getWrappedState(ordoProgram, ticker: string) {
+export function getWrappedState(ordoProgram, ticker) {
     const [pda, _] = PublicKey.findProgramAddressSync(
         [
             anchor.utils.bytes.utf8.encode('wrapped_state'),

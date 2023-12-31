@@ -16,7 +16,7 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
               {type}
             </span>
             <span className="flex items-center sm:text-sm w-max gap-1">
-              <img src={Chain?.icon} style={{ width: "20px" }} /> {Chain?.tag}
+              <img src={Chain?.icon} style={{ width: "20px" }} alt="" /> {Chain?.tag}
             </span>
             {!dropdownState ? (
               <IoIosArrowDown className="font-white" />
@@ -35,14 +35,14 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
           handleDropdownClick();
         }}
       >
-        {appChains.map((chain, index) => (
+        {appChains.map((chain) => (
           <span
             className="dropdownItem hover:bg-[#120A33] hover:outline-none hover:rounded-md py-2 px-2"
             onClick={setChain(type === "To" ? false : true, chain)}
           >
             <span className="dropdown__link !w-max flex justify-start text-white gap-2 items-center">
               {" "}
-              <img src={chain.icon} style={{ width: "20px" }} /> {chain.tag}
+              <img src={chain.icon} style={{ width: "20px" }} alt="" /> {chain.tag}
             </span>
           </span>
         ))}
