@@ -17,8 +17,6 @@ export const AddressPopup = ({
   burnSolanaTokensHandler
 }) => {
 
-  console.log(fromChain,'>>>>>>>>>FromChain');
-  console.log(toChain,'>>>>>>>>ToChain');
   const checkNetwork = async () => {
     const appChainId = ethChain.chainId;
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
@@ -30,7 +28,6 @@ export const AddressPopup = ({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: appChainId }]
         });
-        console.log('calling here');
 
         burnMetamaskHandler();
       } catch (error) {

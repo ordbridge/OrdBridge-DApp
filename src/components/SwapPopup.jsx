@@ -10,13 +10,6 @@ import { PendingEntries } from '../pages/PendingEntries';
 import { initiateBridge } from '../services/homepage.service';
 import AVAX_ABI from '../utils/avax';
 import ETH_ABI from '../utils/eth';
-// import {
-//   getGlobalState,
-//   getConfig,
-//   getWrappedMint,
-//   getWrappedState,
-//   getUserAccount
-// } from '../utils/pdas';
 import { AddressPopup } from './AddressPopup';
 import { Button } from './Button';
 import { CustomTokenModal } from './CustomTokenModal';
@@ -85,8 +78,6 @@ export const SwapPopup = ({
   const [toChainConnected, setToChainConnected] = useState(false);
 
   const { provider: phantomProvider } = usePhantomWallet();
-  // const wallet = useWallet();
-  // console.log(wallet);
   const opts = {
     preflightCommitment: 'processed'
   };
@@ -255,10 +246,6 @@ export const SwapPopup = ({
   const factoryContractAddress = getEvmChain().factoryAddress;
   const ABI = getEvmChain().tag === 'ETH' ? ETH_ABI : AVAX_ABI;
   const contractHandler = new web.eth.Contract(ABI, appContractAddress);
-  // const MetaMaskContractHandler = new ethWeb3.eth.Contract(
-  //   ABI,
-  //   appContractAddress,
-  // );
   const callContractFunction = async () => {
     try {
       const result = await contractHandler.methods
@@ -344,23 +331,20 @@ export const SwapPopup = ({
     }
   };
 
-  const signTransactionWithPhantom = async (transaction) => {
-    if (!phantomProvider) {
-      throw new Error('Wallet is not connected');
-    }
-
-    const signedTransaction = await phantomProvider.signTransaction(transaction);
-    return signedTransaction;
-  };
-
   async function getProvider() {
     /* create the provider and return it to the caller */
     /* network set to local network for now */
     const network = 'https://api.devnet.solana.com';
-    const walletPublicKey = new PublicKey(phantomAddress);
+    // const walletPublicKey = new PublicKey(phantomAddress);
     const connection = new Connection(network, opts.preflightCommitment);
 
-    const provider = new AnchorProvider(connection, walletPublicKey, opts.preflightCommitment);
+    let wallet = {
+      publicKey: phantomProvider?._publicKey,
+      signTransaction: phantomProvider.signTransaction,
+      signAllTransactions: phantomProvider.signAllTransactions
+    };
+
+    const provider = new AnchorProvider(connection, wallet, opts.preflightCommitment);
     return provider;
   }
   const burnSolanaTokensHandler = async () => {
@@ -376,49 +360,36 @@ export const SwapPopup = ({
         [utf8.encode('global_state')],
         program.programId
       );
-      console.log('419');
 
       const [configAccountPDA] = await web3.PublicKey.findProgramAddress(
         [utf8.encode('config')],
         program.programId
       );
-      console.log('424');
 
       const [wrappedMintAccountPDA] = await web3.PublicKey.findProgramAddress(
         [utf8.encode('wrapped_mint'), utf8.encode(ticker)],
         program.programId
       );
 
-      console.log('430');
-
       const [wrappedStateAccountPDA] = await web3.PublicKey.findProgramAddress(
         [utf8.encode('wrapped_state'), utf8.encode(ticker)],
         program.programId
       );
-
-      console.log('437');
 
       const [userAccountPDA] = await web3.PublicKey.findProgramAddress(
         [utf8.encode('user_account'), walletPublicKey.toBuffer()],
         program.programId
       );
 
-      console.log('446');
-
       const globalStateAct = await program.account.globalState.fetch(globalStateAccountPDA);
 
-      console.log(globalStateAct, 'globalStateAct');
-
       const adminAuth = globalStateAct.adminAuthority;
-      console.log(adminAuth, 'adminAuth');
-      console.log(adminAuth);
       const signerAta = getAssociatedTokenAddressSync(wrappedMintAccountPDA, walletPublicKey, true);
 
-      console.log(signerAta, 'signerAta');
       let trans = await program.methods
         .burnTokens({
-          ticker: ticker,
-          amount: new BN(100),
+          ticker: token,
+          amount: new BN(tokenValue),
           chain: 'bitcoin',
           crossChainAddress: 'mybitcoinaddress'
         })
@@ -430,15 +401,13 @@ export const SwapPopup = ({
           userAccount: userAccountPDA,
           signerAta: signerAta,
           admin: adminAuth,
-          signer: walletPublicKey,
+          signer: provider.wallet.publicKey,
           systemProgram: web3.SystemProgram.programId,
           rent: SYSVAR_RENT_PUBKEY,
           tokenProgram: TOKEN_PROGRAM_ID,
           associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID
         })
         .rpc();
-
-      console.log('trans', trans);
 
       const wrappedStateAct = await program.account.wrappedStateAccount.fetch(
         wrappedStateAccountPDA
@@ -454,80 +423,12 @@ export const SwapPopup = ({
 
       setStep(4);
     } catch (error) {
-      console.error('Error burning Solana tokens:', error);
+      console.log('Error burning Solana tokens:', error.message);
       setStep(4);
       setClaimStatus('failure');
-      // toast.error('Transaction failed');
+      toast.error(error.message);
     }
   };
-  // const burnSolanaTokensHandler = async () => {
-  //   const connection = new Connection(clusterApiUrl('devnet')); // Update URL as needed
-  //   const programId = new PublicKey('BDiMncvbBx5yhwHdmXTedanBEdzMvv4xrQToXdDtxEjY'); // Update with actual program ID
-  //   const walletPublicKey = new PublicKey(phantomAddress);
-  //   const ticker = tokenName;
-  //   const amount = tokenValue * LAMPORTS_PER_SOL;
-
-  //   // Deriving necessary PDAs
-  //   const globalStateAccount = getGlobalState(programId);
-  //   const configAccount = getConfig(programId);
-  //   const wrappedMintAccount = getWrappedMint(programId, ticker);
-  //   const wrappedStateAccount = getWrappedState(programId, ticker);
-  //   const userAccount = getUserAccount(programId, walletPublicKey);
-
-  //   const burnTokensArgs = {
-  //     chain: toChain.tag, // TODO: What's the convention here?
-  //     ticker: 'wABCD',
-  //     amount: web.utils.toBN(amount),
-  //     crossChainAddress: unisatAddress
-  //   };
-
-  //   // Create the transaction to burn tokens
-  //   const transaction = new Transaction().add(
-  //     new TransactionInstruction({
-  //       keys: [
-  //         { pubkey: globalStateAccount, isSigner: false, isWritable: true },
-  //         { pubkey: configAccount, isSigner: false, isWritable: false },
-  //         { pubkey: wrappedMintAccount, isSigner: false, isWritable: true },
-  //         { pubkey: wrappedStateAccount, isSigner: false, isWritable: false },
-  //         { pubkey: userAccount, isSigner: false, isWritable: true },
-  //         { pubkey: walletPublicKey, isSigner: true, isWritable: false }
-  //       ],
-  //       programId,
-  //       data: Buffer.from(JSON.stringify(burnTokensArgs)) // TODO: Needs serialization?
-  //     })
-  //   );
-
-  //   // Sign and send the transaction
-  //   try {
-  //     const { blockhash } = await connection.getLatestBlockhash();
-  //     transaction.recentBlockhash = blockhash;
-  //     transaction.feePayer = walletPublicKey;
-
-  //     const signedTransaction = await signTransactionWithPhantom(transaction);
-  //     console.log(signedTransaction);
-  //     const signature = await connection.sendRawTransaction(signedTransaction.serialize());
-  //     const confirmation = await connection.confirmTransaction(
-  //       {
-  //         signature: signature,
-  //         blockhash: blockhash,
-  //         lastValidBlockHeight: null
-  //       },
-  //       'finalized'
-  //     );
-
-  //     // Check confirmation status
-  //     if (confirmation.value.err) {
-  //       throw new Error('Transaction failed: ' + confirmation.value.err);
-  //     }
-  //     // Handle success
-  //     setStep(4);
-  //   } catch (error) {
-  //     console.error('Error burning Solana tokens:', error);
-  //     setStep(4);
-  //     setClaimStatus('failure');
-  //     toast.error('Transaction failed');
-  //   }
-  // };
   const handleModal = () => {
     setShowModal((prev) => !prev);
   };
@@ -702,50 +603,6 @@ export const SwapPopup = ({
                   </section>
                 </div>
                 <div className="text-center">
-                  {/* {unisatAddress && metaMaskAddress ? (
-                    <div className="initiate_bridge_cta">
-                      <p
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.2rem'
-                        }}
-                        className="text-sm !mb-2">
-                        Estimated arrival <LuClock3 /> : 3 block confirmations
-                      </p>
-                      <div
-                        onClick={handleAddressModal}
-                        className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
-                        <Button
-                          className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
-                          color="deep_purple_A200_a3"
-                          size="sm"
-                          variant="outline">
-                          Initiate Bridge
-                        </Button>
-                      </div>
-                    </div>
-                  ) : unisatAddress ? (
-                    <div
-                      className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-                      onClick={connectMetamaskWallet}>
-                      <ConnectMetaMaskWallet
-                        onConnectClick={connectMetamaskWallet}
-                        address={metaMaskAddress}
-                        text="Connect Wallets"
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full py-1 cursor-pointer mt-3"
-                      onClick={connectUnisatWallet}>
-                      <ConnectUnisatWallet
-                        onConnectClick={connectUnisatWallet}
-                        address={unisatAddress}
-                        text="Connect Wallets"
-                      />
-                    </div>
-                  )} */}
                   {fromChainConnected && toChainConnected ? (
                     <div className="initiate_bridge_cta">
                       <p
