@@ -5,27 +5,18 @@ import { MdContentCopy } from 'react-icons/md';
 import { LuClock3 } from 'react-icons/lu';
 import { toast } from 'react-toastify';
 import Web3 from 'web3';
-import {
-  clusterApiUrl,
-  Connection,
-  PublicKey,
-  Transaction,
-  TransactionInstruction,
-  SystemProgram,
-  LAMPORTS_PER_SOL
-} from '@solana/web3.js';
-import { Buffer } from 'buffer';
+
 import { PendingEntries } from '../pages/PendingEntries';
 import { initiateBridge } from '../services/homepage.service';
 import AVAX_ABI from '../utils/avax';
 import ETH_ABI from '../utils/eth';
-import {
-  getGlobalState,
-  getConfig,
-  getWrappedMint,
-  getWrappedState,
-  getUserAccount
-} from '../utils/pdas';
+// import {
+//   getGlobalState,
+//   getConfig,
+//   getWrappedMint,
+//   getWrappedState,
+//   getUserAccount
+// } from '../utils/pdas';
 import { AddressPopup } from './AddressPopup';
 import { Button } from './Button';
 import { CustomTokenModal } from './CustomTokenModal';
@@ -39,6 +30,18 @@ import { Step3 } from './ProcessSteps/Step3';
 import { Step4 } from './ProcessSteps/Step4';
 import useMediaQuery from '../hooks/useMediaQuery';
 import usePhantomWallet from '../hooks/usePhantomWallet';
+import * as buffer from 'buffer';
+
+import { Connection, PublicKey, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
+import { Program, AnchorProvider, utils, web3, BN } from '@project-serum/anchor';
+import idl from '../utils/idl.json';
+import {
+  getMint,
+  TOKEN_PROGRAM_ID,
+  ASSOCIATED_TOKEN_PROGRAM_ID,
+  getAssociatedTokenAddressSync
+} from '@solana/spl-token';
+window.Buffer = buffer.Buffer;
 
 export const SwapPopup = ({
   step,
@@ -82,6 +85,13 @@ export const SwapPopup = ({
   const [toChainConnected, setToChainConnected] = useState(false);
 
   const { provider: phantomProvider } = usePhantomWallet();
+  // const wallet = useWallet();
+  // console.log(wallet);
+  const opts = {
+    preflightCommitment: 'processed'
+  };
+  const utf8 = utils.bytes.utf8;
+  const programID = new PublicKey(idl.metadata.address);
 
   // isRedundant and is placed in app.jsx as well
   const getEvmChain = () => {
@@ -239,12 +249,12 @@ export const SwapPopup = ({
     }, 30000);
   };
   const infuraTag = getEvmChain().tag === 'ETH' ? 'mainnet' : 'avalanche-mainnet';
-  const web3 = new Web3(`https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`);
+  const web = new Web3(`https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`);
   const ethWeb3 = new Web3(window.ethereum);
   const appContractAddress = getEvmChain().contractAddress;
   const factoryContractAddress = getEvmChain().factoryAddress;
   const ABI = getEvmChain().tag === 'ETH' ? ETH_ABI : AVAX_ABI;
-  const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
+  const contractHandler = new web.eth.Contract(ABI, appContractAddress);
   // const MetaMaskContractHandler = new ethWeb3.eth.Contract(
   //   ABI,
   //   appContractAddress,
@@ -281,7 +291,7 @@ export const SwapPopup = ({
   };
   const burnMetamaskHandler = async () => {
     const val = 1000000000000000000;
-    const BN = web3.utils.toBN;
+    const BN = web.utils.toBN;
     // const DIVIDER = Math.pow(10, 18);
     const amount = new BN(tokenValue).mul(new BN(val));
     try {
@@ -343,81 +353,181 @@ export const SwapPopup = ({
     return signedTransaction;
   };
 
-  const burnSolanaTokensHandler = async () => {
-    const connection = new Connection(clusterApiUrl('devnet')); // Update URL as needed
-    // const programId = new PublicKey('ComputeBudget111111111111111111111111111111'); // Update with actual program ID
-    const programId = new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'); // Update with actual program ID
+  async function getProvider() {
+    /* create the provider and return it to the caller */
+    /* network set to local network for now */
+    const network = 'https://api.devnet.solana.com';
     const walletPublicKey = new PublicKey(phantomAddress);
-    const ticker = tokenName;
-    const amount = tokenValue * LAMPORTS_PER_SOL;
+    const connection = new Connection(network, opts.preflightCommitment);
 
-    // Deriving necessary PDAs
-    const globalStateAccount = getGlobalState(programId);
-    const configAccount = getConfig(programId);
-    const wrappedMintAccount = getWrappedMint(programId, ticker);
-    const wrappedStateAccount = getWrappedState(programId, ticker);
-    const userAccount = getUserAccount(programId, walletPublicKey);
+    const provider = new AnchorProvider(connection, walletPublicKey, opts.preflightCommitment);
+    return provider;
+  }
+  const burnSolanaTokensHandler = async () => {
+    const walletPublicKey = new PublicKey(phantomAddress);
+    let ticker = 'ABCD';
 
-    console.log(userAccount,'userAccount');
-
-    const burnTokensArgs = {
-      chain: fromChain.tag, // TODO: What's the convention here?
-      ticker: ticker,
-      amount: web3.utils.toBN(amount),
-      crossChainAddress: unisatAddress
-    };
-
-    // Create the transaction to burn tokens
-    const transaction = new Transaction().add(
-      new TransactionInstruction({
-        keys: [
-          { pubkey: globalStateAccount, isSigner: false, isWritable: true },
-          { pubkey: configAccount, isSigner: false, isWritable: false },
-          { pubkey: wrappedMintAccount, isSigner: false, isWritable: true },
-          { pubkey: wrappedStateAccount, isSigner: false, isWritable: false },
-          { pubkey: userAccount, isSigner: false, isWritable: true },
-          { pubkey: walletPublicKey, isSigner: true, isWritable: false }
-        ],
-        programId,
-        data: Buffer.from(JSON.stringify(burnTokensArgs)) // TODO: Needs serialization?
-      })
-    );
-
-    // Sign and send the transaction
+    const provider = await getProvider();
+    const network = 'https://api.devnet.solana.com';
+    const connection = new Connection(network, opts.preflightCommitment);
+    const program = new Program(idl, programID, provider);
     try {
-      const { blockhash } = await connection.getLatestBlockhash();
-      transaction.recentBlockhash = blockhash;
-      transaction.feePayer = walletPublicKey;
+      const [globalStateAccountPDA] = await web3.PublicKey.findProgramAddress(
+        [utf8.encode('global_state')],
+        program.programId
+      );
+      console.log('419');
 
-      const signedTransaction = await signTransactionWithPhantom(transaction);
-      console.log(signedTransaction, 'signedTransaction');
-      const signature = await connection.sendRawTransaction(signedTransaction.serialize());
-      console.log(signature, 'signature');
-      const confirmation = await connection.confirmTransaction(
-        {
-          signature: signature,
-          blockhash: blockhash,
-          lastValidBlockHeight: null
-        },
-        'finalized'
+      const [configAccountPDA] = await web3.PublicKey.findProgramAddress(
+        [utf8.encode('config')],
+        program.programId
+      );
+      console.log('424');
+
+      const [wrappedMintAccountPDA] = await web3.PublicKey.findProgramAddress(
+        [utf8.encode('wrapped_mint'), utf8.encode(ticker)],
+        program.programId
       );
 
-      console.log(confirmation);
+      console.log('430');
 
-      // Check confirmation status
-      if (confirmation.value.err) {
-        throw new Error('Transaction failed: ' + confirmation.value.err);
-      }
-      // Handle success
+      const [wrappedStateAccountPDA] = await web3.PublicKey.findProgramAddress(
+        [utf8.encode('wrapped_state'), utf8.encode(ticker)],
+        program.programId
+      );
+
+      console.log('437');
+
+      const [userAccountPDA] = await web3.PublicKey.findProgramAddress(
+        [utf8.encode('user_account'), walletPublicKey.toBuffer()],
+        program.programId
+      );
+
+      console.log('446');
+
+      const globalStateAct = await program.account.globalState.fetch(globalStateAccountPDA);
+
+      console.log(globalStateAct, 'globalStateAct');
+
+      const adminAuth = globalStateAct.adminAuthority;
+      console.log(adminAuth, 'adminAuth');
+      console.log(adminAuth);
+      const signerAta = getAssociatedTokenAddressSync(wrappedMintAccountPDA, walletPublicKey, true);
+
+      console.log(signerAta, 'signerAta');
+      let trans = await program.methods
+        .burnTokens({
+          ticker: ticker,
+          amount: new BN(100),
+          chain: 'bitcoin',
+          crossChainAddress: 'mybitcoinaddress'
+        })
+        .accounts({
+          globalStateAccount: globalStateAccountPDA,
+          configAccount: configAccountPDA,
+          wrappedMintAccount: wrappedMintAccountPDA,
+          wrappedStateAccount: wrappedStateAccountPDA,
+          userAccount: userAccountPDA,
+          signerAta: signerAta,
+          admin: adminAuth,
+          signer: walletPublicKey,
+          systemProgram: web3.SystemProgram.programId,
+          rent: SYSVAR_RENT_PUBKEY,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID
+        })
+        .rpc();
+
+      console.log('trans', trans);
+
+      const wrappedStateAct = await program.account.wrappedStateAccount.fetch(
+        wrappedStateAccountPDA
+      );
+
+      const mint = await getMint(connection, wrappedMintAccountPDA);
+      console.log(
+        'Total Supply of the mint: ',
+        mint.supply.toString(),
+        mint.isInitialized,
+        mint.tlvData.toString()
+      );
+
       setStep(4);
     } catch (error) {
       console.error('Error burning Solana tokens:', error);
       setStep(4);
       setClaimStatus('failure');
-      toast.error('Transaction failed');
+      // toast.error('Transaction failed');
     }
   };
+  // const burnSolanaTokensHandler = async () => {
+  //   const connection = new Connection(clusterApiUrl('devnet')); // Update URL as needed
+  //   const programId = new PublicKey('BDiMncvbBx5yhwHdmXTedanBEdzMvv4xrQToXdDtxEjY'); // Update with actual program ID
+  //   const walletPublicKey = new PublicKey(phantomAddress);
+  //   const ticker = tokenName;
+  //   const amount = tokenValue * LAMPORTS_PER_SOL;
 
+  //   // Deriving necessary PDAs
+  //   const globalStateAccount = getGlobalState(programId);
+  //   const configAccount = getConfig(programId);
+  //   const wrappedMintAccount = getWrappedMint(programId, ticker);
+  //   const wrappedStateAccount = getWrappedState(programId, ticker);
+  //   const userAccount = getUserAccount(programId, walletPublicKey);
+
+  //   const burnTokensArgs = {
+  //     chain: toChain.tag, // TODO: What's the convention here?
+  //     ticker: 'wABCD',
+  //     amount: web.utils.toBN(amount),
+  //     crossChainAddress: unisatAddress
+  //   };
+
+  //   // Create the transaction to burn tokens
+  //   const transaction = new Transaction().add(
+  //     new TransactionInstruction({
+  //       keys: [
+  //         { pubkey: globalStateAccount, isSigner: false, isWritable: true },
+  //         { pubkey: configAccount, isSigner: false, isWritable: false },
+  //         { pubkey: wrappedMintAccount, isSigner: false, isWritable: true },
+  //         { pubkey: wrappedStateAccount, isSigner: false, isWritable: false },
+  //         { pubkey: userAccount, isSigner: false, isWritable: true },
+  //         { pubkey: walletPublicKey, isSigner: true, isWritable: false }
+  //       ],
+  //       programId,
+  //       data: Buffer.from(JSON.stringify(burnTokensArgs)) // TODO: Needs serialization?
+  //     })
+  //   );
+
+  //   // Sign and send the transaction
+  //   try {
+  //     const { blockhash } = await connection.getLatestBlockhash();
+  //     transaction.recentBlockhash = blockhash;
+  //     transaction.feePayer = walletPublicKey;
+
+  //     const signedTransaction = await signTransactionWithPhantom(transaction);
+  //     console.log(signedTransaction);
+  //     const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+  //     const confirmation = await connection.confirmTransaction(
+  //       {
+  //         signature: signature,
+  //         blockhash: blockhash,
+  //         lastValidBlockHeight: null
+  //       },
+  //       'finalized'
+  //     );
+
+  //     // Check confirmation status
+  //     if (confirmation.value.err) {
+  //       throw new Error('Transaction failed: ' + confirmation.value.err);
+  //     }
+  //     // Handle success
+  //     setStep(4);
+  //   } catch (error) {
+  //     console.error('Error burning Solana tokens:', error);
+  //     setStep(4);
+  //     setClaimStatus('failure');
+  //     toast.error('Transaction failed');
+  //   }
+  // };
   const handleModal = () => {
     setShowModal((prev) => !prev);
   };
