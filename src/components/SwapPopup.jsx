@@ -31,6 +31,7 @@ import { Step4 } from './ProcessSteps/Step4';
 import useMediaQuery from '../hooks/useMediaQuery';
 import usePhantomWallet from '../hooks/usePhantomWallet';
 import * as buffer from 'buffer';
+import { useAnchorWallet, useWallet } from '@solana/wallet-adapter-react';
 
 import { Connection, PublicKey, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
 import { Program, AnchorProvider, utils, web3, BN } from '@project-serum/anchor';
@@ -79,13 +80,15 @@ export const SwapPopup = ({
   const [tokenName, setTokenName] = useState(tokenList[0]);
   const [claimButton, setClaimButton] = useState(false);
   const [claimStatus, setClaimStatus] = useState('success');
+  // const [, setWallet] = useState();
+  const wallet = useAnchorWallet();
+  console.log({ walletAtInit: wallet });
 
   const isMob = useMediaQuery('(max-width:630px)');
   const [fromChainConnected, setFromChainConnected] = useState(false);
   const [toChainConnected, setToChainConnected] = useState(false);
 
   const { provider: phantomProvider } = usePhantomWallet();
-  // const wallet = useWallet();
   // console.log(wallet);
   const opts = {
     preflightCommitment: 'processed'
@@ -344,14 +347,14 @@ export const SwapPopup = ({
     }
   };
 
-  const signTransactionWithPhantom = async (transaction) => {
-    if (!phantomProvider) {
-      throw new Error('Wallet is not connected');
-    }
+  // const signTransactionWithPhantom = async (transaction) => {
+  //   if (!phantomProvider) {
+  //     throw new Error('Wallet is not connected');
+  //   }
 
-    const signedTransaction = await phantomProvider.signTransaction(transaction);
-    return signedTransaction;
-  };
+  //   const signedTransaction = await phantomProvider.signTransaction(transaction);
+  //   return signedTransaction;
+  // };
 
   async function getProvider() {
     /* create the provider and return it to the caller */
@@ -360,7 +363,14 @@ export const SwapPopup = ({
     const walletPublicKey = new PublicKey(phantomAddress);
     const connection = new Connection(network, opts.preflightCommitment);
 
-    const provider = new AnchorProvider(connection, walletPublicKey, opts.preflightCommitment);
+    console.log({
+      connection,
+      wallet,
+      walletPublicKey,
+      opts: opts.preflightCommitment
+    });
+
+    const provider = new AnchorProvider(connection, wallet, opts.preflightCommitment);
     return provider;
   }
   const burnSolanaTokensHandler = async () => {
@@ -371,6 +381,10 @@ export const SwapPopup = ({
     const network = 'https://api.devnet.solana.com';
     const connection = new Connection(network, opts.preflightCommitment);
     const program = new Program(idl, programID, provider);
+
+    console.log({
+      test: provider.wallet.publicKey
+    });
     try {
       const [globalStateAccountPDA] = await web3.PublicKey.findProgramAddress(
         [utf8.encode('global_state')],

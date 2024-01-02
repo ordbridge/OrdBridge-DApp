@@ -4,7 +4,15 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { http, createPublicClient } from 'viem';
-import { WagmiConfig, configureChains, createConfig, mainnet, sepolia } from 'wagmi';
+import {
+  WagmiConfig,
+  useConnect,
+  configureChains,
+  createConfig,
+  mainnet,
+  sepolia,
+  useAccount
+} from 'wagmi';
 import { publicProvider } from 'wagmi/providers/public';
 import Web3Modal from 'web3modal';
 import HomePage from './pages/HomePage';
@@ -21,8 +29,11 @@ import { Footer } from './components/Footer';
 
 import { appChains } from './utils/chains';
 import usePhantomWallet from './hooks/usePhantomWallet';
+import { WalletProvider } from '@solana/wallet-adapter-react';
+import { PhantomConnector } from 'phantom-wagmi-connector';
+import Context from './context';
 
-const { webSocketPublicClient } = configureChains([sepolia], [publicProvider()]);
+const { webSocketPublicClient, chains } = configureChains([mainnet], [publicProvider()]);
 
 const config = createConfig({
   autoConnect: true,
@@ -30,7 +41,8 @@ const config = createConfig({
   publicClient: createPublicClient({
     chain: mainnet,
     transport: http()
-  })
+  }),
+  connectors: [new PhantomConnector({ chains })]
 });
 const providerOptions = {};
 const web3Modal = new Web3Modal({
@@ -57,6 +69,9 @@ function App() {
       setSessionKey(res.data.user_details.session_key);
     });
   };
+
+  const { address } = useAccount();
+  const { connect, connectors, isLoading, pendingConnector } = useConnect();
 
   const { connect: connectPhantom, account: phantomAccount } = usePhantomWallet();
 
@@ -223,60 +238,61 @@ function App() {
     }
   }, [phantomAccount]);
 
-
   return (
-    <WagmiConfig config={config}>
-      <BrowserRouter>
-        <ToastContainer />
-        <div className="vh-100">
-          <Navbar
-            unisatAddress={unisatAddress}
-            metaMaskAddress={metaMaskAddress}
-            phantomAddress={phantomAddress}
-            connectUnisatWallet={connectUnisatWallet}
-            connectMetamaskWallet={connectMetamaskWallet}
-            connectPhantomWallet={connectPhantomWallet}
-            sessionKey={sessionKey}
-            type={type}
-            setStep={setStep}
-            pendingEntryPopup={pendingEntryPopup}
-            setPendingEntryPopup={setPendingEntryPopup}
-          />
-
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <HomePage
-                  step={step}
-                  setStep={setStep}
-                  toChain={toChain}
-                  setToChain={setToChain}
-                  fromChain={fromChain}
-                  setFromChain={setFromChain}
-                  appChains={appChains}
-                  unisatAddress={unisatAddress}
-                  metaMaskAddress={metaMaskAddress}
-                  phantomAddress={phantomAddress}
-                  connectUnisatWallet={connectUnisatWallet}
-                  isMobile={isMobile}
-                  setIsMobile={setIsMobile}
-                  connectMetamaskWallet={connectMetamaskWallet}
-                  connectPhantomWallet={connectPhantomWallet}
-                  session_key={sessionKey}
-                  setType={setType}
-                  type={type}
-                  pendingEntryPopup={pendingEntryPopup}
-                  setPendingEntryPopup={setPendingEntryPopup}
-                />
-              }
+    <Context>
+      <WagmiConfig config={config}>
+        <BrowserRouter>
+          <ToastContainer />
+          <div className="vh-100">
+            <Navbar
+              unisatAddress={unisatAddress}
+              metaMaskAddress={metaMaskAddress}
+              phantomAddress={phantomAddress}
+              connectUnisatWallet={connectUnisatWallet}
+              connectMetamaskWallet={connectMetamaskWallet}
+              connectPhantomWallet={connectPhantomWallet}
+              sessionKey={sessionKey}
+              type={type}
+              setStep={setStep}
+              pendingEntryPopup={pendingEntryPopup}
+              setPendingEntryPopup={setPendingEntryPopup}
             />
-            <Route element={<Dashboard appChains={appChains} />} path="dashboard" />
-          </Routes>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </WagmiConfig>
+
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <HomePage
+                    step={step}
+                    setStep={setStep}
+                    toChain={toChain}
+                    setToChain={setToChain}
+                    fromChain={fromChain}
+                    setFromChain={setFromChain}
+                    appChains={appChains}
+                    unisatAddress={unisatAddress}
+                    metaMaskAddress={metaMaskAddress}
+                    phantomAddress={phantomAddress}
+                    connectUnisatWallet={connectUnisatWallet}
+                    isMobile={isMobile}
+                    setIsMobile={setIsMobile}
+                    connectMetamaskWallet={connectMetamaskWallet}
+                    connectPhantomWallet={connectPhantomWallet}
+                    session_key={sessionKey}
+                    setType={setType}
+                    type={type}
+                    pendingEntryPopup={pendingEntryPopup}
+                    setPendingEntryPopup={setPendingEntryPopup}
+                  />
+                }
+              />
+              <Route element={<Dashboard appChains={appChains} />} path="dashboard" />
+            </Routes>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </WagmiConfig>
+    </Context>
   );
 }
 

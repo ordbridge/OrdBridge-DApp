@@ -1,11 +1,18 @@
 // Import your Phantom wallet icon here
 import PhantomIcon from '../../assets/phantom.png'; // Update the path as necessary
 import '../../styles/connect-wallet.css';
+import { useConnect } from 'wagmi';
 
 import React from 'react';
 import { Button } from '..'; // Adjust the import according to your project structure
+import { PhantomConnector } from 'phantom-wagmi-connector';
+import { mainnet } from 'wagmi';
 
 const ConnectPhantomWallet = ({ onConnectClick, address, text }) => {
+  const { connect, connectors, isLoading, pendingConnector } = useConnect();
+
+  console.warn({ connectors });
+
   if (address) {
     // Truncate the address
     const firstHalf = address.substring(0, 5);
