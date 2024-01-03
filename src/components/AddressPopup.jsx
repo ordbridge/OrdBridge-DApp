@@ -16,8 +16,7 @@ export const AddressPopup = ({
   burnMetamaskHandler,
   burnSolanaTokensHandler
 }) => {
-
-  const checkNetwork = async () => {
+  const checkNetworkAndBurn = async () => {
     const appChainId = ethChain.chainId;
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId === appChainId) {
@@ -51,22 +50,23 @@ export const AddressPopup = ({
   const toChainIsEvm = toChain.isEvm;
 
   const handleBridgeInitiation = async () => {
-    console.log(`Initiating bridge from ${fromChain.tag} to ${toChain.tag}`);
+    // SOL -> any
     if (fromChain.tag === 'SOL') {
       handleSOL2BRC();
-      return;
-    } else if (toChain.tag === 'SOL') {
-      initiateSolanaBridgeHandler();
-      return;
     }
-    if (toChainIsEvm) {
+    // BRC -> any
+    else if (fromChain.tag === 'BRC') {
       initateBridgeHandler();
-    } else {
-      checkNetwork();
+    }
+    // EVM  ->  SOL
+    else if (toChain.tag === 'SOL') {
+      initiateSolanaBridgeHandler();
+    }
+    // EVM -> EVM
+    else {
+      checkNetworkAndBurn();
     }
   };
-
-
 
   return (
     <>
@@ -78,20 +78,18 @@ export const AddressPopup = ({
                 <img style={{ width: '6rem' }} src={processIcon} alt="" />
                 <div className="modal_head_gradient_text">Please Verify your</div>
                 <div className="modal_head_gradient_text">
-                  {toChain.tag === 'BRC' && 'Bitcoin'}
-                  {toChain.tag === 'SOL' && 'Solana'}
-                  {toChain.tag === 'AVAX' && 'Avalanche'}
-                  {toChain.tag === 'ETH' && 'Ethereum'}
+                  {toChain.name}
                   <span> address</span>
                 </div>
               </div>
               <div
                 className="address_modal_label rounded-full border-none px-4 py-3"
                 style={{ background: '#794EFF33' }}>
-                {toChain.tag === 'BRC' && unisatAddress}
-                {toChain.tag === 'SOL' && phantomAddress}
-                {toChain.tag === 'AVAX' && metaMaskAddress}
-                {toChain.tag === 'ETH' && metaMaskAddress}
+                {toChain.tag === 'BRC'
+                  ? unisatAddress
+                  : toChain.tag === 'SOL'
+                  ? phantomAddress
+                  : metaMaskAddress}
               </div>
               {/* <div className="address_modal_description"> You can not edit or change it later.</div> */}
               <div className="address_modal_description">

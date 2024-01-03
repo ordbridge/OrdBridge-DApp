@@ -17,13 +17,12 @@ export const appChains = [
     infuraTag: 'mainnet',
     factoryAddress: '0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e',
     contractAddress: '0xa237f89cb12bff9932c7503f854ad881dcead73a',
-    factoryAddress: '0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e',
     chain_flag: 'BRC_TO_ETH',
     icon: EthereumIcon
   },
   {
     isEvm: false,
-    name: 'BRC',
+    name: 'Bitcoin',
     value: 'BRC',
     tokenTag: 'BRC20',
     tag: 'BRC',
@@ -77,7 +76,7 @@ export const appChains = [
   },
   {
     isEvm: false,
-    name: 'SOLANA',
+    name: 'Solana',
     value: 'SOLANA',
     tokenTag: 'SPL',
     tag: 'SOL',

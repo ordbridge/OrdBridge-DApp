@@ -45,7 +45,7 @@ export const SwapPopup = ({
   connectPhantomWallet,
   session_key,
   pendingEntryPopup,
-  setPendingEntryPopup,
+  setPendingEntryPopup
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [swap, setSwap] = useState(true);
@@ -81,6 +81,7 @@ export const SwapPopup = ({
     if ((isFrom && chain === toChain) || (!isFrom && chain === fromChain)) {
       swapChains();
     }
+
     // If neither token is BRC, change to other to BRC
     else if (isFrom && chain.tag !== 'BRC') {
       if (chain.tag === toChain.tag) {
@@ -89,12 +90,19 @@ export const SwapPopup = ({
       }
 
       setFromChain(chain);
-      setToChain(appChains[1]);
-    } else if (!isFrom && chain.tag !== 'BRC') {
-      setToChain(chain);
-      setFromChain(appChains[1]);
-    } else if (isFrom) {
-      setFromChain(chain);
+
+      if (chain.isEvm) {
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+        if (chainId !== chain.chainId) {
+          connectMetamaskWallet(chain.chainId);
+        }
+      }
+      // setToChain(appChains[1]);
+      // } else if (!isFrom && chain.tag !== 'BRC') {
+      //   setToChain(chain);
+      //   setFromChain(appChains[1]);
+      // } else if (isFrom) {
+      //   setFromChain(chain);
     } else {
       if (chain.tag === fromChain.tag) {
         toast.error('Please select different chain');
@@ -102,13 +110,6 @@ export const SwapPopup = ({
       }
 
       setToChain(chain);
-    }
-
-    if (chain.isEvm) {
-      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
-      if (chainId !== chain.chainId) {
-        connectMetamaskWallet(chain.chainId);
-      }
     }
   };
 
@@ -259,26 +260,40 @@ export const SwapPopup = ({
       console.error(error);
     }
   };
+
   const burnMetamaskHandler = async () => {
     const val = 1000000000000000000;
     const BN = web3.utils.toBN;
-    // const DIVIDER = Math.pow(10, 18);
     const amount = new BN(tokenValue).mul(new BN(val));
+
+    let toAddress;
+    if (toChain.tag === 'BRC') {
+      toAddress = unisatAddress;
+    } else if (toChain.tag === 'SOL') {
+      toAddress = phantomAddress;
+    } else {
+      toAddress = metaMaskAddress;
+    }
+
+    // Custom hack address for sending from ETH to SOL/AVAX / other EVMs
+    if (fromChain.tag === 'ETH' && toChain.tag === 'BRC') {
+      toAddress = `bc1${toAddress}${toChain.tag.toLowerCase()}`;
+    }
+
     try {
       const accounts = await ethWeb3.eth.getAccounts();
-      // const bigNumberValue = new BigNumber(tokenValue * val);
 
-      const evmChain = getEvmChain();
-      if (evmChain.tag === 'ETH') {
-        const contractHandler = new ethWeb3.eth.Contract(ETH_ABI, evmChain.contractAddress);
+      if (fromChain.tag === 'ETH') {
+        const contractHandler = new ethWeb3.eth.Contract(ETH_ABI, fromChain.contractAddress);
 
         await contractHandler.methods
-          .burnERCTokenForBRC(token, amount, unisatAddress)
+          .burnERCTokenForBRC(token, amount, toAddress)
           .send({ from: accounts[0] });
       } else {
-        const contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, evmChain.contractAddress);
+        const contractHandler = new ethWeb3.eth.Contract(AVAX_ABI, fromChain.contractAddress);
+
         await contractHandler.methods
-          .burnERCTokenForBRC('BRC', token, amount, unisatAddress)
+          .burnERCTokenForBRC(toChain.tag, token, amount, toAddress)
           .send({ from: accounts[0] });
       }
       setStep(4);
@@ -359,7 +374,6 @@ export const SwapPopup = ({
   };
 
   const initiateSolanaBridgeHandler = async () => {
-    console.log('ajsgashgahsgahsgahsgahsgh');
     setPendingInscriptionId('');
     const body = {
       tickername: swap ? token : 'w' + token,
