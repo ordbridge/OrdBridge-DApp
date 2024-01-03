@@ -190,20 +190,10 @@ export const SwapPopup = ({
   }, [metaMaskAddress, unisatAddress, phantomAddress, fromChain, toChain]);
 
   useEffect(() => {
-    let newType;
-    if (fromChain.isEvm && toChain.isEvm) {
-      newType = 'etoe';
-    } else if (fromChain.tag === 'BRC') {
-      if (toChain.tag === 'SOL') {
-        newType = 'btos';
-      } else {
-        newType = 'btoe';
-      }
-    } else if (fromChain.tag === 'SOL') {
-      newType = 'stob';
-    } else {
-      newType = 'etob';
-    }
+    const from = fromChain.tag === 'BRC' ? 'b' : fromChain.tag === 'SOL' ? 's' : 'e';
+    const to = toChain.tag === 'BRC' ? 'b' : toChain.tag === 'SOL' ? 's' : 'e';
+    const newType = `${from}to${to}`;
+
     setModalType(newType);
     setSwap(!swap);
     setType(newType);

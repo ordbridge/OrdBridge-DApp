@@ -58,6 +58,22 @@ const Navbar = ({
     }
   };
 
+  const getWalletForType = (chainType) => {
+    if (chainType === 'b') {
+      return <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />;
+    }
+    if (chainType === 'e') {
+      return (
+        <ConnectMetaMaskWallet onConnectClick={connectMetamaskWallet} address={metaMaskAddress} />
+      );
+    }
+    if (chainType === 's') {
+      return (
+        <ConnectPhantomWallet onConnectClick={connectPhantomWallet} address={phantomAddress} />
+      );
+    }
+  };
+
   return (
     <>
       <SideMenu
@@ -118,59 +134,9 @@ const Navbar = ({
         </Link>
 
         <section className="flex items-start gap-2  block md:hidden justify-end">
-          {type === 'btoe' && (
-            <>
-              <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
-              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-              <ConnectMetaMaskWallet
-                onConnectClick={connectMetamaskWallet}
-                address={metaMaskAddress}
-              />
-            </>
-          )}
-          {type === 'etob' && (
-            <>
-              <ConnectMetaMaskWallet
-                onConnectClick={connectMetamaskWallet}
-                address={metaMaskAddress}
-              />
-              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-              <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
-            </>
-          )}
-          {type === 'btos' && (
-            <>
-              <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
-              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-              <ConnectPhantomWallet
-                onConnectClick={connectPhantomWallet}
-                address={phantomAddress}
-              />
-            </>
-          )}
-          {type === 'etoe' && (
-            <>
-              <ConnectMetaMaskWallet
-                onConnectClick={connectMetamaskWallet}
-                address={metaMaskAddress}
-              />
-              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-              <ConnectMetaMaskWallet
-                onConnectClick={connectMetamaskWallet}
-                address={metaMaskAddress}
-              />
-            </>
-          )}
-          {type === 'stob' && (
-            <>
-              <ConnectPhantomWallet
-                onConnectClick={connectPhantomWallet}
-                address={phantomAddress}
-              />
-              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-              <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />
-            </>
-          )}
+          {getWalletForType(type[0])}
+          <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
+          {getWalletForType(type[3])}
         </section>
         <img
           src={HamburderIcon}
