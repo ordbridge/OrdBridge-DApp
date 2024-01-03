@@ -23,10 +23,10 @@ export const Banner = () => {
 
   return showBanner ? (
     <div>
-      <Confetti height={60} />
+      <Confetti height={60} opacity={0.5} gravity={0.02} numberOfPieces={150} />
       <div className="bg-[#271F3A] h-[60px] flex items-center justify-center text-syne text-white">
         <Text
-          className="text-white-A700 text-base cursor-pointer ml-6 mr-2 mt-1 !mb-0 block sm:hidden"
+          className="text-white-A700 text-base cursor-pointer ml-6 mr-2 !mb-0 block sm:hidden text-xl"
           size="txtSyneBold20">
           We are live on{'  '}
         </Text>

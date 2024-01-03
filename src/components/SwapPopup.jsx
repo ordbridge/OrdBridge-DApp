@@ -764,7 +764,7 @@ export const SwapPopup = ({
       case 1:
         return (
           <Step1
-            ethChain={getEvmChain()}
+            ethChain={toChain}
             setStep={setStep}
             res={initiateBridgeResponse}
             metaMaskAddress={metaMaskAddress}

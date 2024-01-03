@@ -80,6 +80,7 @@ export const appChains = [
     value: 'SOLANA',
     tokenTag: 'SPL',
     tag: 'SOL',
+    key: 'solchain',
     // factoryAddress: "<SOLANA FACTORY ADDRESS>",
     contractAddress: '',
     chain_flag: 'BRC_TO_SOL',
