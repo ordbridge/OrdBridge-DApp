@@ -17,6 +17,7 @@ import './styles/tailwind.css';
 import Dashboard from './pages/Dashboard';
 import useMediaQuery from './hooks/useMediaQuery';
 import Navbar from './components/Navbar/Navbar';
+import { Banner } from './components/banner';
 import { Footer } from './components/Footer';
 
 import { appChains } from './utils/chains';
@@ -223,12 +224,12 @@ function App() {
     }
   }, [phantomAccount]);
 
-
   return (
     <WagmiConfig config={config}>
       <BrowserRouter>
         <ToastContainer />
         <div className="vh-100">
+          <Banner />
           <Navbar
             unisatAddress={unisatAddress}
             metaMaskAddress={metaMaskAddress}

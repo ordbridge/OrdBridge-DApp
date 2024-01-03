@@ -396,7 +396,7 @@ export const SwapPopup = ({
       tickername: swap ? token : 'w' + token,
       tickerval: tokenValue,
       unisat_address: unisatAddress,
-      phantom_address: phantomAddress, // TODO: changed this to phantom, but initiateBridge might be fully reusable
+      metamask_address: phantomAddress, // TODO: changed this to phantom, but initiateBridge might be fully reusable
       chain: toChain.tag.toLowerCase() // TODO: Check convention here
     };
     if (tokenValue > 0) {
