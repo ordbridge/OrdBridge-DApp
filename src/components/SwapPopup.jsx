@@ -331,12 +331,19 @@ export const SwapPopup = ({
     }
   };
   const burnSolanaTokensHandler = async () => {
+    let toAddress;
+    if (toChain.tag === 'BRC') {
+      toAddress = unisatAddress;
+    } else {
+      toAddress = metaMaskAddress;
+    }
     burnHandler({
       token,
       setStep,
       tokenValue,
       setClaimStatus,
-      phantomProvider
+      phantomProvider,
+      toAddress
     });
   };
   const handleModal = () => {
@@ -382,7 +389,7 @@ export const SwapPopup = ({
       tickerval: tokenValue,
       unisat_address: unisatAddress,
       phantom_address: phantomAddress, // TODO: changed this to phantom, but initiateBridge might be fully reusable
-      chain: toChain.tag // TODO: Check convention here
+      chain: toChain.tag.toLowerCase() // TODO: Check convention here
     };
     if (tokenValue > 0) {
       initiateBridge({ body: body, session_key: session_key }).then((res) => {

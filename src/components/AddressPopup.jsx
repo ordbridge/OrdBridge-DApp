@@ -54,13 +54,13 @@ export const AddressPopup = ({
     if (fromChain.tag === 'SOL') {
       handleSOL2BRC();
     }
+    // EVM  ->  SOL
+    else if (toChain.tag === 'SOL' && fromChain.tag==='BRC') {
+      initiateSolanaBridgeHandler();
+    }
     // BRC -> any
     else if (fromChain.tag === 'BRC') {
       initateBridgeHandler();
-    }
-    // EVM  ->  SOL
-    else if (toChain.tag === 'SOL') {
-      initiateSolanaBridgeHandler();
     }
     // EVM -> EVM
     else {

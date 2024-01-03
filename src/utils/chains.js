@@ -82,6 +82,7 @@ export const appChains = [
     tag: 'SOL',
     // factoryAddress: "<SOLANA FACTORY ADDRESS>",
     contractAddress: '',
+    chain_flag: 'BRC_TO_SOL',
     icon: SolanaIcon
   }
 ];

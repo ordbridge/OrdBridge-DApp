@@ -15,7 +15,7 @@ import { Program, AnchorProvider, utils, web3, BN } from '@project-serum/anchor'
 import { getMint } from '@solana/spl-token';
 import '../styles/pending-entries.css';
 import usePhantomWallet from '../hooks/usePhantomWallet';
-import { viewDetails } from '../utils/solanaHandler';
+import { claimTokens, viewDetails } from '../utils/solanaHandler';
 
 export const PendingEntries = ({
   appChains,
@@ -101,7 +101,7 @@ export const PendingEntries = ({
 
   const getPendingEntries = async ({ type }) => {
     if (type === 'SOL') {
-      viewDetails({ phantomProvider, setMetamaskResponse });
+      viewDetails({ phantomProvider, setMetamaskResponse,address:phantomAddress });
     } else {
       const requestedChain = getChainByTag(type);
 
@@ -207,6 +207,8 @@ export const PendingEntries = ({
                         setPendingEntryPopup((prev) => !prev);
                         setStep(2);
                         setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
+                      }else{
+                        claimTokens({ticker:ele,phantomProvider})
                       }
                     }}>
                     Claim Entry
