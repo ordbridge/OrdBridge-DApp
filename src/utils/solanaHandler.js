@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 import { useReducer } from 'react';
 const utf8 = utils.bytes.utf8;
 const programID = new PublicKey(idl.metadata.address);
+const network = 'https://solana-mainnet.g.alchemy.com/v2/_XRDf1hVestAeoibLJ5UXs5JVdLOz0_x';
 window.Buffer = buffer.Buffer;
 
 const opts = {
@@ -21,7 +22,6 @@ const opts = {
 async function getProvider({ phantomProvider }) {
   /* create the provider and return it to the caller */
   /* network set to local network for now */
-  const network = 'https://api.devnet.solana.com';
   const connection = new Connection(network, opts.preflightCommitment);
 
   let wallet = {
@@ -36,7 +36,6 @@ async function getProvider({ phantomProvider }) {
 
 export const viewDetails = async ({ phantomProvider, setMetamaskResponse, address }) => {
   const provider = await getProvider({ phantomProvider });
-  const network = 'https://api.devnet.solana.com';
   const program = new Program(idl, programID, provider);
   const connection = new Connection(network, opts.preflightCommitment);
   const [globalStateAccountPDA] = await web3.PublicKey.findProgramAddress(
@@ -80,7 +79,6 @@ export const burnHandler = async ({
 }) => {
   console.log('>>>>>>>>>>>>>>>>>Burnhandler', token);
   const provider = await getProvider({ phantomProvider });
-  const network = 'https://api.devnet.solana.com';
   const connection = new Connection(network, opts.preflightCommitment);
   const program = new Program(idl, programID, provider);
   try {
@@ -164,7 +162,6 @@ export const burnHandler = async ({
 
 export const claimTokens = async ({ ticker, phantomProvider }) => {
   const provider = await getProvider({ phantomProvider });
-  const network = 'https://api.devnet.solana.com';
   const connection = new Connection(network, opts.preflightCommitment);
   const program = new Program(idl, programID, provider);
 
