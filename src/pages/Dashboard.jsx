@@ -34,12 +34,9 @@ const Dashboard = ({ appChains }) => {
   const arbiContractHandler = new arbiWeb3.eth.Contract(AVAX_ABI, arbiChain.contractAddress);
   const baseContractHandler = new baseWeb3.eth.Contract(AVAX_ABI, baseChain.contractAddress);
 
-  console.log(ethWeb3, 'Eth web2');
-
   useEffect(() => {
     (async () => {
       const res = await axios.get('https://api.ordbridge.io/bapi/reporting');
-      console.log(res.data?.data[0], 'Dataa');
       setStatsData(res?.data?.data?.[0]);
     })();
     (async () => {
@@ -49,7 +46,6 @@ const Dashboard = ({ appChains }) => {
         token: item.token,
         balance: item.balance
       }));
-      console.log(balanceList, balances, 'BALANCE LIST');
       setReservesData(balances);
     })();
   }, []);

@@ -65,7 +65,6 @@ export const burnHandler = async ({
   phantomProvider,
   toAddress
 }) => {
-  console.log('>>>>>>>>>>>>>>>>>Burnhandler', token);
   const provider = await getProvider({ phantomProvider });
   const connection = new Connection(network, opts.preflightCommitment);
   const program = new Program(idl, programID, provider);
@@ -127,17 +126,9 @@ export const burnHandler = async ({
       })
       .rpc();
 
-    console.log('>>>>>>>>>>>>>>>>>trans', trans);
-
     const wrappedStateAct = await program.account.wrappedStateAccount.fetch(wrappedStateAccountPDA);
 
     const mint = await getMint(connection, wrappedMintAccountPDA);
-    console.log(
-      'Total Supply of the mint: ',
-      mint.supply.toString(),
-      mint.isInitialized,
-      mint.tlvData.toString()
-    );
 
     setStep(4);
   } catch (error) {
@@ -148,7 +139,7 @@ export const burnHandler = async ({
   }
 };
 
-export const claimTokens = async ({ ticker, phantomProvider, setStep,setClaimStatus }) => {
+export const claimTokens = async ({ ticker, phantomProvider, setStep, setClaimStatus }) => {
   const provider = await getProvider({ phantomProvider });
 
   const connection = new Connection(network, opts.preflightCommitment);
@@ -190,7 +181,6 @@ export const claimTokens = async ({ ticker, phantomProvider, setStep,setClaimSta
     );
     const adminAta = getAssociatedTokenAddressSync(wrappedMintAccountPDA, adminAuth, true);
 
-
     let trans = await program.methods
       .claimTokens({
         ticker: ticker
@@ -212,19 +202,17 @@ export const claimTokens = async ({ ticker, phantomProvider, setStep,setClaimSta
       })
       .rpc();
 
-
     const wrappedStateAct = await program.account.wrappedStateAccount.fetch(wrappedStateAccountPDA);
 
     const mint = await getMint(connection, wrappedMintAccountPDA);
 
     const userData = await program.account.userAccount.fetch(userAccountPDA);
-    userData.pendingClaims.map((e) => console.log(e.ticker, e.amount.toString()));
     setStep(4);
-    setClaimStatus('success')
+    setClaimStatus('success');
   } catch (err) {
     setStep(4);
     toast.error(err.message);
-    setClaimStatus('failure')
+    setClaimStatus('failure');
     console.log('Transaction error: ', err);
   }
 };

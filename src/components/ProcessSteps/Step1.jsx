@@ -30,7 +30,6 @@ export const Step1 = ({
 }) => {
   const appChainKey = ethChain.key;
 
-
   const [networkType, setNetworkType] = useState('testnet');
   const [inscribe, setInscribe] = useState(false);
   const [transferred, setTransferred] = useState(false);
@@ -99,7 +98,6 @@ export const Step1 = ({
   const switchNetworkHandler = async () => {
     try {
       let res = await window.unisat.switchNetwork(networkType);
-      console.log(res);
       setNetworkType((prev) => (prev === 'testnet' ? 'livenet' : 'testnet'));
     } catch (e) {
       console.log(e);

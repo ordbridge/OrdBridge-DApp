@@ -21,7 +21,6 @@ function PhantomProvider({ children }) {
       provider.on('accountChanged', (publicKey) => {
         if (publicKey) {
           // Set new public key and continue as usual
-          console.log(`Switched to account ${publicKey.toBase58()}`);
           setAccount(publicKey.toBase58());
         } else {
           provider.connect().catch((error) => {

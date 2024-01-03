@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import '../../styles/FormStep.css';
 import { claimTokens } from '../../utils/solanaHandler';
+import { LuLoader2 } from 'react-icons/lu';
 
 export const Step2 = ({
   ethChain,
@@ -23,12 +24,13 @@ export const Step2 = ({
 }) => {
   const val = 1000000000000000000;
   const appChainId = ethChain.chainId;
+
+  const [handlingClaim, setHandlingClaim] = useState(false);
   // const [changeNetworkPopup, setChangeNetworkPopup] = useState(false);
   // const handleChangeNetwork = () => {
   //   setChangeNetworkPopup((prev) => !prev);
   // };
 
-  console.log(pendingEntriesDataById);
   const checkNetwork = async () => {
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId === appChainId) {
@@ -45,6 +47,20 @@ export const Step2 = ({
       }
     }
   };
+
+  const handleSolanaClaim = async () => {
+    setHandlingClaim(true);
+
+    await claimTokens({
+      ticker: pendingEntriesDataById[0][0],
+      phantomProvider: phantomProvider,
+      setStep,
+      setClaimStatus
+    });
+
+    setHandlingClaim(false);
+  };
+
   return (
     <>
       <div className="first_container">
@@ -61,35 +77,31 @@ export const Step2 = ({
             </div>
           </header>
           <section className="bg-[#FFFFFF1A] rounded-xl mt-4" style={{ width: '90%' }}>
-            {swap ? (
-              <>
-                <div className="field_container">
-                  <div className="form_label">Token Id: </div>
-                  <div className="form_value">
-                    ${pendingEntriesDataById ? pendingEntriesDataById?.[0]?.[0] : res[0][0]}
-                  </div>
-                </div>
-                <div className="field_container">
-                  <div className="form_label">Token Amount: </div>
-                  <div className="form_value">
-                    {pendingEntriesDataById
-                      ? pendingEntriesDataById?.[1]?.[0] / val
-                      : res[1][0] / val}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="field_container">
-                  <div className="form_label">Token Id: </div>
-                  <div className="form_value">${token}</div>
-                </div>
-                <div className="field_container">
-                  <div className="form_label">Token Amount: </div>
-                  <div className="form_value">{tokenValue} </div>
-                </div>
-              </>
-            )}
+            <div className="field_container">
+              <div className="form_label">Token Id: </div>
+              <div className="form_value">
+                $
+                {fromChain.tag === 'SOL'
+                  ? pendingEntriesDataById?.[0]?.[0]
+                  : fromChain.tag === 'BRC'
+                  ? token
+                  : pendingEntriesDataById
+                  ? pendingEntriesDataById?.[0]?.[0]
+                  : res[0][0]}
+              </div>
+            </div>
+            <div className="field_container">
+              <div className="form_label">Token Amount: </div>
+              <div className="form_value">
+                {fromChain.tag === 'SOL'
+                  ? pendingEntriesDataById?.[1]?.[0]
+                  : fromChain.tag === 'BRC'
+                  ? tokenValue
+                  : pendingEntriesDataById
+                  ? pendingEntriesDataById?.[1]?.[0] / val
+                  : res[1][0] / val}
+              </div>
+            </div>
             {swap ? (
               <>
                 <div className="field_container">
@@ -101,7 +113,7 @@ export const Step2 = ({
                     ....
                   </div>
                 </div>
-                <div className="field_container">
+                {/* <div className="field_container">
                   <div className="form_label">To ({toChain.tag} Address):</div>
                   <div className="form_value">
                     {toChain.tag === 'SOL'
@@ -109,7 +121,7 @@ export const Step2 = ({
                       : metaMaskAddress.slice(0, 15)}
                     ....
                   </div>
-                </div>
+                </div> */}
               </>
             ) : (
               <>
@@ -122,7 +134,7 @@ export const Step2 = ({
                     ....
                   </div>
                 </div>
-                <div className="field_container">
+                {/* <div className="field_container">
                   <div className="form_label">To ({toChain.tag} Address):</div>
                   <div className="form_value">
                     {toChain.tag === 'SOL'
@@ -130,7 +142,7 @@ export const Step2 = ({
                       : unisatAddress.slice(0, 15)}
                     ....
                   </div>
-                </div>
+                </div> */}
               </>
             )}
           </section>
@@ -150,18 +162,21 @@ export const Step2 = ({
                 if (fromChain.tag === 'BRC') {
                   checkNetwork();
                 } else if (fromChain.tag === 'SOL') {
-                  claimTokens({
-                    ticker: pendingEntriesDataById[0][0],
-                    phantomProvider: phantomProvider,
-                    setStep,
-                    setClaimStatus
-                  });
+                  handleSolanaClaim();
                 } else {
                   burnMetamaskHandler();
                 }
               }}>
               <button className="min-w-full initiate_button">
-                <span className="min-w-full text-white font-syne text-xl">Claim</span>
+                {handlingClaim && (
+                  <span className="flex min-w-full justify-center items-center gap-2 min-w-full text-white font-syne text-xl">
+                    <LuLoader2 className="text-white animate-spin" />
+                    Processing ...
+                  </span>
+                )}
+                {!handlingClaim && (
+                  <span className="min-w-full text-white font-syne text-xl">Claim</span>
+                )}
               </button>
             </div>
           </footer>

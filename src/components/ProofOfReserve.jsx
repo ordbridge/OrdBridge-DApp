@@ -25,7 +25,6 @@ const ProofOfReserve = ({
       .then((result) => {
         if (result !== '0x0000000000000000000000000000000000000000') {
           const tokenContractHandler = new ethWeb3.eth.Contract(TOKEN_ABI, result);
-          console.log({ call: 1, result });
 
           tokenContractHandler.methods
             .totalSupply()

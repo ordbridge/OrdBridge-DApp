@@ -61,7 +61,7 @@ export const PendingEntries = ({
   });
   useEffect(() => {
     if (fromChain.tag === 'SOL') {
-      viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress,setStep });
+      viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress, setStep });
     }
   }, []);
 
@@ -107,7 +107,7 @@ export const PendingEntries = ({
 
   const getPendingEntries = async ({ type }) => {
     if (type === 'SOL') {
-      viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress,setStep });
+      viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress, setStep });
     } else {
       const requestedChain = getChainByTag(type);
 
@@ -156,7 +156,10 @@ export const PendingEntries = ({
                     className="hover:outline-none"
                     onClick={() => {
                       if (ele.tag !== 'SOL') setEntriesNetwork({ name: ele.tag, icon: ele.icon });
-                      if (ele.tag === 'SOL') setChainTypeFilter({ name: ele.tag, icon: ele.icon });
+                      if (ele.tag === 'SOL') {
+                        setChainTypeFilter({ name: ele.tag, icon: ele.icon });
+                        setFromChain(ele);
+                      }
                       getPendingEntries({ type: ele.tag });
                     }}>
                     <div
@@ -210,9 +213,9 @@ export const PendingEntries = ({
                     style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}
                     onClick={() => {
                       // if (fromChain?.tag !== 'SOL') {
-                        setPendingEntryPopup((prev) => !prev);
-                        setStep(2);
-                        setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
+                      setPendingEntryPopup((prev) => !prev);
+                      setStep(2);
+                      setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
                       // } else {
                       //   claimTokens({ ticker: ele, phantomProvider,setStep });
                       // }

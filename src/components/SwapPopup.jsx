@@ -374,7 +374,6 @@ export const SwapPopup = ({
     };
     if (tokenValue > 0) {
       initiateBridge({ body: body, session_key: session_key }).then((res) => {
-        console.log({ res });
         setStep(1);
         handleAddressModal();
         setInitiateBridgeResponse(res);
@@ -395,7 +394,6 @@ export const SwapPopup = ({
     };
     if (tokenValue > 0) {
       initiateBridge({ body: body, session_key: session_key }).then((res) => {
-        console.log({ res });
         setStep(1);
         handleAddressModal();
         setInitiateBridgeResponse(res);
