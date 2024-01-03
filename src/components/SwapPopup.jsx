@@ -782,6 +782,7 @@ export const SwapPopup = ({
             ethChain={getEvmChain()}
             setStep={setStep}
             fromChain={fromChain}
+            toChain={toChain}
             handleBack={handleBack}
             metaMaskAddress={metaMaskAddress}
             unisatAddress={unisatAddress}
@@ -792,7 +793,10 @@ export const SwapPopup = ({
             burnMetamaskHandler={burnMetamaskHandler}
             burnSolanaTokensHandler={burnSolanaTokensHandler}
             tokenValue={tokenValue}
+            phantomProvider={phantomProvider}
             pendingEntriesDataById={pendingEntriesDataById}
+            phantomAddress={phantomAddress}
+            setClaimStatus={setClaimStatus}
           />
         );
       case 3:
@@ -806,6 +810,7 @@ export const SwapPopup = ({
             claimStatus={claimStatus}
             setClaimButton={setClaimButton}
             setClaimStatus={setClaimStatus}
+            fromChain={fromChain}
           />
         );
       default:

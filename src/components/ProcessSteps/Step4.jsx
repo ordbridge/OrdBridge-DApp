@@ -1,7 +1,14 @@
 import React from 'react';
 import '../../styles/FormStep.css';
 
-export const Step4 = ({ setStep, claimStatus, setClaimButton, setClaimStatus, swap }) => {
+export const Step4 = ({
+  setStep,
+  claimStatus,
+  setClaimButton,
+  setClaimStatus,
+  swap,
+  fromChain
+}) => {
   return (
     <>
       <div className="first_container">
@@ -19,20 +26,17 @@ export const Step4 = ({ setStep, claimStatus, setClaimButton, setClaimStatus, sw
                 <>The transaction failed as user rejected</>
               ) : (
                 <>
-                  Your tokens have been received{" "}
-                  <span className="fw-bold">successfully</span>
+                  Your tokens have been received <span className="fw-bold">successfully</span>
                 </>
               )}
             </div>
           </section>
-          {claimStatus === 'success' && !swap && (
+          {claimStatus === 'success' && !swap && fromChain.tag !== 'SOL' && (
             <section className="form_data_section3 p-2 font-syne">
-              <div className="fw-semibold">
-                You can check pending entries at anytime.
-              </div>
+              <div className="fw-semibold">You can check pending entries at anytime.</div>
             </section>
           )}
-          {!swap && claimStatus === 'success' && (
+          {!swap && claimStatus === 'success' && fromChain.tag !== 'SOL' && (
             <section className="form_data_section p-2 font-syne">
               <div className="fw-normal flex align-items-center">
                 <>Please Wait 30 minutes for the bridging process to complete.</>
