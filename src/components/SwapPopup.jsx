@@ -186,7 +186,9 @@ export const SwapPopup = ({
 
   useEffect(() => {
     let newType;
-    if (fromChain.tag === 'BRC') {
+    if (fromChain.isEvm && toChain.isEvm) {
+      newType = 'etoe';
+    } else if (fromChain.tag === 'BRC') {
       if (toChain.tag === 'SOL') {
         newType = 'btos';
       } else {
