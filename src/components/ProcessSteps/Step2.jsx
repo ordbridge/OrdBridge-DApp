@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import '../../styles/FormStep.css';
+import { claimTokens } from '../../utils/solanaHandler';
 
 export const Step2 = ({
   ethChain,
@@ -13,8 +14,12 @@ export const Step2 = ({
   token,
   tokenValue,
   burnMetamaskHandler,
-  burnSolanaTokensHandler,
-  fromChain
+  fromChain,
+  phantomProvider,
+  setStep,
+  phantomAddress,
+  toChain,
+  setClaimStatus
 }) => {
   const val = 1000000000000000000;
   const appChainId = ethChain.chainId;
@@ -23,7 +28,7 @@ export const Step2 = ({
   //   setChangeNetworkPopup((prev) => !prev);
   // };
 
-  console.log(fromChain);
+  console.log(pendingEntriesDataById);
   const checkNetwork = async () => {
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId === appChainId) {
@@ -88,28 +93,48 @@ export const Step2 = ({
             {swap ? (
               <>
                 <div className="field_container">
-                  <div className="form_label">From (BTC Address):</div>
-                  <div className="form_value">{unisatAddress.slice(0, 15)}....</div>
+                  <div className="form_label">From ({fromChain.tag} Address):</div>
+                  <div className="form_value">
+                    {fromChain.tag === 'SOL'
+                      ? phantomAddress.slice(0, 15)
+                      : unisatAddress.slice(0, 15)}
+                    ....
+                  </div>
                 </div>
                 <div className="field_container">
-                  <div className="form_label">To (ETH Address):</div>
-                  <div className="form_value">{metaMaskAddress.slice(0, 15)}....</div>
+                  <div className="form_label">To ({toChain.tag} Address):</div>
+                  <div className="form_value">
+                    {toChain.tag === 'SOL'
+                      ? phantomAddress.slice(0, 15)
+                      : metaMaskAddress.slice(0, 15)}
+                    ....
+                  </div>
                 </div>
               </>
             ) : (
               <>
                 <div className="field_container">
-                  <div className="form_label">To (ETH Address):</div>
-                  <div className="form_value">{metaMaskAddress.slice(0, 15)}....</div>
+                  <div className="form_label">From ({fromChain.tag} Address):</div>
+                  <div className="form_value">
+                    {fromChain.tag === 'SOL'
+                      ? phantomAddress.slice(0, 15)
+                      : metaMaskAddress.slice(0, 15)}
+                    ....
+                  </div>
                 </div>
                 <div className="field_container">
-                  <div className="form_label">From (BTC Address):</div>
-                  <div className="form_value">{unisatAddress.slice(0, 15)}....</div>
+                  <div className="form_label">To ({toChain.tag} Address):</div>
+                  <div className="form_value">
+                    {toChain.tag === 'SOL'
+                      ? phantomAddress.slice(0, 15)
+                      : unisatAddress.slice(0, 15)}
+                    ....
+                  </div>
                 </div>
               </>
             )}
           </section>
-          {!swap && (
+          {!swap && fromChain.tag !== 'SOL' && (
             <div
               className="mt-3 swap_header fs-6 fw-bold"
               style={{ width: '80%', textAlign: 'center' }}>
@@ -125,7 +150,12 @@ export const Step2 = ({
                 if (fromChain.tag === 'BRC') {
                   checkNetwork();
                 } else if (fromChain.tag === 'SOL') {
-                  burnSolanaTokensHandler();
+                  claimTokens({
+                    ticker: pendingEntriesDataById[0][0],
+                    phantomProvider: phantomProvider,
+                    setStep,
+                    setClaimStatus
+                  });
                 } else {
                   burnMetamaskHandler();
                 }

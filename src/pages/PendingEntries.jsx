@@ -38,7 +38,8 @@ export const PendingEntries = ({
   setTokenName,
   setInitiateBridgeResponse,
   chain,
-  connectMetamaskWallet
+  connectMetamaskWallet,
+  fromChain
 }) => {
   const navigate = useNavigate();
   const { provider: phantomProvider } = usePhantomWallet();
@@ -51,13 +52,18 @@ export const PendingEntries = ({
   const [pendingTickers, setPendngTickers] = useState([]);
 
   const [chainTypeFilter, setChainTypeFilter] = useState({
-    name: chain.tag,
-    icon: chain.icon
+    name: fromChain.tag,
+    icon: fromChain.icon
   });
   const [unprocessedFilter, setUnProcessedFilter] = useState({
-    name: chain.tag,
-    icon: chain.icon
+    name: fromChain.tag,
+    icon: fromChain.icon
   });
+  useEffect(() => {
+    if (fromChain.tag === 'SOL') {
+      viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress,setStep });
+    }
+  }, []);
 
   useEffect(() => {
     setClaimButton(false);
@@ -72,9 +78,9 @@ export const PendingEntries = ({
         metaMaskAddress: metaMaskAddress
       }).then((res) => {
         setUnprocessedEntries(res?.unprocessed);
-        const filterData = res?.unprocessed?.filter((ele) => ele.chain === toChain.chain_flag);
+        const filterData = res?.unprocessed?.filter((ele) => ele.chain === fromChain.chain_flag);
         setFilterUnprocessedEntries(filterData);
-        callContractHandler(res?.pending_tickers);
+        if (fromChain.tag !== 'SOL') callContractHandler(res?.pending_tickers);
         setPendngTickers(res?.pending_tickers);
       });
     } else {
@@ -101,7 +107,7 @@ export const PendingEntries = ({
 
   const getPendingEntries = async ({ type }) => {
     if (type === 'SOL') {
-      viewDetails({ phantomProvider, setMetamaskResponse,address:phantomAddress });
+      viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress,setStep });
     } else {
       const requestedChain = getChainByTag(type);
 
@@ -203,13 +209,13 @@ export const PendingEntries = ({
                     className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
                     style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}
                     onClick={() => {
-                      if (chainTypeFilter?.name !== 'SOL') {
+                      // if (fromChain?.tag !== 'SOL') {
                         setPendingEntryPopup((prev) => !prev);
                         setStep(2);
                         setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
-                      }else{
-                        claimTokens({ticker:ele,phantomProvider})
-                      }
+                      // } else {
+                      //   claimTokens({ ticker: ele, phantomProvider,setStep });
+                      // }
                     }}>
                     Claim Entry
                   </p>
