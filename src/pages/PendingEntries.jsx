@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown } from 'flowbite-react';
 import Web3 from 'web3';
-import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
 import { useNavigate } from 'react-router-dom';
 import { IoIosArrowDown } from 'react-icons/io';
 import ETH_ABI from '../utils/eth';
@@ -10,7 +10,12 @@ import Text from '../components/Text';
 import { getUserAccount } from '../utils/pdas';
 import { getChainByTag, getWeb3UrlByTag } from '../utils/chains';
 import { pendingEntryService } from '../services/homepage.service';
+import idl from '../utils/idl.json';
+import { Program, AnchorProvider, utils, web3, BN } from '@project-serum/anchor';
+import { getMint } from '@solana/spl-token';
 import '../styles/pending-entries.css';
+import usePhantomWallet from '../hooks/usePhantomWallet';
+import { viewDetails } from '../utils/solanaHandler';
 
 export const PendingEntries = ({
   appChains,
@@ -36,6 +41,10 @@ export const PendingEntries = ({
   connectMetamaskWallet
 }) => {
   const navigate = useNavigate();
+  const { provider: phantomProvider } = usePhantomWallet();
+  const opts = {
+    preflightCommitment: 'processed'
+  };
   const val = 1000000000000000000;
   const [unprocessedEntries, setUnprocessedEntries] = useState([]);
   const [filterUnprocessedEntries, setFilterUnprocessedEntries] = useState([]);
@@ -92,28 +101,7 @@ export const PendingEntries = ({
 
   const getPendingEntries = async ({ type }) => {
     if (type === 'SOL') {
-      const connection = new Connection(clusterApiUrl('devnet')); // Update URL as needed
-      const programId = new PublicKey('gnLppSzkeLGCHrLjhy3pM9rQ8AjnPh6YMz4XBavxu4Y'); // Update with actual program ID
-      const walletPublicKey = new PublicKey(phantomAddress);
-
-      const userAccountPda = getUserAccount(programId, walletPublicKey);
-
-      try {
-        const accountInfo = await connection.getAccountInfo(userAccountPda);
-        if (accountInfo === null) {
-          throw new Error('User account not found');
-        }
-
-        // TODO: check if data is JSON at all?
-        const deserializedData = JSON.parse(accountInfo.data);
-
-        // TODO: This result should go somewhere??
-        console.log('User Entries:', deserializedData.pendingClaims);
-        return deserializedData.pendingClaims;
-      } catch (error) {
-        console.error('Error fetching user entries:', error);
-        throw error;
-      }
+      viewDetails({ phantomProvider });
     } else {
       const requestedChain = getChainByTag(type);
 
@@ -161,7 +149,8 @@ export const PendingEntries = ({
                   <Dropdown.Item
                     className="hover:outline-none"
                     onClick={() => {
-                      setEntriesNetwork({ name: ele.tag, icon: ele.icon });
+                      if (ele.tag !== 'SOL') setEntriesNetwork({ name: ele.tag, icon: ele.icon });
+                      if (ele.tag === 'SOL') setChainTypeFilter({ name: ele.tag, icon: ele.icon });
                       getPendingEntries({ type: ele.tag });
                     }}>
                     <div

@@ -23,18 +23,7 @@ import { Step3 } from './ProcessSteps/Step3';
 import { Step4 } from './ProcessSteps/Step4';
 import useMediaQuery from '../hooks/useMediaQuery';
 import usePhantomWallet from '../hooks/usePhantomWallet';
-import * as buffer from 'buffer';
-
-import { Connection, PublicKey, SYSVAR_RENT_PUBKEY } from '@solana/web3.js';
-import { Program, AnchorProvider, utils, web3, BN } from '@project-serum/anchor';
-import idl from '../utils/idl.json';
-import {
-  getMint,
-  TOKEN_PROGRAM_ID,
-  ASSOCIATED_TOKEN_PROGRAM_ID,
-  getAssociatedTokenAddressSync
-} from '@solana/spl-token';
-window.Buffer = buffer.Buffer;
+import { burnHandler } from '../utils/solanaHandler';
 
 export const SwapPopup = ({
   step,
@@ -57,7 +46,6 @@ export const SwapPopup = ({
   session_key,
   pendingEntryPopup,
   setPendingEntryPopup,
-  pageLoader
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [swap, setSwap] = useState(true);
@@ -78,11 +66,6 @@ export const SwapPopup = ({
   const [toChainConnected, setToChainConnected] = useState(false);
 
   const { provider: phantomProvider } = usePhantomWallet();
-  const opts = {
-    preflightCommitment: 'processed'
-  };
-  const utf8 = utils.bytes.utf8;
-  const programID = new PublicKey(idl.metadata.address);
 
   // isRedundant and is placed in app.jsx as well
   const getEvmChain = () => {
@@ -240,12 +223,12 @@ export const SwapPopup = ({
     }, 30000);
   };
   const infuraTag = getEvmChain().tag === 'ETH' ? 'mainnet' : 'avalanche-mainnet';
-  const web = new Web3(`https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`);
+  const web3 = new Web3(`https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`);
   const ethWeb3 = new Web3(window.ethereum);
   const appContractAddress = getEvmChain().contractAddress;
   const factoryContractAddress = getEvmChain().factoryAddress;
   const ABI = getEvmChain().tag === 'ETH' ? ETH_ABI : AVAX_ABI;
-  const contractHandler = new web.eth.Contract(ABI, appContractAddress);
+  const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
   const callContractFunction = async () => {
     try {
       const result = await contractHandler.methods
@@ -278,7 +261,7 @@ export const SwapPopup = ({
   };
   const burnMetamaskHandler = async () => {
     const val = 1000000000000000000;
-    const BN = web.utils.toBN;
+    const BN = web3.utils.toBN;
     // const DIVIDER = Math.pow(10, 18);
     const amount = new BN(tokenValue).mul(new BN(val));
     try {
@@ -330,104 +313,14 @@ export const SwapPopup = ({
       setClaimStatus('failure');
     }
   };
-
-  async function getProvider() {
-    /* create the provider and return it to the caller */
-    /* network set to local network for now */
-    const network = 'https://api.devnet.solana.com';
-    // const walletPublicKey = new PublicKey(phantomAddress);
-    const connection = new Connection(network, opts.preflightCommitment);
-
-    let wallet = {
-      publicKey: phantomProvider?._publicKey,
-      signTransaction: phantomProvider.signTransaction,
-      signAllTransactions: phantomProvider.signAllTransactions
-    };
-
-    const provider = new AnchorProvider(connection, wallet, opts.preflightCommitment);
-    return provider;
-  }
   const burnSolanaTokensHandler = async () => {
-    const walletPublicKey = new PublicKey(phantomAddress);
-    let ticker = 'ABCD';
-
-    const provider = await getProvider();
-    const network = 'https://api.devnet.solana.com';
-    const connection = new Connection(network, opts.preflightCommitment);
-    const program = new Program(idl, programID, provider);
-    try {
-      const [globalStateAccountPDA] = await web3.PublicKey.findProgramAddress(
-        [utf8.encode('global_state')],
-        program.programId
-      );
-
-      const [configAccountPDA] = await web3.PublicKey.findProgramAddress(
-        [utf8.encode('config')],
-        program.programId
-      );
-
-      const [wrappedMintAccountPDA] = await web3.PublicKey.findProgramAddress(
-        [utf8.encode('wrapped_mint'), utf8.encode(ticker)],
-        program.programId
-      );
-
-      const [wrappedStateAccountPDA] = await web3.PublicKey.findProgramAddress(
-        [utf8.encode('wrapped_state'), utf8.encode(ticker)],
-        program.programId
-      );
-
-      const [userAccountPDA] = await web3.PublicKey.findProgramAddress(
-        [utf8.encode('user_account'), walletPublicKey.toBuffer()],
-        program.programId
-      );
-
-      const globalStateAct = await program.account.globalState.fetch(globalStateAccountPDA);
-
-      const adminAuth = globalStateAct.adminAuthority;
-      const signerAta = getAssociatedTokenAddressSync(wrappedMintAccountPDA, walletPublicKey, true);
-
-      let trans = await program.methods
-        .burnTokens({
-          ticker: token,
-          amount: new BN(tokenValue),
-          chain: 'bitcoin',
-          crossChainAddress: 'mybitcoinaddress'
-        })
-        .accounts({
-          globalStateAccount: globalStateAccountPDA,
-          configAccount: configAccountPDA,
-          wrappedMintAccount: wrappedMintAccountPDA,
-          wrappedStateAccount: wrappedStateAccountPDA,
-          userAccount: userAccountPDA,
-          signerAta: signerAta,
-          admin: adminAuth,
-          signer: provider.wallet.publicKey,
-          systemProgram: web3.SystemProgram.programId,
-          rent: SYSVAR_RENT_PUBKEY,
-          tokenProgram: TOKEN_PROGRAM_ID,
-          associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID
-        })
-        .rpc();
-
-      const wrappedStateAct = await program.account.wrappedStateAccount.fetch(
-        wrappedStateAccountPDA
-      );
-
-      const mint = await getMint(connection, wrappedMintAccountPDA);
-      console.log(
-        'Total Supply of the mint: ',
-        mint.supply.toString(),
-        mint.isInitialized,
-        mint.tlvData.toString()
-      );
-
-      setStep(4);
-    } catch (error) {
-      console.log('Error burning Solana tokens:', error.message);
-      setStep(4);
-      setClaimStatus('failure');
-      toast.error(error.message);
-    }
+    burnHandler({
+      token,
+      setStep,
+      tokenValue,
+      setClaimStatus,
+      phantomProvider
+    });
   };
   const handleModal = () => {
     setShowModal((prev) => !prev);
