@@ -101,7 +101,7 @@ export const PendingEntries = ({
 
   const getPendingEntries = async ({ type }) => {
     if (type === 'SOL') {
-      viewDetails({ phantomProvider });
+      viewDetails({ phantomProvider, setMetamaskResponse });
     } else {
       const requestedChain = getChainByTag(type);
 
@@ -188,19 +188,26 @@ export const PendingEntries = ({
                   {ele}
                 </div>
                 <div className="min-w-1/4 flex justify-center text-white font-bold font-plusjakartasans">
-                  {ClaimEntriesData[1][index] / val}
+                  {chainTypeFilter?.name !== 'SOL'
+                    ? ClaimEntriesData[1][index] / val
+                    : ClaimEntriesData[1][index]}
                 </div>
                 <div className="min-w-1/4 flex justify-center text-white font-bold font-plusjakartasans">
-                  {metaMaskAddress?.slice(0, 10)}...
+                  {chainTypeFilter?.name === 'SOL'
+                    ? phantomAddress?.slice(0, 10)
+                    : metaMaskAddress?.slice(0, 10)}
+                  ...
                 </div>
                 <div className="min-w-1/4 flex justify-center text-white font-bold font-plusjakartasans">
                   <p
                     className="rounded-2xl font-syne py-2 px-6 cursor-pointer !mb-0 text-base font-normal"
                     style={{ border: '1px solid rgba(121, 78, 255, 0.8)', color: 'white' }}
                     onClick={() => {
-                      setPendingEntryPopup((prev) => !prev);
-                      setStep(2);
-                      setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
+                      if (chainTypeFilter?.name !== 'SOL') {
+                        setPendingEntryPopup((prev) => !prev);
+                        setStep(2);
+                        setPendingEntriesDataById([[ele], [ClaimEntriesData[1][index]]]);
+                      }
                     }}>
                     Claim Entry
                   </p>

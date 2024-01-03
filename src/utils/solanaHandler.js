@@ -13,12 +13,9 @@ const utf8 = utils.bytes.utf8;
 const programID = new PublicKey(idl.metadata.address);
 window.Buffer = buffer.Buffer;
 
-
-
 const opts = {
   preflightCommitment: 'processed'
 };
-
 
 async function getProvider({ phantomProvider }) {
   /* create the provider and return it to the caller */
@@ -36,8 +33,7 @@ async function getProvider({ phantomProvider }) {
   return provider;
 }
 
-
-export const viewDetails = async ({ phantomProvider }) => {
+export const viewDetails = async ({ phantomProvider, setMetamaskResponse }) => {
   const provider = await getProvider({ phantomProvider });
   const network = 'https://api.devnet.solana.com';
   const program = new Program(idl, programID, provider);
@@ -48,23 +44,26 @@ export const viewDetails = async ({ phantomProvider }) => {
   );
 
   const globalStateAct = await program.account.globalState.fetch(globalStateAccountPDA);
+  let minTokenList = [];
   for (let i = 0; i < globalStateAct.tickerList.length; i++) {
     var [wrappedMintAccountPDA] = await web3.PublicKey.findProgramAddress(
       [utf8.encode('wrapped_mint'), utf8.encode(globalStateAct.tickerList[i])],
       program.programId
     );
-
     var mint = await getMint(connection, wrappedMintAccountPDA);
     var x = Math.pow(10, mint.decimals);
-    console.log(
-      'Ticker: ',
-      globalStateAct.tickerList[0],
-      'Mint: ',
-      wrappedMintAccountPDA.toString(),
-      'Total Supply: ',
-      Number(mint.supply) / x
-    );
+    minTokenList.push(Number(mint.supply) / x);
+    // console.log(x, 'xxx');
+    // console.log(
+    //   'Ticker: ',
+    //   globalStateAct.tickerList[i],
+    //   'Mint: ',
+    //   wrappedMintAccountPDA.toString(),
+    //   'Total Supply: ',
+    //   Number(mint.supply) / x
+    // );
   }
+  setMetamaskResponse([globalStateAct.tickerList, minTokenList]);
 };
 
 export const burnHandler = async ({
@@ -107,7 +106,11 @@ export const burnHandler = async ({
     const globalStateAct = await program.account.globalState.fetch(globalStateAccountPDA);
 
     const adminAuth = globalStateAct.adminAuthority;
-    const signerAta = getAssociatedTokenAddressSync(wrappedMintAccountPDA, provider.wallet.publicKey, true);
+    const signerAta = getAssociatedTokenAddressSync(
+      wrappedMintAccountPDA,
+      provider.wallet.publicKey,
+      true
+    );
 
     let trans = await program.methods
       .burnTokens({
