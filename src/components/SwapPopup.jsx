@@ -168,6 +168,8 @@ export const SwapPopup = ({
       setFromChainConnected(true);
     } else if (fromChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
       setFromChainConnected(true);
+    } else if (fromChain.tag === 'SOL' && !phantomAddress) {
+      setFromChainConnected(false);
     } else if (metaMaskAddress && metaMaskAddress !== '') {
       setFromChainConnected(true);
     } else {
@@ -178,6 +180,8 @@ export const SwapPopup = ({
       setToChainConnected(true);
     } else if (toChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
       setToChainConnected(true);
+    } else if (toChain.tag === 'SOL' && !phantomAddress) {
+      setToChainConnected(false);
     } else if (metaMaskAddress && metaMaskAddress !== '') {
       setToChainConnected(true);
     } else {
