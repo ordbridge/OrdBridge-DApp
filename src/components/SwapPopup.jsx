@@ -24,6 +24,7 @@ import { Step4 } from './ProcessSteps/Step4';
 import useMediaQuery from '../hooks/useMediaQuery';
 import usePhantomWallet from '../hooks/usePhantomWallet';
 import { burnHandler } from '../utils/solanaHandler';
+import { Link } from 'react-router-dom';
 
 export const SwapPopup = ({
   step,
@@ -204,10 +205,17 @@ export const SwapPopup = ({
     setType(newType);
   }, [fromChain, toChain]);
 
-  const swapChains = () => {
+  const swapChains = async () => {
     const temp = fromChain;
     setFromChain(toChain);
     setToChain(temp);
+
+    if (toChain.isEvm) {
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      if (chainId !== toChain.chainId) {
+        connectMetamaskWallet(toChain.chainId);
+      }
+    }
   };
 
   let ref;
@@ -611,11 +619,13 @@ export const SwapPopup = ({
                           className="ml-2"
                           style={{ color: '#794EFF' }}
                         />
-                        <span
-                          className="font-syne text-xm normal ml-2 !text-sm sm:!text-[10px]"
-                          style={{ color: '#794EFF' }}>
-                          Proof of Reserve
-                        </span>
+                        <Link to="/dashboard">
+                          <span
+                            className="font-syne text-xm normal ml-2 !text-sm sm:!text-[10px]"
+                            style={{ color: '#794EFF' }}>
+                            Proof of Reserves
+                          </span>
+                        </Link>
                       </div>
                     </button>
                   </div>
