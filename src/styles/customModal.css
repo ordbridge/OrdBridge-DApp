@@ -162,12 +162,12 @@
     justify-content: center;
 }
 
-.flex div {
-    width: 42%;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 1rem;
-}
+/*.flex div {*/
+/*    width: 42%;*/
+/*    margin-left: 5px;*/
+/*    margin-right: 5px;*/
+/*    margin-bottom: 1rem;*/
+/*}*/
 
 .confirm_modal_head {
     /* display: flex;

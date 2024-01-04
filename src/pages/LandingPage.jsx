@@ -52,15 +52,15 @@ const LandingPage = () => {
 
   const RoadmapItem = ({last}) => {
       return (
-        <div className="flex ">
+        <div className="flex gap-4 ">
           <div className="flex flex-col  justify-start items-center max-w-[40px] p-0 m-0">
             <img src={BoxIcon}   alt=""/>
             {!last && <div className="h-full max-w-[1px] border m-1" />}
           </div>
-          <div className="text-white flex flex-col gap-3 flex-1 ">
-            <p className="text-gradient font-grostek">05 jan</p>
-            <p className="font-syne" >summary of event </p>
-            <p className="font-grostek" >Lorem ipsum dolor sit amet, At cumque dicta distinctio dolorem, ducimus labore molestiae possimus quas
+          <div className="text-white flex flex-col gap-3 flex-1  py-3">
+            <p className="text-gradient font-medium font-grostek">05 JAN</p>
+            <p className="font-syne font-medium text-[20px]" >summary of event </p>
+            <p className="text-[15px] font-thin font-grostek" >Lorem ipsum dolor sit amet, At cumque dicta distinctio dolorem, ducimus labore molestiae possimus quas
               tempore vel veritatis vitae voluptas.</p>
           </div>
         </div>
