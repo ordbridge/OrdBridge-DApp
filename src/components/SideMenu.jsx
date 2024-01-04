@@ -21,7 +21,7 @@ const SideMenu = ({
   const LinkItem = ({ link, text, onClick, ...otherProps }) => {
     return (
       <Link to={link} onClick={onClick} {...otherProps}>
-        <Text className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal">
+        <Text className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal text-center">
           {text}
         </Text>
       </Link>
@@ -35,8 +35,9 @@ const SideMenu = ({
           <div className="side_header">
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 ">
             <LinkItem
+
               link="/"
               onClick={() => {
                 handleSideMenu();

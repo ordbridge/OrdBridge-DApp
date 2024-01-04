@@ -81,9 +81,9 @@ const LandingPage = () => {
     return (
       <div className="chain-icon-container">
         <div className="chain-icon-circle">
-          <img src={icon} alt="" className=" min-h-[90px] min-w-[90px] " />
+          <img src={icon} alt="" className=" sm:min-h-[50px] sm:w-[70px] min-h-[90px] w-[90px] " />
         </div>
-        <p className="text-white font-bold font-syne" >{name}</p>
+        <p className="text-white font-bold font-syne sm:text-[14px]" >{name}</p>
       </div>
     );
   };
@@ -141,7 +141,7 @@ const LandingPage = () => {
         <div className="grid grid-cols-2 md:grid-cols-1">
           <div className="flex flex-col  md:max-w-full gap-4 md:items-center md:text-center">
             <p className="text-white text-[20px] font-medium font-syne max-w-[80%] ">Tagline</p>
-            <h1 className="text-gradient text-[42px] font-bold font-syne max-w-[80%] ">
+            <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne max-w-[80%] ">
               Powering the most popular bridge
             </h1>
             <p className="text-white text-[16px] font-thin font-grostek max-w-[90%]">
@@ -168,7 +168,7 @@ const LandingPage = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit
           </p>
         </div>
-        <div className="flex flex-wrap justify-center ">
+        <div className=" sm:grid md:grid-cols-3 md:gap-3 flex flex-wrap justify-center ">
           <ChainIcon icon={Chain1} name="AVAX" />
           <ChainIcon icon={Chain2} name="BASE" />
           <ChainIcon icon={Chain3} name="ETH" />
@@ -185,9 +185,9 @@ const LandingPage = () => {
               alt=""
             />
           </div>
-          <div className="flex flex-col md:items-center md:text-center  max-w-full  gap-4 md:pt-20">
+          <div className="flex flex-col md:items-center md:text-center  max-w-full  gap-4 md:pt-10">
             <p className="text-white text-[20px] font-medium font-syne">How it works</p>
-            <h1 className="text-gradient text-[42px] font-bold font-syne">
+            <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
               Medium length section heading goes here
             </h1>
             <p className="text-white text-[15px] font-thin font-grostek leading-6">
@@ -207,7 +207,7 @@ const LandingPage = () => {
       <div className="container max-w-[1320px] mx-auto py-32 md:py-20 md:px-5">
         <div className="grid grid-cols-2 md:grid-cols-1">
           <div className="flex flex-col md:items-center md:text-center items-start justify-start md:max-w-full max-w-[80%] gap-4">
-            <h1 className="text-gradient text-[42px] font-bold font-syne">
+            <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
               OrdBridge Numbers and summary
             </h1>
           </div>
@@ -246,7 +246,7 @@ const LandingPage = () => {
         <div className="grid grid-cols-2 md:grid-cols-1">
           <div className="flex flex-col md:max-w-full md:text-center max-w-[80%] gap-4 justify-start md:mb-20">
             <p className="text-gradient font-bold text-[20px] font-syne" >Roadmap</p>
-            <h1 className="text-gradient text-[42px] font-bold font-syne">
+            <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
               Share your journey from the beginning to now
             </h1>
           </div>

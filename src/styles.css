@@ -66,10 +66,10 @@
         border: 1.35px solid #794EFF;
         background: linear-gradient(178deg, rgba(30, 20, 64, 1) 13.86%, rgba(36, 26, 73, 1) 98.67%);
         transition: 0.4s ease left;
-        @apply z-[10001] rounded-l-[22px] border-[#794EFF] h-[100vh] absolute border p-3 right-0 w-[75vw] pl-[30px]
+        @apply z-[10001]  border-[#794EFF] h-[100vh] absolute border p-3 right-0 w-screen pl-[30px]
     }
     .landing-page-hero {
-        @apply  py-12 min-h-screen md:flex md:flex-col md:justify-around
+        @apply  py-12 min-h-screen md:flex md:flex-col md:justify-around md:px-3
     }
     .landing-page-hero-content--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
@@ -105,7 +105,7 @@
         @apply w-screen md:object-cover md:w-full md:h-full
     }
     .landing-page-features {
-        @apply md:py-10 py-28 container max-w-[1320px] mx-auto ;
+        @apply md:py-10 py-28 container max-w-[1320px] mx-auto md:p-3 ;
     }
     .landing-page-features-title {
         @apply flex flex-col justify-center items-center pb-10 ;
@@ -158,11 +158,11 @@
         /*border: 0.369px solid #7558C3;*/
         background: linear-gradient(180deg, #1C143A 0%, rgba(36, 26, 73, 0.00) 100%);
         border-radius: 14px;
-        @apply h-[250px] max-w-[200px] sm:h-[250px] sm:max-w-[200px] flex flex-col justify-center items-center
+        @apply h-[250px] max-w-[200px] sm:h-[110px] sm:max-w-[110px] flex flex-col justify-center items-center
     }
     .chain-icon-circle {
         background: linear-gradient(to bottom, #1C143A, transparent), linear-gradient(to right, #1C143A, transparent); /* Background gradient similar to the fill gradient */
-        @apply sm:min-w-[145px] sm:h-[145px] min-w-[145px] h-[145px] rounded-full flex justify-center items-center
+        @apply sm:min-w-[90px] sm:h-[90px] min-w-[145px] h-[145px] rounded-full flex justify-center items-center
     }
     .lp-footer-break{
         width: 413px;
