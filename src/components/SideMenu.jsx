@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
 import "../styles/sidemenu.css";
 import ConnectMetaMaskWallet from "./Navbar/ConnectMetaMaskWallet";
+import ConnectPhantomWallet from "./Navbar/ConnectPhantomWallet";
 import ConnectUnisatWallet from "./Navbar/ConnectUnisatWallet";
 import Text from "./Text";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,11 +14,24 @@ const SideMenu = ({
   connectUnisatWallet,
   metaMaskAddress,
   connectMetamaskWallet,
+  phantomAddress,
+  connectPhantomWallet,
   setPendingEntryPopup,
   navToHome,
   setStep,
 }) => {
   const navigate = useNavigate();
+  const [walletsSet, setWalletsSet] = useState(false);
+
+  useEffect(() => {
+    if(unisatAddress && unisatAddress !== "" && metaMaskAddress && metaMaskAddress !== ""){
+      setWalletsSet(true)
+    } else if(unisatAddress && unisatAddress !== "" && phantomAddress && phantomAddress !== ""){
+      setWalletsSet(true);
+    } else {
+      setWalletsSet(false);
+    }
+  }, [unisatAddress, metaMaskAddress, phantomAddress]);
   const LinkItem = ({ link, text, onClick, ...otherProps }) => {
     return (
       <Link to={link} onClick={onClick} {...otherProps}>
@@ -62,8 +76,8 @@ const SideMenu = ({
             <LinkItem
               text="Pending Entries"
               onClick={() => {
-                if (!unisatAddress || !metaMaskAddress) {
-                  toast.error("Please Connect Wallets First");
+                if (!walletsSet) {
+                  toast.error("Please connect wallets first");
                 } else {
                   navigate("/");
                   setPendingEntryPopup((prev) => !prev);
@@ -79,6 +93,10 @@ const SideMenu = ({
             <ConnectMetaMaskWallet
               onConnectClick={connectMetamaskWallet}
               address={metaMaskAddress}
+            />
+            <ConnectPhantomWallet
+              onConnectClick={connectPhantomWallet}
+              address={phantomAddress}
             />
           </div>
         </div>

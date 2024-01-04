@@ -158,7 +158,7 @@
         /*border: 0.369px solid #7558C3;*/
         background: linear-gradient(180deg, #1C143A 0%, rgba(36, 26, 73, 0.00) 100%);
         border-radius: 14px;
-        @apply h-[250px] max-w-[200px] sm:h-[110px] sm:max-w-[110px] flex flex-col justify-center items-center
+        @apply h-[250px] min-w-[200px] sm:h-[110px] sm:max-w-[110px] flex flex-col justify-center items-center
     }
     .chain-icon-circle {
         background: linear-gradient(to bottom, #1C143A, transparent), linear-gradient(to right, #1C143A, transparent); /* Background gradient similar to the fill gradient */

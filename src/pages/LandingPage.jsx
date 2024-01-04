@@ -168,7 +168,7 @@ const LandingPage = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit
           </p>
         </div>
-        <div className=" sm:grid md:grid-cols-3 md:gap-3 flex flex-wrap justify-center ">
+        <div className=" sm:grid md:grid-cols-3 md:gap-3 flex gap-4 flex-wrap justify-center ">
           <ChainIcon icon={Chain1} name="AVAX" />
           <ChainIcon icon={Chain2} name="BASE" />
           <ChainIcon icon={Chain3} name="ETH" />

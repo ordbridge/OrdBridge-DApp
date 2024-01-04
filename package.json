@@ -4,6 +4,13 @@
   "private": true,
   "dependencies": {
     "@babel/eslint-parser": "^7.5.4",
+    "@coral-xyz/anchor": "^0.29.0",
+    "@project-serum/anchor": "^0.25.0",
+    "@solana/spl-token": "^0.3.9",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.34",
+    "@solana/wallet-adapter-wallets": "^0.19.24",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
@@ -18,6 +25,7 @@
     "postcss-cli": "^11.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-form-stepper": "^2.0.3",
     "react-icons": "^4.10.1",
@@ -39,7 +47,7 @@
     "viem": "^0.3.50",
     "wagmi": "^1.1.0",
     "web-vitals": "^2.1.4",
-    "web3": "^4.3.0",
+    "web3": "^1.10.0",
     "web3modal": "^1.9.7"
   },
   "scripts": {

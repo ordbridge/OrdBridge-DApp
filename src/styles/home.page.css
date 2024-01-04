@@ -225,16 +225,18 @@
   word-wrap: break-word;
 }
 
-.connect_wallet_button {
+.connect_wallet_button, .cancel-wallet-button {
   margin-top: 24px;
 }
 
-.connect_wallet_button img {
+.connect_wallet_button img, 
+.cancel-wallet-button img {
   height: 20px;
   width: 20px;
 }
 
-.connect_wallet_button button {
+.connect_wallet_button button,
+.cancel-wallet-button button {
   /* width: 100%; */
   /* border-radius: 8px; */
   /* font-size: 20px; */
@@ -375,12 +377,14 @@
     padding: 1rem;
   }
 
-  .connect_wallet_button {
+  .connect_wallet_button,
+  .cancel-wallet-button{
     margin-top: 12px;
     margin-bottom: 0px;
   }
 
-  .connect_wallet_button button {
+  .connect_wallet_button button,
+  .cancel-wallet-button button {
     padding: 0.5rem;
   }
 
