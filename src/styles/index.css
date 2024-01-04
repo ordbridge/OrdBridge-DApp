@@ -13,6 +13,8 @@ body {
   background-color: #0A080F;
   background: #0A080F;
   background-image: url('../assets/bg-image.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   letter-spacing: 1px !important;
 }
 

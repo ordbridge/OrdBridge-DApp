@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { http, createPublicClient } from "viem";
@@ -215,6 +215,7 @@ function App() {
   const connectUnisatWallet = async () => {
     getUnisatNetwork();
   };
+
 
   return (
     <WagmiConfig config={config}>

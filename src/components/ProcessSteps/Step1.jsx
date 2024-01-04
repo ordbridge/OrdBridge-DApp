@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { AiOutlineCheckCircle } from "react-icons/ai";
+import { MdContentCopy, MdOutlineLock } from "react-icons/md";
+import {  AiOutlineCheckCircle } from "react-icons/ai";
+import "../../styles/FormStep.css";
+import { toast } from "react-toastify";
+import StepWizard from "react-step-wizard";
+import {
+  fetchFeeRate,
+  inscribeService,
+} from "../../services/homepage.service";
+import YoutubeEmbed from "../YoutubeEmbed";
 import { IoIosAdd } from "react-icons/io";
 import { LuMinus } from "react-icons/lu";
-import { MdContentCopy, MdOutlineLock } from "react-icons/md";
-import StepWizard from "react-step-wizard";
-import { toast } from "react-toastify";
-import { fetchFeeRate, inscribeService } from "../../services/homepage.service";
-import "../../styles/FormStep.css";
 
 export const Step1 = ({
   ethChain,
@@ -14,18 +18,30 @@ export const Step1 = ({
   res,
   metaMaskAddress,
   unisatAddress,
+  session_key,
+  callContractFunction,
+  metaMaskResponse,
   loader,
   setLoader,
   pendingInscriptionId,
   claimButton,
   setClaimButton,
   startInterval,
+  setPendingEntryPopup,
 }) => {
   const appChainKey = ethChain.key;
+
+  const [networkType, setNetworkType] = useState("testnet");
   const [inscribe, setInscribe] = useState(false);
+  const [transferred, setTransferred] = useState(false);
   const [hideContent, setHideContent] = useState(true);
+  const [inscriptionAddress, setInscriptionAddress] =
+    useState(pendingInscriptionId);
   const [finalInscriptionId, setFinalInscriptionId] = useState("");
-  // const [embedId, setEmbedId] = useState("oRRauF_tzV8");
+  const [transferLoader, setTransferLoader] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [processStep, setProcessStep] = useState(0);
+  const [embedId, setEmbedId] = useState("oRRauF_tzV8");
   const [feeRate, setFeeRate] = useState("");
   useEffect(() => {
     if (pendingInscriptionId) {
@@ -35,23 +51,33 @@ export const Step1 = ({
     fetchFeeRate().then((res) => {
       setFeeRate(Math.floor(res.limits["min"] + res.limits["max"]) / 2);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const transferInscrptionHandler = async () => {
+    setTransferLoader(true);
     try {
-      await window.unisat.sendInscription(
+      const data = await window.unisat.sendInscription(
         "bc1q0yufnf24ksfcj8vg32rrmun87vltnrfg6qzd7x",
         finalInscriptionId,
         {
           feeRate: feeRate,
         },
       );
+      setTransferred(true);
+      setTransferLoader(false);
       setLoader(true);
       startInterval();
       setHideContent(false);
     } catch (error) {
+      setTransferLoader(false);
       toast.error(error.message);
     }
+    // transferService({ session_key: session_key, InscriptionId: inscriptionAddress }).then((res) => {
+    //   setInscriptionIdButton(true);
+    //   setTransferred(true);
+    //   setTransferLoader(false);
+    //   setLoader(true);
+    //   startInterval();
+    // });
   };
 
   const inscribeHandler = async ({ nextStep, setProcessStep }) => {
@@ -71,6 +97,15 @@ export const Step1 = ({
     //   setInscribe(true);
   };
 
+  const switchNetworkHandler = async () => {
+    try {
+      let res = await window.unisat.switchNetwork(networkType);
+      console.log(res);
+      setNetworkType((prev) => (prev === "testnet" ? "livenet" : "testnet"));
+    } catch (e) {
+      console.log(e);
+    }
+  };
   async function copyToClipboard(text) {
     try {
       const toCopy = text.slice(0, text.length);
@@ -80,9 +115,11 @@ export const Step1 = ({
       console.error("Failed to copy: ", err);
     }
   }
-  const handleStepChange = (e) => {};
+  const handleStepChange = (e) => {
+    setActiveStep(e.activeStep - 1);
+  };
 
-  const inscribeJSON = (
+  let inscribeJSON = (
     <>
       {" "}
       {"{"}
@@ -97,7 +134,7 @@ export const Step1 = ({
     </>
   );
 
-  const textJSON = {
+  let textJSON = {
     p: `${res?.inscribe?.p}`,
     op: `${res?.inscribe?.op}`,
     tick: `${res?.inscribe?.tick}`,
@@ -117,7 +154,7 @@ export const Step1 = ({
       }
     };
     const inscriptionHandler = ({ nextStep, setProcessStep }) => {
-      // setProcessStep((prev) => prev + 1);
+      setProcessStep((prev) => prev + 1);
       nextStep();
       props.setFinalInscriptionId(inscriptionId);
     };
@@ -150,7 +187,9 @@ export const Step1 = ({
               className={`active_button rounded-lg font-syne text-s font-normal flex justify-between items-center`}
               style={{ color: "ffffff" }}
               onClick={() => {
-                setExpandedState(!expandedState);
+                {
+                  setExpandedState(!expandedState);
+                }
               }}
             >
               <span>
@@ -217,8 +256,8 @@ export const Step1 = ({
                     href={`https://unisat.io/brc20?t=1687336457213&q=${unisatAddress}`}
                     target="_blank"
                     className="fw-normal font-syne text-sm font-normal"
-                    style={{ color: "#7A6FF2" }}
-                    rel="noreferrer"
+                    style={{ color: "#7A6FF2" }} rel="noreferrer"
+
                   >
                     Click here
                   </a>
@@ -276,7 +315,7 @@ export const Step1 = ({
                       : () => {
                           inscriptionHandler({
                             nextStep: props.nextStep,
-                            // setProcessStep: setProcessStep
+                            setProcessStep: setProcessStep,
                           });
                         }
                   }
@@ -290,18 +329,39 @@ export const Step1 = ({
               </>
             )}
             {!expandedState && !inscribe ? (
-              <div className="youtube_container sm_yt">
-                <div className="fw-normal flex gap-2 flex-column">
-                  {/* <AiOutlineYoutube color="#d9d9d9" fontSize={30} /> */}
-                  <span className="font-syne text-xl">
-                    A guide to follow on how to setup inscription
-                  </span>
-                  <span
-                    className="font-syne text-xs"
-                    style={{ color: "rgba(255, 255, 255, 0.60)" }}
-                  >
+              <div className="youtube_container sm_yt flex flex-col">
+                <div className="flex min-w-full">
+                  <YoutubeEmbed embedId={embedId} />
+                  <div className="fw-normal flex gap-2 flex-column">
+                    {/* <AiOutlineYoutube color="#d9d9d9" fontSize={30} /> */}
+                    <span className="font-syne text-xl">
+                      A guide to follow on how to setup inscription
+                    </span>
+                    <span
+                      className="font-syne text-xs"
+                      style={{ color: "rgba(255, 255, 255, 0.60)" }}
+                    >
                     2min 05s
-                  </span>
+                  </span></div>
+                </div>
+                <div
+                  className="connect_wallet_button text-center bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
+                  style={{ width: "100%" }}
+                  onClick={() => {
+                    {
+                      !inscribe &&
+                        inscribeHandler({
+                          nextStep: props.nextStep,
+                          setProcessStep: setProcessStep,
+                        });
+                    }
+                  }}
+                >
+                  <button className="">
+                    <span className="text-white font-syne text-xl">
+                      Inscribe on Unisat
+                    </span>
+                  </button>
                 </div>
               </div>
             ) : (
@@ -310,11 +370,13 @@ export const Step1 = ({
                   className="connect_wallet_button text-center bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
                   style={{ width: "100%" }}
                   onClick={() => {
-                    !inscribe &&
-                      inscribeHandler({
-                        nextStep: props.nextStep,
-                        // setProcessStep: setProcessStep
-                      });
+                    {
+                      !inscribe &&
+                        inscribeHandler({
+                          nextStep: props.nextStep,
+                          setProcessStep: setProcessStep,
+                        });
+                    }
                   }}
                 >
                   <button className="">
@@ -367,7 +429,7 @@ export const Step1 = ({
               </b>
             </div>
             <div className="min-w-full flex justify-center text-center mt-4">
-              <img src="infinity.gif" className="infinity" alt="" />
+              <img src="infinity.gif" className="infinity" alt=""/>
             </div>
             <div className="waiting_text fs-5 fw-bold">
               Waiting for confirmation
@@ -412,7 +474,10 @@ export const Step1 = ({
             </Stepper> */}
               <StepWizard onStepChange={handleStepChange}>
                 {/* {!pendingInscriptionId && ( */}
-                <InscribeStep setFinalInscriptionId={setFinalInscriptionId} />
+                <InscribeStep
+                  setProcessStep={setProcessStep}
+                  setFinalInscriptionId={setFinalInscriptionId}
+                />
                 {/* )} */}
                 <TransferStep />
               </StepWizard>

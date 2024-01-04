@@ -4,10 +4,20 @@
 @import 'tailwindcss/utilities';
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @layer base {
+    .font-grostek {
+        font-family: 'Space Grotesk', sans-serif;
+    }
     .font-syne {
         font-family: "Syne", serif;
+    }
+    .text-gradient {
+        background: linear-gradient(105deg, #794EFF, #FFFFFF);
+        -webkit-background-clip: text;
+        color: transparent;
+        display: inline-block;
     }
     .dashboard-heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
@@ -35,7 +45,6 @@
     .dashboard-stat-card--value {
         font-size: clamp(20px, 5vw, 32px);
     }
-
     .custom-token-modal {
         @apply rounded-3xl !z-40 dashboard-stat-card max-h-[420px]
     }
@@ -60,12 +69,8 @@
         transition: 0.4s ease left;
         @apply z-[10001] rounded-l-[22px] border-[#794EFF] h-[100vh] absolute border p-3 right-0 w-[75vw] pl-[30px]
     }
-
-    .landing-page-wrapper {
-        @apply min-h-[100vh] container mx-auto max-w-[1440px] px-[30px] ;
-    }
     .landing-page-hero {
-        @apply grid grid-cols-2 md:grid-cols-1 py-12
+        @apply  py-12 min-h-screen md:flex md:flex-col md:justify-around
     }
     .landing-page-hero-content--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
@@ -77,25 +82,33 @@
         font-size: clamp(14px, 1vw, 1rem);
         @apply text-white-A700 leading-loose md:text-center
     }
+    .landing-page-hero-content-buttons{
+     @apply flex gap-10
+    }
     .landing-page-hero-content--button {
         border: 0.847px solid rgba(255, 255, 255, 0.10);
         background: linear-gradient(90deg, #A681FF 0.02%, #4616FF 99.97%);
-        @apply rounded-[56px] p-4 px-6 text-white-A700 ;
+        @apply rounded-[56px] p-3 px-6 text-white-A700 ;
+    }
+    .landing-page-hero-content--button--alt {
+        @apply landing-page-hero-content--button;
+        border: 2px solid white;
+        background: transparent;
     }
     .landing-page-hero-content{
-        @apply flex flex-col md:items-center gap-10
+        @apply flex flex-col text-center items-center gap-10
     }
     .landing-page-hero-image-wrapper{
-        @apply  flex justify-center items-center md:mt-10
+        @apply md:h-96
     }
     .landing-page-hero--image{
-        @apply md:max-w-[70vw] max-w-[30vw]
+        @apply w-screen md:object-cover md:w-full md:h-full
     }
     .landing-page-features {
-        @apply py-10;
+        @apply md:py-10 py-28 container max-w-[1320px] mx-auto ;
     }
     .landing-page-features-title {
-        @apply flex flex-col justify-center items-center ;
+        @apply flex flex-col justify-center items-center pb-10 ;
     }
     .landing-page-features--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
@@ -126,7 +139,6 @@
     .landing-page-feature-item-content-container {
         @apply rounded-b-[27px] p-4 flex flex-col justify-start items-start gap-4
     }
-
     .landing-page-feature-item--heading{
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
         -webkit-background-clip: text;
@@ -141,5 +153,20 @@
     }
     .landing-page-feature-item--button {
        @apply text-gray-200
+    }
+    .chain-icon-container {
+        /*border: 0.369px solid #7558C3;*/
+        background: linear-gradient(180deg, #1C143A 0%, rgba(36, 26, 73, 0.00) 100%);
+        border-radius: 14px;
+        @apply h-[280px] max-w-[250px] sm:h-[250px] sm:max-w-[200px] flex justify-center items-center
+    }
+    .chain-icon-circle {
+        background: linear-gradient(to bottom, #1C143A, transparent), linear-gradient(to right, #1C143A, transparent); /* Background gradient similar to the fill gradient */
+        @apply sm:min-w-[145px] sm:h-[145px] min-w-[175px] h-[175px] rounded-full flex justify-center items-center
+    }
+    .lp-footer-break{
+        width: 413px;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.00) 2.73%, #FFF 51.87%, rgba(255, 255, 255, 0.00) 100%);
     }
 }
