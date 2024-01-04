@@ -3,7 +3,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
 @layer base {
@@ -75,24 +74,25 @@
     .landing-page-hero-content--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
         -webkit-background-clip: text;
-        font-size: clamp(32px, 5vw, 64px);
+        font-size: clamp(32px, 5vw, 48px);
         @apply  font-bold text-transparent inline-block font-syne md:text-center
     }
     .landing-page-hero-content--para {
         font-size: clamp(14px, 1vw, 1rem);
-        @apply text-white-A700 leading-loose md:text-center
+        @apply font-light text-white-A700 leading-6 md:text-center max-w-[500px]
     }
     .landing-page-hero-content-buttons{
-     @apply flex gap-10
+     @apply flex gap-6
     }
     .landing-page-hero-content--button {
-        border: 0.847px solid rgba(255, 255, 255, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.10);
         background: linear-gradient(90deg, #A681FF 0.02%, #4616FF 99.97%);
-        @apply rounded-[56px] p-3 px-6 text-white-A700 ;
+        @apply rounded-[50px] p-3 px-8 text-white-A700 font-syne;
     }
     .landing-page-hero-content--button--alt {
-        @apply landing-page-hero-content--button;
-        border: 2px solid white;
+        @apply landing-page-hero-content--button font-syne;
+        border: 1px solid rgba(121, 78, 255, 0.64);
+        /*border: 2px solid white;*/
         background: transparent;
     }
     .landing-page-hero-content{
@@ -113,12 +113,12 @@
     .landing-page-features--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
         -webkit-background-clip: text;
-        font-size: clamp(24px, 5vw, 40px);
+        font-size: clamp(24px, 5vw, 38px);
         @apply  font-bold text-transparent inline-block font-syne
     }
     .landing-page-features--para {
         font-family: Roboto;
-        @apply text-white-A700 font-[24px] mt-5 md:text-center
+        @apply text-white-A700 font-light mt-5 md:text-center
     }
     .landing-page-feature-item{
         border-radius: 27px;
@@ -158,11 +158,11 @@
         /*border: 0.369px solid #7558C3;*/
         background: linear-gradient(180deg, #1C143A 0%, rgba(36, 26, 73, 0.00) 100%);
         border-radius: 14px;
-        @apply h-[280px] max-w-[250px] sm:h-[250px] sm:max-w-[200px] flex justify-center items-center
+        @apply h-[250px] max-w-[200px] sm:h-[250px] sm:max-w-[200px] flex flex-col justify-center items-center
     }
     .chain-icon-circle {
         background: linear-gradient(to bottom, #1C143A, transparent), linear-gradient(to right, #1C143A, transparent); /* Background gradient similar to the fill gradient */
-        @apply sm:min-w-[145px] sm:h-[145px] min-w-[175px] h-[175px] rounded-full flex justify-center items-center
+        @apply sm:min-w-[145px] sm:h-[145px] min-w-[145px] h-[145px] rounded-full flex justify-center items-center
     }
     .lp-footer-break{
         width: 413px;

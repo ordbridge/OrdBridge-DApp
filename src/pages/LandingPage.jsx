@@ -1,60 +1,66 @@
 import React from "react";
 import HeroBg from "../assets/hero-bg.png";
 import OrdThumb from "../assets/ord-thumb.png";
-import Avax from "../assets/avax.png";
+import OrdThumb2 from "../assets/ord-thumb-2.png";
+import OrdThumb3 from "../assets/ord-thumb-3.png";
+import OrdThumb4 from "../assets/ord-thumb-4.png";
+import Banner1 from '../assets/LP-banner-1.png'
+import Banner2 from '../assets/LP-banner-2.png'
+import Chain1 from "../assets/avax.png";
+import Chain2 from '../assets/chain2.png'
+import Chain3 from '../assets/chain3.png'
+import Chain4 from '../assets/chain4.png'
+import Chain5 from '../assets/chain5.png'
+import Chain6 from '../assets/chain6.png'
 import BoxIcon from '../assets/BoxIcon.svg'
-import Telegram from '../assets/Telegram.png';
-import Twitter from '../assets/Twitter.png';
-import Discord from '../assets/Discord.png';
-import Text from '../components/Text';
 const LandingPage = () => {
-  const FeatureItem = ({ vertical }) => {
-    return (
-      <div
-        className={`landing-page-feature-item ${
-          vertical && "landing-page-feature-item--vertical"
-        } `}
-      >
-        <div>
-          <img
-            className={` ${
-              vertical
-                ? "landing-page-feature-item-image--vertical"
-                : "landing-page-feature-item-image"
-            }`}
-            src="https://img.freepik.com/free-photo/artistic-blurry-colorful-wallpaper-background_58702-8178.jpg"
-            alt=""
-          />
-        </div>
-        <div className="landing-page-feature-item-content-container">
-          <h1 className="landing-page-feature-item--heading">
-            Short heading here
-          </h1>
-          <p
-            className="landing-page-feature-item--para"
-            style={{ color: "rgba(193, 193, 193, 0.64)" }}
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </p>
-          <button className="landing-page-feature-item--button">
-            Button &gt;
-          </button>
-        </div>
-      </div>
-    );
-  };
+  // const FeatureItem = ({ vertical }) => {
+  //   return (
+  //     <div
+  //       className={`landing-page-feature-item ${
+  //         vertical && "landing-page-feature-item--vertical"
+  //       } `}
+  //     >
+  //       <div>
+  //         <img
+  //           className={` ${
+  //             vertical
+  //               ? "landing-page-feature-item-image--vertical"
+  //               : "landing-page-feature-item-image"
+  //           }`}
+  //           src="https://img.freepik.com/free-photo/artistic-blurry-colorful-wallpaper-background_58702-8178.jpg"
+  //           alt=""
+  //         />
+  //       </div>
+  //       <div className="landing-page-feature-item-content-container">
+  //         <h1 className="landing-page-feature-item--heading">
+  //           Short heading here
+  //         </h1>
+  //         <p
+  //           className="landing-page-feature-item--para"
+  //           style={{ color: "rgba(193, 193, 193, 0.64)" }}
+  //         >
+  //           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  //         </p>
+  //         <button className="landing-page-feature-item--button">
+  //           Button &gt;
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const RoadmapItem = ({last}) => {
       return (
         <div className="flex ">
           <div className="flex flex-col  justify-start items-center max-w-[40px] p-0 m-0">
-            <img src={BoxIcon} />
+            <img src={BoxIcon}   alt=""/>
             {!last && <div className="h-full max-w-[1px] border m-1" />}
           </div>
           <div className="text-white flex flex-col gap-3 flex-1 ">
-            <p className="text-gradient">05 jan</p>
-            <p>summary of event </p>
-            <p>Lorem ipsum dolor sit amet, At cumque dicta distinctio dolorem, ducimus labore molestiae possimus quas
+            <p className="text-gradient font-grostek">05 jan</p>
+            <p className="font-syne" >summary of event </p>
+            <p className="font-grostek" >Lorem ipsum dolor sit amet, At cumque dicta distinctio dolorem, ducimus labore molestiae possimus quas
               tempore vel veritatis vitae voluptas.</p>
           </div>
         </div>
@@ -63,20 +69,21 @@ const LandingPage = () => {
   const WhyItem = ({ img }) => {
     return (
       <div className=" flex flex-col items-center gap-3 justify-center">
-        <img alt="" src={OrdThumb} />
-        <h3 className="text-white text-[24px] ">Heading herer</h3>
-        <p className="text-gray-200 font-thin text-[14px]">Some para here</p>
-        <button className="text-gradient">Know More &nbsp; &gt;</button>
+        <img alt="" src={img} />
+        <h3 className="text-white font-medium text-[24px] font-syne ">Any BRC, Any Chain!</h3>
+        <p className="text-gray-200 font-light text-[14px] font-grostek text-center ">employs an Optimistic security model to ensure integrity of cross-chain messages</p>
+        {/*<button className="text-gradient">Know More &nbsp; &gt;</button>*/}
       </div>
     );
   };
 
-  const ChainIcon = () => {
+  const ChainIcon = ({icon, name}) => {
     return (
       <div className="chain-icon-container">
         <div className="chain-icon-circle">
-          <img src={Avax} alt="" className=" sm:min-h-[90px] sm:min-w-[90px] min-h-[110px] min-w-[110px]" />
+          <img src={icon} alt="" className=" min-h-[90px] min-w-[90px] " />
         </div>
+        <p className="text-white font-bold font-syne" >{name}</p>
       </div>
     );
   };
@@ -90,16 +97,14 @@ const LandingPage = () => {
             communication
           </h1>
           <p className="landing-page-hero-content--para">
-            Swap, earn, and build on the leading
-            <br />
-            decentralised crypto trading protocol.
+            OrdBridge is the most widely used, extensible, secure cross- chain communications network. Build truly cross-chain applications using the OrdBridge Protocol.
           </p>
           <div className="landing-page-hero-content-buttons">
             <button className=" landing-page-hero-content--button--alt">
-              Get started
+              Whitepaper
             </button>
             <button className="landing-page-hero-content--button">
-              Get started
+              Enter App
             </button>
           </div>
         </div>
@@ -121,10 +126,10 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="grid grid-cols-4 md:grid-cols-2 sm:grid-cols-1 mx-auto gap-4 my-10">
-          <WhyItem />
-          <WhyItem />
-          <WhyItem />
-          <WhyItem />
+          <WhyItem img={OrdThumb}  />
+          <WhyItem img={OrdThumb2}/>
+          <WhyItem img={OrdThumb3}/>
+          <WhyItem img={OrdThumb4}/>
         </div>
         {/*<div className="landing-page-features-container">*/}
         {/*  <FeatureItem />*/}
@@ -134,18 +139,15 @@ const LandingPage = () => {
       </div>
       <div className="container max-w-[1320px] mx-auto md:px-5 ">
         <div className="grid grid-cols-2 md:grid-cols-1">
-          <div className="flex flex-col max-w-[80%] md:max-w-full gap-4 md:items-center md:text-center">
-            <p className="text-white text-[20px] ">Tagline</p>
-            <h1 className="text-gradient text-[42px]">
+          <div className="flex flex-col  md:max-w-full gap-4 md:items-center md:text-center">
+            <p className="text-white text-[20px] font-medium font-syne max-w-[80%] ">Tagline</p>
+            <h1 className="text-gradient text-[42px] font-bold font-syne max-w-[80%] ">
               Powering the most popular bridge
             </h1>
-            <p className="text-white font-thin">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Accusamus, autem dicta dignissimos dolores impedit iure magnam
-              maiores molestiae quae quos saepe similique vero voluptate.
-              Accusamus blanditiis dolorem ea fugit voluptates?
+            <p className="text-white text-[16px] font-thin font-grostek max-w-[90%]">
+              built on top of the cross-chain infrastructure enabling users to seamlessly transfer assets across all blockchains. The Bridge has become the most widely-used method to move assets cross-chain, offering low cost, fast, and secure bridging.
             </p>
-            <div>
+            <div className="m-0" >
               <button className="landing-page-hero-content--button--alt">
                 Open app
               </button>
@@ -153,7 +155,9 @@ const LandingPage = () => {
           </div>
           <div className="md:mt-10" >
             <img
-              src="https://img.freepik.com/free-photo/artistic-blurry-colorful-wallpaper-background_58702-8178.jpg" />
+              src={Banner1}
+              alt=""
+            />
           </div>
         </div>
       </div>
@@ -165,34 +169,36 @@ const LandingPage = () => {
           </p>
         </div>
         <div className="flex flex-wrap justify-center ">
-          <ChainIcon />
-          <ChainIcon />
-          <ChainIcon />
-          <ChainIcon />
-          <ChainIcon />
-          <ChainIcon />
+          <ChainIcon icon={Chain1} name="AVAX" />
+          <ChainIcon icon={Chain2} name="BASE" />
+          <ChainIcon icon={Chain3} name="ETH" />
+          <ChainIcon icon={Chain4} name="BRC" />
+          <ChainIcon icon={Chain5} name="ARB" />
+          <ChainIcon icon={Chain6} name="SOL" />
         </div>
       </div>
       <div className="container max-w-[1320px] mx-auto md:px-5 ">
-        <div className="grid grid-cols-2 md:grid-cols-1">
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-16">
           <div>
             <img
-              src="https://img.freepik.com/free-photo/artistic-blurry-colorful-wallpaper-background_58702-8178.jpg" />
+              src={Banner2}
+              alt=""
+            />
           </div>
-          <div className="flex flex-col md:items-center md:text-center md:max-w-full max-w-[80%] gap-4 pt-20">
-            <p className="text-white text-[20px]">How it works</p>
-            <h1 className="text-gradient text-[42px]">
+          <div className="flex flex-col md:items-center md:text-center  max-w-full  gap-4 md:pt-20">
+            <p className="text-white text-[20px] font-medium font-syne">How it works</p>
+            <h1 className="text-gradient text-[42px] font-bold font-syne">
               Medium length section heading goes here
             </h1>
-            <p className="text-white font-thin">
+            <p className="text-white text-[15px] font-thin font-grostek leading-6">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Accusamus, autem dicta dignissimos dolores impedit iure magnam
               maiores molestiae quae quos saepe similique vero voluptate.
               Accusamus blanditiis dolorem ea fugit voluptates?
             </p>
-            <div>
+            <div className="m-0" >
               <button className="landing-page-hero-content--button--alt">
-                Open app
+                Whitepaper
               </button>
             </div>
           </div>
@@ -201,23 +207,23 @@ const LandingPage = () => {
       <div className="container max-w-[1320px] mx-auto py-32 md:py-20 md:px-5">
         <div className="grid grid-cols-2 md:grid-cols-1">
           <div className="flex flex-col md:items-center md:text-center items-start justify-start md:max-w-full max-w-[80%] gap-4">
-            <h1 className="text-gradient text-[42px]">
+            <h1 className="text-gradient text-[42px] font-bold font-syne">
               OrdBridge Numbers and summary
             </h1>
           </div>
-          <div className="text-white md:text-center font-light md:py-10">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor dolorum, esse ex ipsum laborum magnam
+          <div className="text-white md:text-center font-light md:py-10 ">
+            <p className="leading-6" >Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor dolorum, esse ex ipsum laborum magnam
               mollitia nam natus placeat porro praesentium quidem quo repellat sed! Laboriosam necessitatibus quisquam
               tempore?</p>
             <div>
               <div className="grid grid-cols-2 gap-10 my-10">
                 <div>
                   <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient">Total Bridge Volume</p>
+                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
                 </div>
                 <div>
                   <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient">Total Bridge Volume</p>
+                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
                 </div>
               </div>
             </div>
@@ -225,11 +231,11 @@ const LandingPage = () => {
               <div className="grid grid-cols-2 gap-10 my-10">
                 <div>
                   <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient">Total Bridge Volume</p>
+                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
                 </div>
                 <div>
                   <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient">Total Bridge Volume</p>
+                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
                 </div>
               </div>
             </div>
@@ -238,9 +244,9 @@ const LandingPage = () => {
       </div>
       <div className="container max-w-[1320px] mx-auto md:px-5">
         <div className="grid grid-cols-2 md:grid-cols-1">
-          <div className="flex flex-col md:max-w-full text-center max-w-[80%] gap-4 justify-start md:mb-20">
-            <p className="text-gradient" >Roadmap</p>
-            <h1 className="text-gradient text-[42px]">
+          <div className="flex flex-col md:max-w-full md:text-center max-w-[80%] gap-4 justify-start md:mb-20">
+            <p className="text-gradient font-bold text-[20px] font-syne" >Roadmap</p>
+            <h1 className="text-gradient text-[42px] font-bold font-syne">
               Share your journey from the beginning to now
             </h1>
           </div>
