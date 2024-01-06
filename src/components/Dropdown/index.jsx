@@ -8,11 +8,11 @@ export const CustomDropdown = ({ Chain, appChains, setChain, type }) => {
   };
 
   return (
-    <section className={`dropdown`}>
-      <button onClick={handleDropdownClick} className="dropdown-btn">
-        <p className="flex items-center justify-end text-center bg-black border-none text-white rounded-full cursor-pointer !mb-0 py-[12px] sm:!w-auto sm:!px-3 px-3 w-max">
-          <p className="flex items-center justify-end gap-1 !mb-0">
-            <span className="font-syne text-white font-light text-xs normal-case pt-0.5">
+    <section className={`dropdown `}>
+      <button onClick={handleDropdownClick} className="">
+        <p className="flex items-center justify-end text-center bg-[#00000099] border-none text-white rounded-full cursor-pointer !mb-0 py-[12px] sm:!w-auto sm:!px-3 px-3 w-max ">
+          <p className="flex items-center justify-center gap-1">
+            <span className=" text-white  text-[13px] normal-case font-medium pt-0.5 font-syne">
               {type}
             </span>
             <span className="flex items-center sm:text-sm w-max gap-1">

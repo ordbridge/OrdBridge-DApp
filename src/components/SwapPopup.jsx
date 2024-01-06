@@ -118,7 +118,10 @@ export const SwapPopup = ({
     if (chain.tag === 'BRC') {
       return (
         <div
-          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
+          className="w-full mt-2 rounded-3xl py-1 cursor-pointer "
+          style={{
+            background: "linear-gradient(90deg, #A681FF 0.02%, #4616FF 99.97%)"
+          }}
           onClick={connectUnisatWallet}>
           <ConnectUnisatWallet
             onConnectClick={connectUnisatWallet}
@@ -568,7 +571,7 @@ export const SwapPopup = ({
               </header>
             ) : (
               <div className="first_container">
-                <div className="px-6 py-3 rounded-3xl background_popup swap_subheading relative sm:px-3">
+                <div className=" swap-popup-container px-6 pt-[25px] rounded-3xl swap_subheading relative sm:px-3">
                   <header className="popup_header">
                     <div className="swap_subheading">
                       {swap ? <div>Select Token</div> : <div>Select Token</div>}
@@ -576,11 +579,7 @@ export const SwapPopup = ({
                   </header>
 
                   <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}>
+                    className="flex justify-center items-center">
                     <button
                       onClick={handleModal}
                       className="border-1 rounded-full px-4 pt-2 pb-2 mt-2"
@@ -590,7 +589,7 @@ export const SwapPopup = ({
                         background: 'rgba(121, 78, 255, 0.10)'
                       }}>
                       <div className="flex justify-center items-center">
-                        <span className="font-syne !text-base uppercase font-bold text-[#794EFF]">
+                        <span className="font-syne text-[23px] uppercase font-bold text-gradient">
                           {token}
                         </span>
                         <IoIosArrowDown className="ml-2" />
@@ -598,7 +597,7 @@ export const SwapPopup = ({
                     </button>
 
                     <button
-                      className="absolute left-2/3 border-1 rounded-full pl-1 pr-3 pt-2 pb-2 mt-2 sm:p-1"
+                      className="absolute left-2/3 border-1 rounded-full pl-0 pr-3 py-1 mt-2 sm:p-1"
                       style={{
                         borderWidth: '.001rem !important',
                         borderColor: '#281a5e',
@@ -608,13 +607,13 @@ export const SwapPopup = ({
                         className="flex justify-center items-center"
                         onClick={() => scrollToElement('proof-of-reserves')}>
                         <IoIosInformationCircleOutline
-                          className="ml-2"
+                          className="ml-2 text-[12px]"
                           style={{ color: '#794EFF' }}
                         />
                         <Link to="/dashboard">
                           <span
-                            className="font-syne text-xm normal ml-2 !text-sm sm:!text-[10px]"
-                            style={{ color: '#794EFF' }}>
+                            className="font-syne text-[12px] ml-2  sm:!text-[10px] text-[#794EFF]"
+                            >
                             Proof of Reserves
                           </span>
                         </Link>
@@ -624,16 +623,16 @@ export const SwapPopup = ({
 
                   <section className="pt-2 relative mt-2">
                     <div>
-                      <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1">
+                      <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1 ">
                         <div
-                          className="absolute sm:text-xs text-left !mb-1 sm:!mb-2"
+                          className="absolute text-[12px] sm:text-xs text-left !mb-1 sm:!mb-2"
                           style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
                           Amount (of {token})
                         </div>
                         <div className="min-w-full flex">
                           <input
                             type="number"
-                            className="amount_input bg-transparent border-none font-syne text-2xl pl-0 pr-0 mt-1"
+                            className="amount_input bg-transparent border-none font-grostek font-bold text-[36px] pl-0 pr-0 mt-1"
                             value={tokenValue}
                             onChange={(e) => {
                               setTokenValue(e.target.value);
@@ -669,9 +668,9 @@ export const SwapPopup = ({
                           />
                         </div>
                       )}
-                      <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1">
+                      <div className="swap_border pl-6 pr-4 my-1 !py-3 sm:!py-1 ">
                         <div
-                          className="absolute text-left sm:text-xs"
+                          className="absolute text-[12px] text-left sm:text-[12px] "
                           style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
                           Amount (of {token})
                         </div>
@@ -679,7 +678,7 @@ export const SwapPopup = ({
                           <input
                             disabled
                             value={tokenValue * tokenResponse.conversion_factor}
-                            className="amount_input bg-transparent font-syne border-none text-2xl pl-0 pr-0 mt-1"
+                            className="amount_input bg-transparent font-grostek border-none text-[36px] pl-0 pr-0 mt-1"
                           />
                           <span className="flex justify-end items-center gap-4 !mb-0 sm:gap-2 sm:!w-auto">
                             <CustomDropdown
@@ -691,6 +690,10 @@ export const SwapPopup = ({
                           </span>
                         </div>
                       </div>
+                      <div className=" flex justify-end text-[11px] font-thin py-1" ><p>Bridging to ETH chain - ORDI Tokens</p>
+
+                      </div>
+
                     </div>
                     <footer>
                       {/* <div

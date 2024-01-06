@@ -87,7 +87,7 @@
   /* font-weight: 600; */
   /* margin-top: 24px; */
   color: #ffffff;
-  font-size: 16.2px;
+  font-size: 14px;
   font-family: Syne;
   font-weight: 600;
   word-wrap: break-word;
@@ -118,7 +118,7 @@
   /* width: 100%; 
   height: 100%;  */
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 45px;
+  border-radius: 35px;
   border: 0.68px rgba(255, 255, 255, 0.1) solid;
 }
 
@@ -161,7 +161,6 @@
 .amount_input {
   width: 100%;
   padding: 6px 12px;
-  font-family: 'Space Grotesk', sans-serif;
   /* background: rgba(255, 210, 0, 0.12); */
   /* border-radius: 6px; */
   /* border: 0.606px solid rgba(255, 255, 255, 0.1); */
