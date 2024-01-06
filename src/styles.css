@@ -87,7 +87,7 @@
     .landing-page-hero-content--button {
         border: 1px solid rgba(255, 255, 255, 0.10);
         background: linear-gradient(90deg, #A681FF 0.02%, #4616FF 99.97%);
-        @apply rounded-[50px] p-3 px-8 text-white-A700 font-syne;
+        @apply rounded-[50px] p-3 px-10 text-white-A700 font-syne;
     }
     .landing-page-hero-content--button--alt {
         @apply landing-page-hero-content--button font-syne;
@@ -158,10 +158,12 @@
         /*border: 0.369px solid #7558C3;*/
         background: linear-gradient(180deg, #1C143A 0%, rgba(36, 26, 73, 0.00) 100%);
         border-radius: 14px;
+        border: 1px solid #4e318f;
         @apply h-[250px] min-w-[200px] sm:h-[110px] sm:max-w-[110px] flex flex-col justify-center items-center
     }
     .chain-icon-circle {
         background: linear-gradient(to bottom, #1C143A, transparent), linear-gradient(to right, #1C143A, transparent); /* Background gradient similar to the fill gradient */
+        border: 1px solid #4e318f;
         @apply sm:min-w-[90px] sm:h-[90px] min-w-[145px] h-[145px] rounded-full flex justify-center items-center
     }
     .lp-footer-break{

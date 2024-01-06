@@ -59,7 +59,7 @@ const LandingPage = () => {
           </div>
           <div className="text-white flex flex-col gap-3 flex-1  py-3">
             <p className="text-gradient font-medium font-grostek">05 JAN</p>
-            <p className="font-syne font-medium text-[20px]" >summary of event </p>
+            <p className="font-syne font-medium text-[20px]" >Summary of event </p>
             <p className="text-[15px] font-thin font-grostek" >Lorem ipsum dolor sit amet, At cumque dicta distinctio dolorem, ducimus labore molestiae possimus quas
               tempore vel veritatis vitae voluptas.</p>
           </div>
@@ -71,7 +71,7 @@ const LandingPage = () => {
       <div className=" flex flex-col items-center gap-3 justify-center">
         <img alt="" src={img} />
         <h3 className="text-white font-medium text-[24px] font-syne ">Any BRC, Any Chain!</h3>
-        <p className="text-gray-200 font-light text-[14px] font-grostek text-center ">employs an Optimistic security model to ensure integrity of cross-chain messages</p>
+        <p className="text-gray-200 font-light text-[14px] leading-6 font-grostek text-center ">employs an Optimistic security model to ensure integrity of cross-chain messages</p>
         {/*<button className="text-gradient">Know More &nbsp; &gt;</button>*/}
       </div>
     );
@@ -83,7 +83,7 @@ const LandingPage = () => {
         <div className="chain-icon-circle">
           <img src={icon} alt="" className=" sm:min-h-[50px] sm:w-[70px] min-h-[90px] w-[90px] " />
         </div>
-        <p className="text-white font-bold font-syne sm:text-[14px]" >{name}</p>
+        <p className="text-white font-bold font-syne sm:text-[14px] mt-3" >{name}</p>
       </div>
     );
   };
@@ -148,8 +148,8 @@ const LandingPage = () => {
               built on top of the cross-chain infrastructure enabling users to seamlessly transfer assets across all blockchains. The Bridge has become the most widely-used method to move assets cross-chain, offering low cost, fast, and secure bridging.
             </p>
             <div className="m-0" >
-              <button className="landing-page-hero-content--button--alt">
-                Open app
+              <button className="landing-page-hero-content--button--alt px-[30px] py-[15px]">
+                Open App
               </button>
             </div>
           </div>
@@ -204,8 +204,8 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="container max-w-[1320px] mx-auto py-32 md:py-20 md:px-5">
-        <div className="grid grid-cols-2 md:grid-cols-1">
+      <div className="container max-w-[1320px] mx-auto py-32  md:py-20 md:px-5">
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-16">
           <div className="flex flex-col md:items-center md:text-center items-start justify-start md:max-w-full max-w-[80%] gap-4">
             <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
               OrdBridge Numbers and summary
@@ -218,24 +218,24 @@ const LandingPage = () => {
             <div>
               <div className="grid grid-cols-2 gap-10 my-10">
                 <div>
-                  <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
+                  <h1 className="font-bold text-[40px] font-grostek">29.5M</h1>
+                  <p className="text-gradient font-medium text-[20px] mt-2 font-syne">Total Bridge Volume</p>
                 </div>
                 <div>
-                  <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
+                  <h1 className="font-bold text-[40px] font-grostek">29.5M</h1>
+                  <p className="text-gradient font-medium text-[20px] mt-2 font-syne">Total Bridge Volume</p>
                 </div>
               </div>
             </div>
             <div>
               <div className="grid grid-cols-2 gap-10 my-10">
                 <div>
-                  <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
+                  <h1 className="font-bold text-[40px] font-grostek">29.5M</h1>
+                  <p className="text-gradient font-medium text-[20px] mt-2 font-syne">Total Bridge Volume</p>
                 </div>
                 <div>
-                  <h1 className="font-bold text-[40px]">29.5M</h1>
-                  <p className="text-gradient font-medium text-[20px] mt-2">Total Bridge Volume</p>
+                  <h1 className="font-bold text-[40px] font-grostek">29.5M</h1>
+                  <p className="text-gradient font-medium text-[20px] mt-2 font-syne">Total Bridge Volume</p>
                 </div>
               </div>
             </div>
@@ -243,7 +243,7 @@ const LandingPage = () => {
         </div>
       </div>
       <div className="container max-w-[1320px] mx-auto md:px-5">
-        <div className="grid grid-cols-2 md:grid-cols-1">
+        <div className="grid grid-cols-2 md:grid-cols-1 gap-16">
           <div className="flex flex-col md:max-w-full md:text-center max-w-[80%] gap-4 justify-start md:mb-20">
             <p className="text-gradient font-bold text-[20px] font-syne" >Roadmap</p>
             <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
