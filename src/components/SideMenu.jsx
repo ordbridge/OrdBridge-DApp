@@ -61,6 +61,7 @@ const SideMenu = ({
             />
             <LinkItem link="/swap" text="Swap" onClick={handleSideMenu} />
             <LinkItem link="/" text="Bridge" onClick={handleSideMenu} />
+            <LinkItem link="/" text="Launch" onClick="/" />
             <LinkItem link="/" text="Staking" onClick={handleSideMenu} />
             <LinkItem
               onClick={() => {
