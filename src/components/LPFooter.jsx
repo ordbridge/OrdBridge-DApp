@@ -26,7 +26,7 @@ const LpFooter = () => {
        <a href="" className="text-[#E4DCFF] text-[16px] text-nowrap" >Bridge BRC-20 tokens</a>
      </div>
      <div className="lp-footer-break" />
-     <p className="text-[24px] font-syne" >Contact at <a href="mailto:tech@ordibridge.io" >tech@ordibridge.io</a></p>
+     <p className="text-[24px] font-syne md:text-center" >Contact at <a href="mailto:tech@ordibridge.io" >tech@ordibridge.io</a></p>
      <div className="flex gap-10 ">
        <img src={Telegram} alt=""/>
        <img src={Twitter}  alt=""/>
