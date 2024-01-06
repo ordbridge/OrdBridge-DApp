@@ -81,7 +81,7 @@ const LandingPage = () => {
     return (
       <div className="chain-icon-container">
         <div className="chain-icon-circle">
-          <img src={icon} alt="" className=" sm:min-h-[50px] sm:w-[70px] min-h-[90px] w-[90px] " />
+          <img src={icon} alt="" className=" sm:min-h-[50px] sm:w-[50px] min-h-[90px] w-[90px] " />
         </div>
         <p className="text-white font-bold font-syne sm:text-[14px] mt-3" >{name}</p>
       </div>
@@ -168,7 +168,7 @@ const LandingPage = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit
           </p>
         </div>
-        <div className=" sm:grid md:grid-cols-3 md:gap-3 flex gap-4 flex-wrap justify-center ">
+        <div className=" sm:flex md:grid-cols-3 md:gap-3 flex gap-4 flex-wrap justify-center ">
           <ChainIcon icon={Chain1} name="AVAX" />
           <ChainIcon icon={Chain2} name="BASE" />
           <ChainIcon icon={Chain3} name="ETH" />

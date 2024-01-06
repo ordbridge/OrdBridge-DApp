@@ -159,12 +159,12 @@
         background: linear-gradient(180deg, #1C143A 0%, rgba(36, 26, 73, 0.00) 100%);
         border-radius: 14px;
         border: 1px solid #4e318f;
-        @apply h-[250px] min-w-[200px] sm:h-[110px] sm:max-w-[110px] flex flex-col justify-center items-center
+        @apply h-[250px] min-w-[200px] sm:h-[130px] sm:min-w-[95px] sm:max-w-[105px] sm:flex flex flex-col justify-center items-center
     }
     .chain-icon-circle {
         background: linear-gradient(to bottom, #1C143A, transparent), linear-gradient(to right, #1C143A, transparent); /* Background gradient similar to the fill gradient */
         border: 1px solid #4e318f;
-        @apply sm:min-w-[90px] sm:h-[90px] min-w-[145px] h-[145px] rounded-full flex justify-center items-center
+        @apply sm:min-w-[70px] sm:h-[70px] min-w-[145px] h-[145px] rounded-full flex justify-center items-center
     }
     .lp-footer-break{
         width: 413px;
