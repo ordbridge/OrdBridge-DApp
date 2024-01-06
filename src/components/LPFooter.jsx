@@ -8,7 +8,7 @@ const LpFooter = () => {
  return (
    <div className="flex flex-col justify-center items-center text-white gap-4 pt-20 pb-10 md:px-5">
      <Text
-       className="text-5xl text-blue-200 pr-12 cursor-pointer !mb-0"
+       className="text-5xl text-blue-200 md:pr-0 pr-12 cursor-pointer !mb-0"
        size="txtPlusJakartaSansRomanBold36"
      >
             <span className="text-purple-700 font-syne text-left font-bold">
