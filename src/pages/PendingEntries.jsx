@@ -39,7 +39,7 @@ export const PendingEntries = ({
   setInitiateBridgeResponse,
   chain,
   connectMetamaskWallet,
-  fromChain
+  fromChain,
 }) => {
   const navigate = useNavigate();
   const { provider: phantomProvider } = usePhantomWallet();
@@ -60,7 +60,7 @@ export const PendingEntries = ({
     icon: fromChain.icon
   });
   useEffect(() => {
-    if (fromChain.tag === 'SOL') {
+    if (fromChain.tag === 'SOL' && phantomAddress) {
       viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress, setStep });
     }
   }, []);
@@ -98,19 +98,19 @@ export const PendingEntries = ({
       connectMetamaskWallet(requestedChain.chainId);
     }
 
-    if (toChain.isEvm) {
-      setToChain(requestedChain);
-    } else {
-      setFromChain(requestedChain);
-    }
+
+    // if (toChain.isEvm) {
+    //   setToChain(requestedChain);
+    // } else {
+    //   setFromChain(requestedChain);
+    // }
   };
 
   const getPendingEntries = async ({ type }) => {
-    if (type === 'SOL') {
+    if (type === 'SOL' && phantomAddress) {
       viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress, setStep });
     } else {
       const requestedChain = getChainByTag(type);
-
       const web3 = new Web3(getWeb3UrlByTag(type));
       const appContractAddress = requestedChain.contractAddress;
       const ABI = type === 'ETH' ? ETH_ABI : AVAX_ABI;
@@ -158,8 +158,9 @@ export const PendingEntries = ({
                       if (ele.tag !== 'SOL') setEntriesNetwork({ name: ele.tag, icon: ele.icon });
                       if (ele.tag === 'SOL') {
                         setChainTypeFilter({ name: ele.tag, icon: ele.icon });
-                        setFromChain(ele);
                       }
+                      setFromChain(ele);
+                      setToChain(appChains?.filter((ele) => ele.tag === 'BRC')[0]);
                       getPendingEntries({ type: ele.tag });
                     }}>
                     <div

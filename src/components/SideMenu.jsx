@@ -3,10 +3,11 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { toast } from 'react-toastify';
 import '../styles/sidemenu.css';
 import ConnectMetaMaskWallet from './Navbar/ConnectMetaMaskWallet';
-import ConnectPhantomWallet from "./Navbar/ConnectPhantomWallet";
+import ConnectPhantomWallet from './Navbar/ConnectPhantomWallet';
 import ConnectUnisatWallet from './Navbar/ConnectUnisatWallet';
 import Text from './Text';
 import { Link, useNavigate } from 'react-router-dom';
+import { appChains } from '../utils/chains';
 
 const SideMenu = ({
   handleSideMenu,
@@ -18,15 +19,18 @@ const SideMenu = ({
   connectPhantomWallet,
   setPendingEntryPopup,
   navToHome,
-  setStep
+  setStep,
+  fromChain,
+  setFromChain,
+  setToChain
 }) => {
   const navigate = useNavigate();
   const [walletsSet, setWalletsSet] = useState(false);
 
   useEffect(() => {
-    if(unisatAddress && unisatAddress !== "" && metaMaskAddress && metaMaskAddress !== ""){
-      setWalletsSet(true)
-    } else if(unisatAddress && unisatAddress !== "" && phantomAddress && phantomAddress !== ""){
+    if (unisatAddress && unisatAddress !== '' && metaMaskAddress && metaMaskAddress !== '') {
+      setWalletsSet(true);
+    } else if (unisatAddress && unisatAddress !== '' && phantomAddress && phantomAddress !== '') {
       setWalletsSet(true);
     } else {
       setWalletsSet(false);
@@ -45,7 +49,7 @@ const SideMenu = ({
               className="text-white text-lg cursor-pointer !mb-0 sm:block hidden font-syne font-normal"
               onClick={() => {
                 handleSideMenu();
-                navigate('/')
+                navigate('/');
                 setStep(0);
               }}>
               Home
@@ -66,10 +70,13 @@ const SideMenu = ({
               size="txtSyneBold20"
               onClick={() => {
                 if (!walletsSet) {
-                  toast.error("Please connect wallets first");
+                  toast.error('Please connect wallets first');
                 } else {
                   navigate('/');
-
+                  if (fromChain.tag === 'BRC') {
+                    setFromChain(appChains?.filter((ele) => ele.tag === 'ETH')[0]);
+                    setToChain(appChains?.filter((ele) => ele.tag === 'BRC')[0]);
+                  }
                   setPendingEntryPopup((prev) => !prev);
                 }
               }}>
@@ -87,10 +94,7 @@ const SideMenu = ({
               onConnectClick={connectMetamaskWallet}
               address={metaMaskAddress}
             />
-            <ConnectPhantomWallet
-              onConnectClick={connectPhantomWallet}
-              address={phantomAddress}
-            />
+            <ConnectPhantomWallet onConnectClick={connectPhantomWallet} address={phantomAddress} />
           </div>
         </div>
       </div>
