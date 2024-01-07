@@ -117,9 +117,7 @@ export const SwapPopup = ({
   const chainConnectButton = (chain) => {
     if (chain.tag === 'BRC') {
       return (
-        <div
-          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-          onClick={connectUnisatWallet}>
+        <div className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3">
           <ConnectUnisatWallet
             onConnectClick={connectUnisatWallet}
             address={unisatAddress}
@@ -129,9 +127,7 @@ export const SwapPopup = ({
       );
     } else if (chain.tag === 'SOL') {
       return (
-        <div
-          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-          onClick={connectPhantomWallet}>
+        <div className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3">
           <ConnectPhantomWallet
             onConnectClick={connectPhantomWallet}
             address={phantomAddress}
@@ -141,9 +137,7 @@ export const SwapPopup = ({
       );
     } else {
       return (
-        <div
-          className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-          onClick={connectMetamaskWallet}>
+        <div className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3">
           <ConnectMetaMaskWallet
             onConnectClick={connectMetamaskWallet}
             address={metaMaskAddress}
