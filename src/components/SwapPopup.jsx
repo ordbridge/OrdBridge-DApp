@@ -339,7 +339,8 @@ export const SwapPopup = ({
       tokenValue,
       setClaimStatus,
       phantomProvider,
-      toAddress
+      toAddress,
+      chain: toChain.tag
     });
   };
   const handleModal = () => {
@@ -525,7 +526,10 @@ export const SwapPopup = ({
                         Estimated arrival <LuClock3 /> : 3 block confirmations
                       </p>
                       <div
-                        onClick={handleAddressModal}
+                        onClick={() => {
+                          if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                          else handleAddressModal();
+                        }}
                         className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
                         <Button
                           className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
@@ -715,7 +719,10 @@ export const SwapPopup = ({
                             Estimated arrival <LuClock3 /> : 3 block confirmations
                           </p>
                           <div
-                            onClick={handleAddressModal}
+                            onClick={() => {
+                              if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                              else handleAddressModal();
+                            }}
                             className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
                             <Button
                               className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
