@@ -100,8 +100,13 @@ const LandingPage = () => {
             OrdBridge is the most widely used, extensible, secure cross- chain communications network. Build truly cross-chain applications using the OrdBridge Protocol.
           </p>
           <div className="landing-page-hero-content-buttons">
-            <button className=" landing-page-hero-content--button--alt">
-              Whitepaper
+            <button className=" landing-page-hero-content--button--alt"   onClick={() => {
+              window.open(
+                "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
+                "_blank",
+              );
+            }} >
+              How it works?
             </button>
             <button className="landing-page-hero-content--button">
               Enter App

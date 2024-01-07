@@ -142,12 +142,7 @@ const Navbar = ({
             </Link>
             <Link to="/dashboard">
               <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
-                Launch
-              </p>
-            </Link>
-            <Link to="/dashboard">
-              <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
-                Staking
+                Staking <span className="font-thin font-syne  text-[10px] text-gradient" >-coming soon</span>
               </p>
             </Link>
             <p
@@ -161,27 +156,32 @@ const Navbar = ({
             >
               Docs
             </p>
-            <p
-              className="text-white-A700 text-base whitespace-nowrap cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
-              onClick={() => {
-                if (!walletsSet) {
-                  toast.error("Please connect wallets first");
-                } else {
-                  navigate("/");
+            {/*<p*/}
+            {/*  className="text-white-A700 text-base whitespace-nowrap cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"*/}
+            {/*  onClick={() => {*/}
+            {/*    if (!walletsSet) {*/}
+            {/*      toast.error("Please connect wallets first");*/}
+            {/*    } else {*/}
+            {/*      navigate("/");*/}
 
-                  setPendingEntryPopup((prev) => (!prev ? !prev : prev));
-                }
-              }}
-            >
-              Pending Entries
-            </p>
+            {/*      setPendingEntryPopup((prev) => (!prev ? !prev : prev));*/}
+            {/*    }*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  Pending Entries*/}
+            {/*</p>*/}
           </section>
         </section>
 
-        <section className="flex items-start gap-2  block md:hidden justify-end">
-          {getWalletForType(type[0])}
-          <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-          {getWalletForType(type[3])}
+        {/*<section className="flex items-start gap-2  block md:hidden justify-end">*/}
+        {/*  {getWalletForType(type[0])}*/}
+        {/*  <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />*/}
+        {/*  {getWalletForType(type[3])}*/}
+        {/*</section>*/}
+        <section className="md:hidden" >
+          <Link to="/bridge" >
+            <p className=" text-white border p-2.5 px-4 rounded-3xl font-grostek" >Launch Bridge</p>
+          </Link>
         </section>
         <img
           src={HamburderIcon}
