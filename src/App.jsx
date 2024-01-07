@@ -266,7 +266,7 @@ function App() {
 
           <Routes>
             <Route
-              path="/swap"
+              path="/bridge"
               element={
                 <HomePage
                   step={step}

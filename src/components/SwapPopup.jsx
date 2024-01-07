@@ -690,9 +690,7 @@ export const SwapPopup = ({
                           </span>
                         </div>
                       </div>
-                      <div className=" flex justify-end text-[11px] font-thin py-1" ><p>Bridging to ETH chain - ORDI Tokens</p>
 
-                      </div>
 
                     </div>
                     <footer>

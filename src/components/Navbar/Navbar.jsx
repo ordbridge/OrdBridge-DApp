@@ -133,7 +133,7 @@ const Navbar = ({
           </Text>
 
           <section className="font-grostek flex">
-            <Link to="/dashboard">
+            <Link to="/bridge">
               <p
                 className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
               >
