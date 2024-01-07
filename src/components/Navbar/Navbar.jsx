@@ -9,6 +9,7 @@ import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
 import ConnectPhantomWallet from './ConnectPhantomWallet';
 import ConnectUnisatWallet from './ConnectUnisatWallet';
 import HamburderIcon from '../../assets/hamburger.png';
+import { appChains } from '../../utils/chains';
 
 const Navbar = ({
   connectUnisatWallet,
@@ -21,7 +22,10 @@ const Navbar = ({
   sessionKey,
   pendingEntryPopup,
   setPendingEntryPopup,
-  setStep
+  setStep,
+  fromChain,
+  setFromChain,
+  setToChain
 }) => {
   const navigate = useNavigate();
 
@@ -88,6 +92,9 @@ const Navbar = ({
         connectPhantomWallet={connectPhantomWallet}
         setStep={setStep}
         navToHome={executeVeryBadLogicForNavigatingToHome}
+        fromChain={fromChain}
+        setFromChain={setFromChain}
+        setToChain={setToChain}
       />
       <div className="flex py-3 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6 z-[10000]">
         <section className="flex gap-2 font-syne items-center justify-start w-auto">
@@ -117,7 +124,10 @@ const Navbar = ({
                 toast.error('Please connect wallets first');
               } else {
                 navigate('/');
-
+                if (fromChain.tag === 'BRC') {
+                  setFromChain(appChains?.filter((ele) => ele.tag === 'ETH')[0]);
+                  setToChain(appChains?.filter((ele) => ele.tag === 'BRC')[0]);
+                }
                 setPendingEntryPopup((prev) => (!prev ? !prev : prev));
               }
             }}

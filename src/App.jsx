@@ -92,24 +92,37 @@ function App() {
     if (isMob) {
       setIsMobile(true);
     } else {
-      try {
-        const res = await window.unisat.getNetwork();
-        if (res === 'livenet') {
-          await unisatHandler();
-        } else {
-          await switchUnisatNetwork();
+      if (window.unisat) {
+        try {
+          const res = await window.unisat.getNetwork();
+          if (res === 'livenet') {
+            await unisatHandler();
+          } else {
+            await switchUnisatNetwork();
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
+      } else {
+        window.open('https://unisat.io/download', '_blank');
       }
     }
   };
 
+  useEffect(()=>{
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (res) => {
+        setMetamaskAddress(res[0]);
+      });
+    }
+  },[])
+
+
   useEffect(async () => {
     // To Check Unisat is connected after page refreshing
-    if (!isMob) {
+    if (!isMob && window.unisat) {
       try {
-        var UnisatAccount = await window.unisat.requestAccounts();
+        var UnisatAccount = await window.unisat.getAccounts();
         if (UnisatAccount?.length > 0) {
           setUnisatAddress(UnisatAccount[0]);
         }
@@ -120,13 +133,12 @@ function App() {
 
     // To Check Metamask is connected after page refreshing
     try {
-      var MetamaskAccount = await window?.ethereum?.request({ method: 'eth_requestAccounts' });
-
+      var MetamaskAccount = await window.ethereum.request({ method: 'eth_accounts' });
       if (MetamaskAccount?.length > 0) {
         setMetamaskAddress(MetamaskAccount[0]);
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
     }
     let payload = {};
     if (MetamaskAccount?.length > 0) {
@@ -180,28 +192,32 @@ function App() {
   };
 
   const connectMetamaskWallet = async (desiredChainId) => {
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (window.ethereum) {
+      const chainId = await window?.ethereum?.request({ method: 'eth_chainId' });
 
-    const appChainId = isNaN(desiredChainId) ? getEvmChain().chainId : desiredChainId;
-    if (chainId === appChainId) {
-      MetaMaskConnection();
-    } else {
-      try {
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: appChainId }]
-        });
+      const appChainId = isNaN(desiredChainId) ? getEvmChain().chainId : desiredChainId;
+      if (chainId === appChainId) {
         MetaMaskConnection();
-      } catch (error) {
-        if (error.code === 4902) {
-          let { chainListId, tag, value } = appChains?.filter(
-            (ele) => ele['chainId'] === desiredChainId
-          )[0];
-          toast.info(<CustomToastWithLink id={chainListId} tag={tag} type={value} />);
-        } else {
-          toast.error(error.message);
+      } else {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: appChainId }]
+          });
+          MetaMaskConnection();
+        } catch (error) {
+          if (error.code === 4902) {
+            let { chainListId, tag, value } = appChains?.filter(
+              (ele) => ele['chainId'] === desiredChainId
+            )[0];
+            toast.info(<CustomToastWithLink id={chainListId} tag={tag} type={value} />);
+          } else {
+            toast.error(error.message);
+          }
         }
       }
+    } else {
+      window.open('https://metamask.io/', '_blank');
     }
   };
 
@@ -232,6 +248,9 @@ function App() {
           <Banner />
           <Navbar
             unisatAddress={unisatAddress}
+            fromChain={fromChain}
+            setFromChain={setFromChain}
+            setToChain={setToChain}
             metaMaskAddress={metaMaskAddress}
             phantomAddress={phantomAddress}
             connectUnisatWallet={connectUnisatWallet}
