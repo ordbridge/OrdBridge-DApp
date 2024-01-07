@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import TOKEN_ABI from '../utils/tokenAbi';
-import Text from './Text';
+import React, { useEffect, useState } from "react";
+import TOKEN_ABI from "../utils/tokenAbi";
+import Text from "./Text";
 
 const ProofOfReserve = ({
   token,
@@ -11,7 +11,7 @@ const ProofOfReserve = ({
   ethContractHandler,
   avaxContractHandler,
   arbiContractHandler,
-  baseContractHandler
+  baseContractHandler,
 }) => {
   const [ercBalance, setErcBalance] = useState(0);
   const [arcBalance, setArcBalance] = useState(0);
@@ -23,15 +23,18 @@ const ProofOfReserve = ({
       .tokenContracts(token.token)
       .call()
       .then((result) => {
-        if (result !== '0x0000000000000000000000000000000000000000') {
-          const tokenContractHandler = new ethWeb3.eth.Contract(TOKEN_ABI, result);
+        if (result !== "0x0000000000000000000000000000000000000000") {
+          const tokenContractHandler = new ethWeb3.eth.Contract(
+            TOKEN_ABI,
+            result,
+          );
 
           tokenContractHandler.methods
             .totalSupply()
             .call()
             .then((result) => {
               if (result) {
-                const supply = ethWeb3.utils.fromWei(result, 'ether');
+                const supply = ethWeb3.utils.fromWei(result, "ether");
                 setErcBalance(supply);
               }
             });
@@ -42,15 +45,18 @@ const ProofOfReserve = ({
       .tokenContracts(token.token)
       .call()
       .then((result) => {
-        if (result !== '0x0000000000000000000000000000000000000000') {
-          const tokenContractHandler = new avaxWeb3.eth.Contract(TOKEN_ABI, result);
+        if (result !== "0x0000000000000000000000000000000000000000") {
+          const tokenContractHandler = new avaxWeb3.eth.Contract(
+            TOKEN_ABI,
+            result,
+          );
 
           tokenContractHandler.methods
             .totalSupply()
             .call()
             .then((result) => {
               if (result) {
-                const supply = avaxWeb3.utils.fromWei(result, 'ether');
+                const supply = avaxWeb3.utils.fromWei(result, "ether");
                 setArcBalance(supply);
               }
             });
@@ -61,15 +67,18 @@ const ProofOfReserve = ({
       .tokenContracts(token.token)
       .call()
       .then((result) => {
-        if (result !== '0x0000000000000000000000000000000000000000') {
-          const tokenContractHandler = new arbiWeb3.eth.Contract(TOKEN_ABI, result);
+        if (result !== "0x0000000000000000000000000000000000000000") {
+          const tokenContractHandler = new arbiWeb3.eth.Contract(
+            TOKEN_ABI,
+            result,
+          );
 
           tokenContractHandler.methods
             .totalSupply()
             .call()
             .then((result) => {
               if (result) {
-                const supply = arbiWeb3.utils.fromWei(result, 'ether');
+                const supply = arbiWeb3.utils.fromWei(result, "ether");
                 setArbiBalance(supply);
               }
             });
@@ -80,15 +89,18 @@ const ProofOfReserve = ({
       .tokenContracts(token.token)
       .call()
       .then((result) => {
-        if (result !== '0x0000000000000000000000000000000000000000') {
-          const tokenContractHandler = new baseWeb3.eth.Contract(TOKEN_ABI, result);
+        if (result !== "0x0000000000000000000000000000000000000000") {
+          const tokenContractHandler = new baseWeb3.eth.Contract(
+            TOKEN_ABI,
+            result,
+          );
 
           tokenContractHandler.methods
             .totalSupply()
             .call()
             .then((result) => {
               if (result) {
-                const supply = baseWeb3.utils.fromWei(result, 'ether');
+                const supply = baseWeb3.utils.fromWei(result, "ether");
                 setBaseBalance(supply);
               }
             });
@@ -98,7 +110,10 @@ const ProofOfReserve = ({
 
   return (
     <div className="dashboard-stat-card">
-      <Text className="text-[32px] dashboard-stat-card--title font-bold" size="txtSyneBold40">
+      <Text
+        className="text-[32px] dashboard-stat-card--title font-bold"
+        size="txtSyneBold40"
+      >
         {token?.token?.toUpperCase()}
       </Text>
       <p className="text-[#C2C2C2] my-3">Token Supply</p>

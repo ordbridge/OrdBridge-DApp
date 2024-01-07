@@ -69,20 +69,47 @@
         @apply z-[10001]  border-[#794EFF] h-[100vh] absolute border p-3 right-0 w-screen pl-[30px]
     }
     .landing-page-hero {
-        @apply  py-12 min-h-screen md:flex md:flex-col md:justify-around md:px-3
+        background-image: url('assets/hero-bg/desktop-lg.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        max-width: 100vw;
+        width: 100vw;
+        @apply py-12 min-h-screen max-h-screen flex flex-col justify-between md:flex md:flex-col md:pt-[15vh] md:justify-between;
+    }
+
+    /* Small screens (sm) */
+    @media (max-width: 639px) {
+        .landing-page-hero {
+            background-image: url('assets/hero-bg/mobile.png');
+        }
+    }
+
+    /* Medium screens (md) */
+    @media (min-width: 640px) and (max-width: 830px) {
+        .landing-page-hero {
+            background-image: url('assets/hero-bg/tablet.png');
+        }
+    }
+
+    /* Large screens (lg) */
+    @media (min-width: 1024px) {
+        .landing-page-hero {
+            background-image: url('assets/hero-bg/desktop-sm.png');
+        }
     }
     .landing-page-hero-content--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
         -webkit-background-clip: text;
         font-size: clamp(32px, 5vw, 48px);
-        @apply  font-bold text-transparent inline-block font-syne md:text-center
+        @apply  font-bold text-transparent inline-block font-syne md:text-center md:px-3;
     }
     .landing-page-hero-content--para {
         font-size: clamp(14px, 1vw, 1rem);
-        @apply font-light text-white-A700 leading-6 md:text-center max-w-[500px]
+        @apply font-light text-white-A700 leading-6 md:text-center max-w-[500px] md:px-3;
     }
     .landing-page-hero-content-buttons{
-     @apply flex gap-6
+     @apply flex gap-6 z-10
     }
     .landing-page-hero-content--button {
         border: 1px solid rgba(255, 255, 255, 0.10);
@@ -98,11 +125,25 @@
     .landing-page-hero-content{
         @apply flex flex-col text-center items-center gap-10
     }
+
     .landing-page-hero-image-wrapper{
-        @apply md:h-96
-    }
-    .landing-page-hero--image{
-        @apply w-screen md:object-cover md:w-full md:h-full
+        margin-top: -20vh;
+        min-height:100vh;
+        max-height:50vh;
+        /*background-image: url('assets/hero-bg/desktop-lg.png');*/
+        /*background-size: cover;*/
+        /*background-repeat: no-repeat;*/
+        /*background-position: center;*/
+        @apply md:h-[40vh] lg:h-[20vh];
+        /*@screen sm {*/
+        /*    background-image: url('assets/hero-bg/mobile.png');*/
+        /*}*/
+        /*@screen md {*/
+        /*    background-image: url('assets/hero-bg/tablet.png');*/
+        /*}*/
+        /*@screen lg {*/
+        /*    background-image: url('assets/hero-bg/desktop-sm.png');*/
+        /*}*/
     }
     .landing-page-features {
         @apply md:py-10 py-28 container max-w-[1320px] mx-auto md:p-3 ;

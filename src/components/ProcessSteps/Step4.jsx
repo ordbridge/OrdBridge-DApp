@@ -1,5 +1,5 @@
-import React from 'react';
-import '../../styles/FormStep.css';
+import React from "react";
+import "../../styles/FormStep.css";
 
 export const Step4 = ({
   setStep,
@@ -7,7 +7,7 @@ export const Step4 = ({
   setClaimButton,
   setClaimStatus,
   swap,
-  fromChain
+  fromChain,
 }) => {
   return (
     <>
@@ -16,30 +16,35 @@ export const Step4 = ({
           <header className="popup_header">
             <div className="text-center">
               <div className="swap_header font-syne">
-                {claimStatus === 'failure' ? 'Failed' : 'Successful'}
+                {claimStatus === "failure" ? "Failed" : "Successful"}
               </div>
             </div>
           </header>
           <section className="form_data_section3 p-2">
             <div className="fw-normal font-syne">
-              {claimStatus === 'failure' ? (
+              {claimStatus === "failure" ? (
                 <>The transaction failed as user rejected</>
               ) : (
                 <>
-                  Your tokens have been received <span className="fw-bold">successfully</span>
+                  Your tokens have been received{" "}
+                  <span className="fw-bold">successfully</span>
                 </>
               )}
             </div>
           </section>
-          {claimStatus === 'success' && !swap && fromChain.tag !== 'SOL' && (
+          {claimStatus === "success" && !swap && fromChain.tag !== "SOL" && (
             <section className="form_data_section3 p-2 font-syne">
-              <div className="fw-semibold">You can check pending entries at anytime.</div>
+              <div className="fw-semibold">
+                You can check pending entries at anytime.
+              </div>
             </section>
           )}
-          {!swap && claimStatus === 'success' && fromChain.tag !== 'SOL' && (
+          {!swap && claimStatus === "success" && fromChain.tag !== "SOL" && (
             <section className="form_data_section p-2 font-syne">
               <div className="fw-normal flex align-items-center">
-                <>Please Wait 30 minutes for the bridging process to complete.</>
+                <>
+                  Please Wait 30 minutes for the bridging process to complete.
+                </>
               </div>
             </section>
           )}
@@ -49,9 +54,10 @@ export const Step4 = ({
               className="connect-wallet claim_button font-syne text-white pb-2 bg-gradient-to-r from-purple-500 to-blue-600"
               onClick={() => {
                 setClaimButton(false);
-                setClaimStatus('success');
+                setClaimStatus("success");
                 setStep(0);
-              }}>
+              }}
+            >
               Initiate Another Bridge
             </button>
           </footer>

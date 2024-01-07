@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { AiOutlineArrowRight } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import '../../styles/navbar.css';
-import SideMenu from '../SideMenu';
-import Text from '../Text';
-import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
-import ConnectPhantomWallet from './ConnectPhantomWallet';
-import ConnectUnisatWallet from './ConnectUnisatWallet';
-import HamburderIcon from '../../assets/hamburger.png';
-import { appChains } from '../../utils/chains';
+import React, { useEffect, useState } from "react";
+import { AiOutlineArrowRight } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "../../styles/navbar.css";
+import SideMenu from "../SideMenu";
+import Text from "../Text";
+import ConnectMetaMaskWallet from "./ConnectMetaMaskWallet";
+import ConnectPhantomWallet from "./ConnectPhantomWallet";
+import ConnectUnisatWallet from "./ConnectUnisatWallet";
+import HamburderIcon from "../../assets/hamburger.png";
+import { appChains } from "../../utils/chains";
 
 const Navbar = ({
   connectUnisatWallet,
@@ -25,7 +25,7 @@ const Navbar = ({
   setStep,
   fromChain,
   setFromChain,
-  setToChain
+  setToChain,
 }) => {
   const navigate = useNavigate();
 
@@ -134,15 +134,16 @@ const Navbar = ({
 
           <section className="font-grostek flex">
             <Link to="/bridge">
-              <p
-                className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
-              >
+              <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
                 Bridge
               </p>
             </Link>
             <Link to="/dashboard">
               <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
-                Staking <span className="font-thin font-syne  text-[10px] text-gradient" >-coming soon</span>
+                Staking{" "}
+                <span className="font-thin font-syne  text-[10px] text-gradient">
+                  -coming soon
+                </span>
               </p>
             </Link>
             <p
@@ -178,9 +179,11 @@ const Navbar = ({
         {/*  <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />*/}
         {/*  {getWalletForType(type[3])}*/}
         {/*</section>*/}
-        <section className="md:hidden" >
-          <Link to="/bridge" >
-            <p className=" text-white border p-2.5 px-4 rounded-3xl font-grostek" >Launch Bridge</p>
+        <section className="md:hidden">
+          <Link to="/bridge">
+            <p className=" text-white border p-2.5 px-4 rounded-3xl font-grostek">
+              Launch Bridge
+            </p>
           </Link>
         </section>
         <img

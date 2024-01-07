@@ -1,6 +1,6 @@
-import React from 'react';
-import { toast } from 'react-toastify';
-import processIcon from '../assets/Process.svg';
+import React from "react";
+import { toast } from "react-toastify";
+import processIcon from "../assets/Process.svg";
 
 export const AddressPopup = ({
   fromChain,
@@ -14,18 +14,18 @@ export const AddressPopup = ({
   phantomAddress,
   swap,
   burnMetamaskHandler,
-  burnSolanaTokensHandler
+  burnSolanaTokensHandler,
 }) => {
   const checkNetworkAndBurn = async () => {
     const appChainId = ethChain.chainId;
-    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
     if (chainId === appChainId) {
       burnMetamaskHandler();
     } else {
       try {
         await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: appChainId }]
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: appChainId }],
         });
 
         burnMetamaskHandler();
@@ -51,15 +51,15 @@ export const AddressPopup = ({
 
   const handleBridgeInitiation = async () => {
     // SOL -> any
-    if (fromChain.tag === 'SOL') {
+    if (fromChain.tag === "SOL") {
       handleSOL2BRC();
     }
     // EVM  ->  SOL
-    else if (toChain.tag === 'SOL' && fromChain.tag==='BRC') {
+    else if (toChain.tag === "SOL" && fromChain.tag === "BRC") {
       initiateSolanaBridgeHandler();
     }
     // BRC -> any
-    else if (fromChain.tag === 'BRC') {
+    else if (fromChain.tag === "BRC") {
       initateBridgeHandler();
     }
     // EVM -> EVM
@@ -75,8 +75,10 @@ export const AddressPopup = ({
           <div className="custom_modal-header">
             <div className="modal_address">
               <div className="confirm_modal_head font-syne font-bold text-4xl">
-                <img style={{ width: '6rem' }} src={processIcon} alt="" />
-                <div className="modal_head_gradient_text">Please Verify your</div>
+                <img style={{ width: "6rem" }} src={processIcon} alt="" />
+                <div className="modal_head_gradient_text">
+                  Please Verify your
+                </div>
                 <div className="modal_head_gradient_text">
                   {toChain.name}
                   <span> address</span>
@@ -84,12 +86,13 @@ export const AddressPopup = ({
               </div>
               <div
                 className="address_modal_label rounded-full border-none px-4 py-3"
-                style={{ background: '#794EFF33' }}>
-                {toChain.tag === 'BRC'
+                style={{ background: "#794EFF33" }}
+              >
+                {toChain.tag === "BRC"
                   ? unisatAddress
-                  : toChain.tag === 'SOL'
-                  ? phantomAddress
-                  : metaMaskAddress}
+                  : toChain.tag === "SOL"
+                    ? phantomAddress
+                    : metaMaskAddress}
               </div>
               {/* <div className="address_modal_description"> You can not edit or change it later.</div> */}
               <div className="address_modal_description">
@@ -98,24 +101,29 @@ export const AddressPopup = ({
               <div className="flex">
                 <div
                   className="connect_wallet_button border-1 rounded-full"
-                  style={{ borderColor: '#FF4E4E', width: '100%' }}
-                  onClick={onCloseModal}>
+                  style={{ borderColor: "#FF4E4E", width: "100%" }}
+                  onClick={onCloseModal}
+                >
                   <button className="initiate_button">
                     {/* {' '} */}
                     {/* {`<Back`} */}
-                    <span className="text-red-500 font-syne text-xl">Cancel</span>
+                    <span className="text-red-500 font-syne text-xl">
+                      Cancel
+                    </span>
                   </button>
                 </div>
                 <div
                   className="connect_wallet_button bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   onClick={handleBridgeInitiation}
                   // onClick={() => {
                   //   toChainIsEvm ? initateBridgeHandler() : checkNetwork();
                   // }}
                 >
                   <button className="initiate_button">
-                    <span className="text-white font-syne text-xl">Proceed</span>
+                    <span className="text-white font-syne text-xl">
+                      Proceed
+                    </span>
                   </button>
                 </div>
               </div>

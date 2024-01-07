@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from "react";
 
 export const Context = createContext({});
 
@@ -9,16 +9,16 @@ function PhantomProvider({ children }) {
 
   useEffect(() => {
     if (provider) {
-      provider.on('connect', () => {
+      provider.on("connect", () => {
         setConnected(true);
       });
 
-      provider.on('disconnect', () => {
+      provider.on("disconnect", () => {
         setConnected(false);
         setAccount(null);
       });
 
-      provider.on('accountChanged', (publicKey) => {
+      provider.on("accountChanged", (publicKey) => {
         if (publicKey) {
           // Set new public key and continue as usual
           setAccount(publicKey.toBase58());
@@ -36,7 +36,7 @@ function PhantomProvider({ children }) {
   }, [provider]);
 
   const handleConnect = useCallback(async () => {
-    if ('phantom' in window) {
+    if ("phantom" in window) {
       const provider = window.phantom?.solana;
 
       if (provider?.isPhantom) {
@@ -47,7 +47,7 @@ function PhantomProvider({ children }) {
         setAccount(resp.publicKey.toString());
       }
     } else {
-      window.open('https://phantom.app/', '_blank');
+      window.open("https://phantom.app/", "_blank");
     }
   }, []);
 
@@ -64,8 +64,9 @@ function PhantomProvider({ children }) {
         connected,
         connect: handleConnect,
         disconnect: handleDisconnect,
-        account
-      }}>
+        account,
+      }}
+    >
       {children}
     </Context.Provider>
   );
