@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "../../styles/navbar.css";
-import SideMenu from "../SideMenu";
-import Text from "../Text";
-import ConnectMetaMaskWallet from "./ConnectMetaMaskWallet";
-import ConnectPhantomWallet from "./ConnectPhantomWallet";
-import ConnectUnisatWallet from "./ConnectUnisatWallet";
-import HamburderIcon from "../../assets/hamburger.png";
+import React, { useEffect, useState } from 'react';
+import { AiOutlineArrowRight } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import '../../styles/navbar.css';
+import SideMenu from '../SideMenu';
+import Text from '../Text';
+import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
+import ConnectPhantomWallet from './ConnectPhantomWallet';
+import ConnectUnisatWallet from './ConnectUnisatWallet';
+import HamburderIcon from '../../assets/hamburger.png';
+import { appChains } from '../../utils/chains';
 
 const Navbar = ({
   connectUnisatWallet,
@@ -22,6 +23,9 @@ const Navbar = ({
   pendingEntryPopup,
   setPendingEntryPopup,
   setStep,
+  fromChain,
+  setFromChain,
+  setToChain
 }) => {
   const navigate = useNavigate();
 
@@ -109,6 +113,9 @@ const Navbar = ({
         connectPhantomWallet={connectPhantomWallet}
         setStep={setStep}
         navToHome={executeVeryBadLogicForNavigatingToHome}
+        fromChain={fromChain}
+        setFromChain={setFromChain}
+        setToChain={setToChain}
       />
       <div className="flex py-3 pl-10 md:flex-col flex-row md:gap-5 items-center justify-between pr-6 z-[10000] border-none border-r-0 border-l-0  border-b navbar-container">
         <section className="flex gap-2 font-syne items-center justify-start w-auto">
