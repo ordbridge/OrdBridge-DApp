@@ -63,7 +63,8 @@ export const burnHandler = async ({
   tokenValue,
   setClaimStatus,
   phantomProvider,
-  toAddress
+  toAddress,
+  chain
 }) => {
   const provider = await getProvider({ phantomProvider });
   const connection = new Connection(network, opts.preflightCommitment);
@@ -107,7 +108,7 @@ export const burnHandler = async ({
       .burnTokens({
         ticker: token,
         amount: new BN(tokenValue),
-        chain: 'sol',
+        chain: chain.toLowerCase(),
         crossChainAddress: toAddress
       })
       .accounts({
