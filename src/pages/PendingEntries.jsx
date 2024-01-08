@@ -16,6 +16,7 @@ import { getMint } from '@solana/spl-token';
 import '../styles/pending-entries.css';
 import usePhantomWallet from '../hooks/usePhantomWallet';
 import { claimTokens, viewDetails } from '../utils/solanaHandler';
+import { ThreeDots } from 'react-loader-spinner';
 
 export const PendingEntries = ({
   appChains,
@@ -39,9 +40,11 @@ export const PendingEntries = ({
   setInitiateBridgeResponse,
   chain,
   connectMetamaskWallet,
-  fromChain,
+  fromChain
 }) => {
   const navigate = useNavigate();
+  const [isPendingEntriesLoading, setIsPendingEntriesLoading] = useState(false);
+
   const { provider: phantomProvider } = usePhantomWallet();
   const opts = {
     preflightCommitment: 'processed'
@@ -98,7 +101,6 @@ export const PendingEntries = ({
       connectMetamaskWallet(requestedChain.chainId);
     }
 
-
     // if (toChain.isEvm) {
     //   setToChain(requestedChain);
     // } else {
@@ -107,22 +109,34 @@ export const PendingEntries = ({
   };
 
   const getPendingEntries = async ({ type }) => {
-    if (type === 'SOL' && phantomAddress) {
-      viewDetails({ phantomProvider, setMetamaskResponse, address: phantomAddress, setStep });
-    } else {
-      const requestedChain = getChainByTag(type);
-      const web3 = new Web3(getWeb3UrlByTag(type));
-      const appContractAddress = requestedChain.contractAddress;
-      const ABI = type === 'ETH' ? ETH_ABI : AVAX_ABI;
-      const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
-      try {
-        const result = await contractHandler.methods
-          .checkPendingERCToClaimForWalletWithTickers(metaMaskAddress, pendingTickers)
-          .call();
-        setMetamaskResponse(result);
-      } catch (error) {
-        console.error(error);
+    setIsPendingEntriesLoading(true);
+
+    try {
+      if (type === 'SOL' && phantomAddress) {
+        await viewDetails({
+          phantomProvider,
+          setMetamaskResponse,
+          address: phantomAddress,
+          setStep
+        });
+      } else {
+        const requestedChain = getChainByTag(type);
+        const web3 = new Web3(getWeb3UrlByTag(type));
+        const appContractAddress = requestedChain.contractAddress;
+        const ABI = type === 'ETH' ? ETH_ABI : AVAX_ABI;
+        const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
+        try {
+          const result = await contractHandler.methods
+            .checkPendingERCToClaimForWalletWithTickers(metaMaskAddress, pendingTickers)
+            .call();
+          setMetamaskResponse(result);
+        } catch (error) {
+          console.error(error);
+        }
       }
+    } catch (_) {
+    } finally {
+      setIsPendingEntriesLoading(false);
     }
   };
 
@@ -190,7 +204,7 @@ export const PendingEntries = ({
             </div>
           ))}
         </div>
-        {ClaimEntriesData?.[0]?.length > 0 ? (
+        {!isPendingEntriesLoading && ClaimEntriesData?.[0]?.length > 0 ? (
           ClaimEntriesData[0]?.map((ele, index) => {
             return (
               <div className="min-w-full flex items-center">
@@ -227,12 +241,23 @@ export const PendingEntries = ({
               </div>
             );
           })
-        ) : (
+        ) : !isPendingEntriesLoading ? (
           <Text
             className="text-xl md:text-base text-white-A700_b2 mt-4 !font-normal text-white opacity-70 !mb-0"
             size="txtSyneSemiBold24WhiteA700b2">
             No pending claim entries found
           </Text>
+        ) : (
+          <div className="flex min-w-full justify-center">
+            <Text
+              className="text-xl md:text-base text-white-A700_b2 mt-4 !font-normal text-white opacity-70 !mb-0"
+              size="txtSyneSemiBold24WhiteA700b2">
+              Loading
+            </Text>
+            <div className="max-w-[70px]">
+              <ThreeDots width="60" color="#ffffff" />
+            </div>
+          </div>
         )}
       </div>
 
