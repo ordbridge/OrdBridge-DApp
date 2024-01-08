@@ -275,7 +275,7 @@ export const SwapPopup = ({
 
     // Custom hack address for sending from ETH to SOL/AVAX / other EVMs
     if (fromChain.tag === 'ETH' && toChain.tag !== 'BRC') {
-      toAddress = `bc1${toAddress}${toChain.tag.toLowerCase()}`;
+      toAddress = `bc1;${toAddress};${toChain.tag.toLowerCase()}`;
     }
 
     try {
