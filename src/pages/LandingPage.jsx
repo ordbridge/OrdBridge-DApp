@@ -130,11 +130,11 @@ const LandingPage = () => {
                 window.open("/bridge");
               }}
             >
-              Enter App
+              Launch Bridge
             </button>
           </div>
         </div>
-        <div className="landing-page-hero-image-wrapper "/>
+        <div className="landing-page-hero-image-wrapper " />
       </div>
       <div className="landing-page-features">
         <div className="landing-page-features-title">
@@ -217,7 +217,7 @@ const LandingPage = () => {
       </div>
       <div className="container max-w-[1320px] mx-auto md:px-5 ">
         <div className="grid grid-cols-2 md:grid-cols-1 gap-16">
-          <div className="md:flex md:justify-center" >
+          <div className="md:flex md:justify-center">
             <img src={Banner2} alt="" />
           </div>
           <div className="flex flex-col md:items-center md:text-center  max-w-full  gap-4 md:pt-10">
@@ -258,7 +258,10 @@ const LandingPage = () => {
             <div>
               <div className="grid grid-cols-2 gap-10 mb-10">
                 <div>
-                  <h1 className="font-bold text-[40px] font-grostek"> &gt;30M</h1>
+                  <h1 className="font-bold text-[40px] font-grostek">
+                    {" "}
+                    &gt;30M
+                  </h1>
                   <p className="text-gradient font-medium text-[20px] mt-2 font-syne">
                     Total Bridge Volume
                   </p>

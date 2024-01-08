@@ -114,10 +114,10 @@
     .landing-page-hero-content--button {
         border: 1px solid rgba(255, 255, 255, 0.10);
         background: linear-gradient(90deg, #A681FF 0.02%, #4616FF 99.97%);
-        @apply rounded-[50px] p-3 px-10 text-white-A700 font-syne cursor-pointer ;
+        @apply rounded-[50px] p-3 px-10 text-white-A700  cursor-pointer font-grostek;
     }
     .landing-page-hero-content--button--alt {
-        @apply landing-page-hero-content--button font-syne;
+        @apply landing-page-hero-content--button font-grostek;
         border: 1px solid rgba(121, 78, 255, 0.64);
         /*border: 2px solid white;*/
         background: transparent;

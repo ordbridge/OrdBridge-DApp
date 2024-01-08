@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../../styles/navbar.css";
 import SideMenu from "../SideMenu";
@@ -28,6 +28,8 @@ const Navbar = ({
   setToChain,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname, "location pathname");
 
   const handleSideMenu = () => {
     const side_menu = document.getElementById("side_menu");
@@ -139,9 +141,9 @@ const Navbar = ({
               </p>
             </Link>
             <Link to="/dashboard">
-              <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
+              <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek relative">
                 Staking{" "}
-                <span className="font-thin font-syne  text-[10px] text-gradient">
+                <span className="font-thin font-syne text-nowrap  text-[10px] text-gradient absolute -bottom-[15px] left-0">
                   -coming soon
                 </span>
               </p>
@@ -174,18 +176,22 @@ const Navbar = ({
           </section>
         </section>
 
-        {/*<section className="flex items-start gap-2  block md:hidden justify-end">*/}
-        {/*  {getWalletForType(type[0])}*/}
-        {/*  <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />*/}
-        {/*  {getWalletForType(type[3])}*/}
-        {/*</section>*/}
-        <section className="md:hidden">
-          <Link to="/bridge">
-            <p className=" text-white border p-2.5 px-4 rounded-3xl font-grostek">
-              Launch Bridge
-            </p>
-          </Link>
-        </section>
+        {location.pathname === "/" ? (
+          <section className="md:hidden">
+            <button className="landing-page-hero-content--button " onClick={() => {
+              window.open("/bridge");
+            }}>
+                Launch Bridge
+            </button>
+          </section>
+        ) : (
+          <section className="flex items-start gap-2  block md:hidden justify-end">
+            {getWalletForType(type[0])}
+            <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
+            {getWalletForType(type[3])}
+          </section>
+        )}
+
         <img
           src={HamburderIcon}
           className="hamburger hidden md:block text-white text-xl"
