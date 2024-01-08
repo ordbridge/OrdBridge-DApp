@@ -224,8 +224,10 @@ export const SwapPopup = ({
   const infuraTag = getEvmChain().tag === 'ETH' ? 'mainnet' : 'avalanche-mainnet';
   const web3 = new Web3(`https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`);
   const ethWeb3 = new Web3(window.ethereum);
-  const appContractAddress = getEvmChain().contractAddress;
-  const factoryContractAddress = getEvmChain().factoryAddress;
+  const appContractAddress = fromChain?.contractAddress ?? toChain?.contractAddress;
+  const appContractLink = fromChain?.contractLink ?? toChain?.contractLink;
+  const appTokenAddress = fromChain?.tokenAddress ?? toChain?.tokenAddress;
+  const appTokenLink = fromChain?.tokenLink ?? toChain?.tokenLink;
   const ABI = getEvmChain().tag === 'ETH' ? ETH_ABI : AVAX_ABI;
   const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
   const callContractFunction = async () => {
@@ -551,7 +553,7 @@ export const SwapPopup = ({
                     <MdContentCopy
                       className="text-[#794EFF]"
                       onClick={() => {
-                        copyToClipboard(factoryContractAddress);
+                        copyToClipboard(appTokenAddress);
                       }}
                     />{' '}
                     | OrdBridge Factory contract{' '}
@@ -744,11 +746,15 @@ export const SwapPopup = ({
 
                 <div className="form_link_description">
                   $wBRGE token contract {''}
-                  <a href="/">{factoryContractAddress}</a>
+                  <a href={appTokenLink} target="_blank" rel="noreferrer">
+                    {appTokenAddress}
+                  </a>
                 </div>
                 <div className="form_link_description">
                   OrdBridge Factory contract {''}
-                  <a href="/">{appContractAddress}</a>
+                  <a href={appContractLink} target="_blank" rel="noreferrer">
+                    {appContractAddress}
+                  </a>
                 </div>
               </div>
             )}
