@@ -4,6 +4,7 @@ import EthereumIcon from '../assets/ethereum.png';
 import ArbitrumIcon from '../assets/arbitrum.png';
 import BaseIcon from '../assets/base.svg';
 import SolanaIcon from '../assets/solana.png';
+import PolygonIcon from '../assets/polygon.png';
 
 export const appChains = [
   {
@@ -85,6 +86,21 @@ export const appChains = [
     contractAddress: '',
     chain_flag: 'BRC_TO_SOL',
     icon: SolanaIcon
+  },
+  {
+    isEvm: true,
+    name: 'Polygon',
+    key: 'polychain',
+    value: 'MATIC',
+    tokenTag: 'MATIC-ERC20',
+    tag: 'MATIC',
+    infuraTag: 'polygon-mainnet',
+    chainId: '0x89',
+    factoryAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
+    contractAddress: '0xdEF327121963E909CF2ee32Dbee62ABC8cc73201',
+    chainListId: 137,
+    chain_flag: 'BRC_TO_POLY',
+    icon: PolygonIcon
   }
 ];
 

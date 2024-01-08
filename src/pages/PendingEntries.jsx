@@ -178,7 +178,7 @@ export const PendingEntries = ({
                       getPendingEntries({ type: ele.tag });
                     }}>
                     <div
-                      className={`w-full flex justify-center text-white gap-2 items-center !mb-0 my-1`}>
+                      className={`w-full flex justify-start text-white gap-2 items-center !mb-0 my-1 `}>
                       <img src={ele.icon} className="w-[20px]" alt={ele.tag} />
                       {ele.tag}
                     </div>
@@ -294,7 +294,7 @@ export const PendingEntries = ({
                       setFilterUnprocessedEntries(filterData);
                     }}>
                     <div
-                      className={`w-full flex justify-center text-white gap-2 items-center !mb-0 my-1`}>
+                      className={`w-full flex justify-start text-white gap-2 items-center !mb-0 my-1`}>
                       <img src={ele.icon} className="w-[20px]" alt={ele.tag} />
                       {ele.tag}
                     </div>
