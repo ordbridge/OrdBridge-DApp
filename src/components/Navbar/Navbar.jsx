@@ -63,14 +63,10 @@ const Navbar = ({
 
   const executeVeryBadLogicForNavigatingToHome = () => {
     setStep(0);
-    const loc = window.location.pathname;
-
-    if (loc === "/dashboard") {
-      navigate("/");
-    }
-
     if (pendingEntryPopup) {
       setPendingEntryPopup((prev) => !prev);
+    }else {
+      navigate("/");
     }
   };
 

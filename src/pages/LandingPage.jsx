@@ -12,6 +12,7 @@ import Chain3 from "../assets/chain3.png";
 import Chain4 from "../assets/chain4.png";
 import Chain5 from "../assets/chain5.png";
 import Chain6 from "../assets/chain6.png";
+import Chain7 from '../assets/polygon.png';
 import BoxIcon from "../assets/BoxIcon.svg";
 
 const roadmapData = [
@@ -71,7 +72,7 @@ const LandingPage = () => {
     return (
       <div className=" flex flex-col items-center gap-3 justify-center">
         <img alt="" src={img} />
-        <h3 className="text-white font-medium text-[24px] font-syne ">
+        <h3 className="text-white font-medium text-[24px] font-syne md:text-center ">
           {title}
         </h3>
         <p className="text-gray-200 font-light text-[14px] leading-6 font-grostek text-center ">
@@ -158,7 +159,7 @@ const LandingPage = () => {
           />
           <WhyItem
             img={OrdThumb3}
-            title="No-slippage Bridge"
+            title="Zero-slippage Bridge"
             para="employs an Optimistic security model to ensure integrity of cross-chain messages"
           />
           <WhyItem
@@ -189,8 +190,8 @@ const LandingPage = () => {
               offering low cost, fast, and secure bridging.
             </p>
             <div className="m-0">
-              <button className="landing-page-hero-content--button--alt px-[30px] py-[15px]">
-                Open App
+              <button className="landing-page-hero-content--button--alt px-[30px] py-[15px] font-grostek">
+                Launch Bridge
               </button>
             </div>
           </div>
@@ -213,6 +214,7 @@ const LandingPage = () => {
           <ChainIcon icon={Chain4} name="BRC" />
           <ChainIcon icon={Chain5} name="ARBI" />
           <ChainIcon icon={Chain6} name="SOL" />
+          <ChainIcon icon={Chain7} name="MATIC" />
         </div>
       </div>
       <div className="container max-w-[1320px] mx-auto md:px-5 ">
@@ -221,7 +223,7 @@ const LandingPage = () => {
             <img src={Banner2} alt="" />
           </div>
           <div className="flex flex-col md:items-center md:text-center  max-w-full  gap-4 md:pt-10">
-            <p className="text-white text-[20px] font-medium font-syne">
+            <p className="text-white text-[20px] font-medium font-grostek">
               How it works
             </p>
             <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
@@ -260,7 +262,7 @@ const LandingPage = () => {
                 <div>
                   <h1 className="font-bold text-[40px] font-grostek">
                     {" "}
-                    &gt;30M
+                    16.7$
                   </h1>
                   <p className="text-gradient font-medium text-[20px] mt-2 font-syne">
                     Total Bridge Volume
@@ -277,7 +279,7 @@ const LandingPage = () => {
             <div>
               <div className="grid grid-cols-2 gap-10 my-10">
                 <div>
-                  <h1 className="font-bold text-[40px] font-grostek">06</h1>
+                  <h1 className="font-bold text-[40px] font-grostek">07</h1>
                   <p className="text-gradient font-medium text-[20px] mt-2 font-syne">
                     Chains live
                   </p>
@@ -300,7 +302,7 @@ const LandingPage = () => {
               Roadmap
             </p>
             <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
-              Share your journey from the beginning to now
+              OrdBridge Odyssey with WBRGE: A Development Roadmap
             </h1>
           </div>
           <div className="text-white md:max-w-full max-w-[80%]">

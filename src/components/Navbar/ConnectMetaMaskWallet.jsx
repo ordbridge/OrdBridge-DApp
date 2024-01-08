@@ -31,7 +31,7 @@ const ConnectMetaMaskWallet = ({ onConnectClick, address, text }) => {
   if (!address) {
     return (
       <Button
-        className="!text-white-A700 cursor-pointer py-3 font-bold font-syne leading-[normal] rounded-[29px] text-base text-center sx:text-3 sm:px-4 px-6"
+        className="!text-white-A700 cursor-pointer py-3 font-bold font-grostek leading-[normal] rounded-[29px] text-base text-center sx:text-3 sm:px-4 px-6"
         color={`${
           text === "Connect Wallets"
             ? "deep_purple_A200_a3"
