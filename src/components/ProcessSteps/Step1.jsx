@@ -259,6 +259,7 @@ export const Step1 = ({
                     target="_blank"
                     className="fw-normal font-syne text-sm font-normal"
                     style={{ color: "#7A6FF2" }}
+                    rel="noreferrer"
                   >
                     Click here
                   </a>

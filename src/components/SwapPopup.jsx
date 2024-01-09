@@ -135,8 +135,7 @@ export const SwapPopup = ({
       );
     } else if (chain.tag === "SOL") {
       return (
-        <div className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-        >
+        <div className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3">
           <ConnectPhantomWallet
             onConnectClick={connectPhantomWallet}
             address={phantomAddress}
@@ -146,8 +145,7 @@ export const SwapPopup = ({
       );
     } else {
       return (
-        <div className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3"
-        >
+        <div className="w-full mt-2 bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer mt-3">
           <ConnectMetaMaskWallet
             onConnectClick={connectMetamaskWallet}
             address={metaMaskAddress}
@@ -246,7 +244,8 @@ export const SwapPopup = ({
     `https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`,
   );
   const ethWeb3 = new Web3(window.ethereum);
-  const appContractAddress = fromChain?.contractAddress ?? toChain?.contractAddress;
+  const appContractAddress =
+    fromChain?.contractAddress ?? toChain?.contractAddress;
   const appContractLink = fromChain?.contractLink ?? toChain?.contractLink;
   const appTokenAddress = fromChain?.tokenAddress ?? toChain?.tokenAddress;
   const appTokenLink = fromChain?.tokenLink ?? toChain?.tokenLink;
@@ -378,7 +377,7 @@ export const SwapPopup = ({
       setClaimStatus,
       phantomProvider,
       toAddress,
-      chain: toChain.tag
+      chain: toChain.tag,
     });
   };
   const handleModal = () => {
@@ -559,21 +558,24 @@ export const SwapPopup = ({
                 <div className="text-center">
                   {fromChainConnected && toChainConnected ? (
                     <div className="initiate_bridge_cta">
-                      <p
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.2rem",
-                        }}
-                        className="text-sm !mb-2"
-                      >
-                        Estimated arrival <LuClock3 /> : 3 block confirmations
-                      </p>
+                      {/*<p*/}
+                      {/*  style={{*/}
+                      {/*    display: "flex",*/}
+                      {/*    alignItems: "center",*/}
+                      {/*    gap: "0.2rem",*/}
+                      {/*  }}*/}
+                      {/*  className="text-sm !mb-2"*/}
+                      {/*>*/}
+                      {/*  Estimated arrival <LuClock3 /> : 3 block confirmations*/}
+                      {/*</p>*/}
                       <div
                         onClick={() => {
-                          if (token === 'BRGE' && tokenValue < 1000) {
-                            toast.error('Please enter a amount greater than or equal to 1000 for BRGE');
-                          } else if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                          if (token === "BRGE" && tokenValue < 1000) {
+                            toast.error(
+                              "Please enter a amount greater than or equal to 1000 for BRGE",
+                            );
+                          } else if (tokenValue <= 0)
+                            toast.error("Please enter a valid amount");
                           else handleAddressModal();
                         }}
                         className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
@@ -614,7 +616,7 @@ export const SwapPopup = ({
               </header>
             ) : (
               <div className="first_container">
-                <div className=" swap-popup-container px-6 pt-[25px] rounded-3xl swap_subheading relative sm:px-3">
+                <div className=" swap-popup-container px-6 pt-[12px] rounded-3xl swap_subheading relative sm:px-3 ">
                   <header className="popup_header">
                     <div className="swap_subheading">
                       {swap ? <div>Select Token</div> : <div>Select Token</div>}
@@ -732,28 +734,31 @@ export const SwapPopup = ({
 
                       {fromChainConnected && toChainConnected ? (
                         <div className="initiate_bridge_cta">
-                          <p
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "0.2rem",
-                            }}
-                            className="text-sm !mb-2"
-                          >
-                            Estimated arrival <LuClock3 /> : 3 block
-                            confirmations
-                          </p>
+                          {/*<p*/}
+                          {/*  style={{*/}
+                          {/*    display: "flex",*/}
+                          {/*    alignItems: "center",*/}
+                          {/*    gap: "0.2rem",*/}
+                          {/*  }}*/}
+                          {/*  className="text-sm !mb-2"*/}
+                          {/*>*/}
+                          {/*  Estimated arrival <LuClock3 /> : 3 block*/}
+                          {/*  confirmations*/}
+                          {/*</p>*/}
                           <div
                             onClick={() => {
-                              if (token === 'BRGE' && tokenValue < 1000) {
-                                toast.error('Please enter a amount greater than or equal to 1000 for BRGE');
-                              } else if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                              if (token === "BRGE" && tokenValue < 1000) {
+                                toast.error(
+                                  "Please enter a amount greater than or equal to 1000 for BRGE",
+                                );
+                              } else if (tokenValue <= 0)
+                                toast.error("Please enter a valid amount");
                               else handleAddressModal();
                             }}
                             className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
                           >
                             <Button
-                              className="!text-white-A700 cursor-pointer font-bold font-syne leading-[normal] min-w-[230px] rounded-[29px] text-base text-center"
+                              className="!text-white-A700 cursor-pointer font-bold font-syne min-w-[230px]  rounded-[29px]  text-center"
                               color="deep_purple_A200_a3"
                               size="sm"
                               variant="outline"
@@ -796,13 +801,13 @@ export const SwapPopup = ({
                   </button>
                 </div>
                 <div className="form_link_description">
-                  $wBRGE token contract {''}
+                  $wBRGE token contract {""}
                   <a href={appTokenLink} target="_blank" rel="noreferrer">
                     {appTokenAddress}
                   </a>
                 </div>
                 <div className="form_link_description">
-                  OrdBridge Factory contract {''}
+                  OrdBridge Factory contract {""}
                   <a href={appContractLink} target="_blank" rel="noreferrer">
                     {appContractAddress}
                   </a>
