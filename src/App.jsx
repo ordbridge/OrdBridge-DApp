@@ -270,7 +270,6 @@ function App() {
       <BrowserRouter>
         <ToastContainer />
         <div className="vh-100">
-          <Banner />
           <Navbar
             unisatAddress={unisatAddress}
             fromChain={fromChain}
