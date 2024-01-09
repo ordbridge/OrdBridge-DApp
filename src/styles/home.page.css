@@ -15,9 +15,14 @@
 }
 
 .background_popup {
-    background: #111331;
+    /* background: #111331; */
     /* linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0%, rgba(2.74, 23.13, 25.91, 0.70) 100%); */
-    border: 1px rgba(121, 78, 255, 0.64) solid;
+    /* border: 1px rgba(121, 78, 255, 0.64) solid; */
+    border-left: 1px solid #5e4b92;
+    border-top: 1px solid #5e4b92;
+    background: linear-gradient(180deg, rgba(63, 45, 132, 0.5) 0%, rgba(36, 26, 73, 0) 100%),
+        rgba(17, 17, 21, 0);
+    backdrop-filter: blur(28.09789276123047px);
 }
 
 .custom_popup section {
