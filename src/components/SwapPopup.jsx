@@ -120,7 +120,7 @@ export const SwapPopup = ({
     if (chain.tag === "BRC") {
       return (
         <div
-          className="w-full mt-2 rounded-3xl py-1 cursor-pointer "
+          className="w-full mt-3 rounded-3xl   cursor-pointer "
           style={{
             background: "linear-gradient(90deg, #A681FF 0.02%, #4616FF 99.97%)",
           }}
@@ -634,30 +634,6 @@ export const SwapPopup = ({
                         <IoIosArrowDown className="ml-2" />
                       </div>
                     </button>
-
-                    <button
-                      className="absolute left-2/3 border-1 rounded-full pl-0 pr-3 py-1 mt-2 sm:p-1"
-                      style={{
-                        borderWidth: ".001rem !important",
-                        borderColor: "#281a5e",
-                        border: "1px rgba(121, 78, 255, 0.83) solid",
-                      }}
-                    >
-                      <div
-                        className="flex justify-center items-center"
-                        onClick={() => scrollToElement("proof-of-reserves")}
-                      >
-                        <IoIosInformationCircleOutline
-                          className="ml-2 text-[12px]"
-                          style={{ color: "#794EFF" }}
-                        />
-                        <Link to="/dashboard">
-                          <span className="font-syne text-[12px] ml-2  sm:!text-[10px] text-[#794EFF]">
-                            Proof of Reserves
-                          </span>
-                        </Link>
-                      </div>
-                    </button>
                   </div>
 
                   <section className="pt-2 relative mt-2">
@@ -785,7 +761,31 @@ export const SwapPopup = ({
                     </footer>
                   </section>
                 </div>
-
+                <div className="flex justify-center mt-3 ">
+                  <button
+                    className=" left-2/3 border-1 rounded-full pl-0 pr-3 py-1  sm:p-1"
+                    style={{
+                      borderWidth: ".001rem !important",
+                      borderColor: "#281a5e",
+                      border: "1px rgba(121, 78, 255, 0.83) solid",
+                    }}
+                  >
+                    <div
+                      className="flex justify-center items-center"
+                      onClick={() => scrollToElement("proof-of-reserves")}
+                    >
+                      <IoIosInformationCircleOutline
+                        className="ml-2 text-[12px]"
+                        style={{ color: "#794EFF" }}
+                      />
+                      <Link to="/dashboard" className="leading-[5px]">
+                        <span className="font-syne text-[12px] ml-2 mb-2 sm:!text-[10px] text-[#794EFF]">
+                          Proof of Reserves
+                        </span>
+                      </Link>
+                    </div>
+                  </button>
+                </div>
                 <div className="form_link_description">
                   $wBRGE token contract {""}
                   <a href="/">{factoryContractAddress}</a>

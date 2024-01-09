@@ -1,5 +1,4 @@
 import React from "react";
-import HeroBg from "../assets/hero-bg.png";
 import OrdThumb from "../assets/ord-thumb.png";
 import OrdThumb2 from "../assets/ord-thumb-2.png";
 import OrdThumb3 from "../assets/ord-thumb-3.png";
@@ -12,52 +11,65 @@ import Chain3 from "../assets/chain3.png";
 import Chain4 from "../assets/chain4.png";
 import Chain5 from "../assets/chain5.png";
 import Chain6 from "../assets/chain6.png";
-import Chain7 from '../assets/polygon.png';
-import BoxIcon from "../assets/BoxIcon.svg";
+import Chain7 from "../assets/polygon.png";
+import RoadmapIcon1 from "../assets/timeline-icons/1.png";
+import RoadmapIcon2 from "../assets/timeline-icons/2.png";
+import RoadmapIcon3 from "../assets/timeline-icons/3.png";
+import RoadmapIcon4 from "../assets/timeline-icons/4.png";
+import RoadmapIcon5 from "../assets/timeline-icons/5.png";
+import RoadmapIcon6 from "../assets/timeline-icons/6.png";
+import RoadmapIcon7 from "../assets/timeline-icons/7.png";
 
 const roadmapData = [
   {
     date: "W3 DEC",
     title: "Revamped Ul & Dashboard",
     desc: "Revamped Ul for easy bridging & dashboard for live bridge volume & pair trading.",
+    icon: RoadmapIcon1,
   },
   {
     date: "W3 DEC",
     title: "AVAX Chain Launch",
     desc: "Bridge to AVAX launch, users will be able bridge BRC20 tokens between BRC20, ETH chain & AVAX. LP pool for SWBRGE will also go live.",
+    icon: RoadmapIcon2,
   },
   {
     date: "W4 DEC",
     title: "Bridge to Base, Arbitrum",
     desc: "OrdBridge will expand to Base & Arbitrum as well, expanding reach of BRC20 tokens to other EVM chains.",
+    icon: RoadmapIcon3,
   },
   {
     date: "W4 DEC",
     title: "Bridge to Solana",
     desc: "Most awaited bridge to Solana, as our first non- EVM bridge for BRC20 tokens. BRC20 tokens will be available on Solana.",
+    icon: RoadmapIcon4,
   },
   {
     date: "W1 JAN",
     title: "Revenue Generation & distribution to Stakers",
     desc: "Ordbridge wil enable revenue generation & distribution to SWBRGE token stakers.",
+    icon: RoadmapIcon5,
   },
   {
     date: "W2 JAN",
     title: "OrdBRidge Launchpad ",
     desc: "Enabling multichain faunch of BRC20 tokens.",
+    icon: RoadmapIcon6,
   },
   {
     date: "W4 JAN",
     title: "CBRC & Stamps Multichain ",
     desc: "Launching new inscription standards,enabling muttichain trading for those",
+    icon: RoadmapIcon7,
   },
 ];
 const LandingPage = () => {
-  const RoadmapItem = ({ last, date, title, desc }) => {
+  const RoadmapItem = ({ last, date, title, desc, icon }) => {
     return (
       <div className="flex gap-4 ">
         <div className="flex flex-col  justify-start items-center max-w-[40px] p-0 m-0">
-          <img src={BoxIcon} alt="" />
+          <img src={icon} alt="" />
           {!last && <div className="h-full max-w-[1px] border m-1" />}
         </div>
         <div className="text-white flex flex-col gap-3 flex-1  py-3">
@@ -190,7 +202,10 @@ const LandingPage = () => {
               offering low cost, fast, and secure bridging.
             </p>
             <div className="m-0">
-              <button className="landing-page-hero-content--button--alt px-[30px] py-[15px] font-grostek">
+              <button
+                className="landing-page-hero-content--button--alt px-[30px] py-[15px] font-grostek"
+                onClick={() => window.open("/bridge")}
+              >
                 Launch Bridge
               </button>
             </div>
@@ -260,10 +275,7 @@ const LandingPage = () => {
             <div>
               <div className="grid grid-cols-2 gap-10 mb-10">
                 <div>
-                  <h1 className="font-bold text-[40px] font-grostek">
-                    {" "}
-                    16.7$
-                  </h1>
+                  <h1 className="font-bold text-[40px] font-grostek"> 16.7$</h1>
                   <p className="text-gradient font-medium text-[20px] mt-2 font-syne">
                     Total Bridge Volume
                   </p>
@@ -312,6 +324,7 @@ const LandingPage = () => {
                 title={item.title}
                 desc={item.desc}
                 last={index + 1 === roadmapData.length}
+                icon={item.icon}
               />
             ))}
           </div>

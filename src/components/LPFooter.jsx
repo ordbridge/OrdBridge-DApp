@@ -40,9 +40,15 @@ const LpFooter = () => {
         Contact at <a href="mailto:tech@ordibridge.io">tech@ordibridge.io</a>
       </p>
       <div className="flex gap-10 ">
-        <img src={Telegram} alt="" />
-        <img src={Twitter} alt="" />
-        <img src={Discord} alt="" />
+        <a href="https://t.me/ordbridgefi">
+          <img src={Telegram} alt="" />
+        </a>
+        <a href="https://twitter.com/OrdBridge">
+          <img src={Twitter} alt="" />
+        </a>
+        <a href="https://t.me/ordbridgefi">
+          <img src={Discord} alt="" />
+        </a>
       </div>
     </div>
   );

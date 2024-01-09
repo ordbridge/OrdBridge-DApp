@@ -65,7 +65,7 @@ const Navbar = ({
     setStep(0);
     if (pendingEntryPopup) {
       setPendingEntryPopup((prev) => !prev);
-    }else {
+    } else {
       navigate("/");
     }
   };
@@ -131,12 +131,14 @@ const Navbar = ({
           </Text>
 
           <section className="font-grostek flex">
-            <Link to="/bridge">
-              <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
-                Bridge
-              </p>
-            </Link>
-            <Link to="/dashboard">
+            {location.pathname === "/" && (
+              <Link to="/bridge">
+                <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
+                  Bridge
+                </p>
+              </Link>
+            )}
+            <Link to="">
               <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek relative">
                 Staking{" "}
                 <span className="font-thin font-syne text-nowrap  text-[10px] text-gradient absolute -bottom-[15px] left-0">
@@ -155,29 +157,34 @@ const Navbar = ({
             >
               Docs
             </p>
-            {/*<p*/}
-            {/*  className="text-white-A700 text-base whitespace-nowrap cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"*/}
-            {/*  onClick={() => {*/}
-            {/*    if (!walletsSet) {*/}
-            {/*      toast.error("Please connect wallets first");*/}
-            {/*    } else {*/}
-            {/*      navigate("/");*/}
+            {location.pathname !== "/" && (
+              <p
+                className="text-white-A700 text-base whitespace-nowrap cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
+                onClick={() => {
+                  if (!walletsSet) {
+                    toast.error("Please connect wallets first");
+                  } else {
+                    navigate("/");
 
-            {/*      setPendingEntryPopup((prev) => (!prev ? !prev : prev));*/}
-            {/*    }*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  Pending Entries*/}
-            {/*</p>*/}
+                    setPendingEntryPopup((prev) => (!prev ? !prev : prev));
+                  }
+                }}
+              >
+                Pending Entries
+              </p>
+            )}
           </section>
         </section>
 
         {location.pathname === "/" ? (
           <section className="md:hidden">
-            <button className="landing-page-hero-content--button " onClick={() => {
-              window.open("/bridge");
-            }}>
-                Launch Bridge
+            <button
+              className="landing-page-hero-content--button "
+              onClick={() => {
+                window.open("/bridge");
+              }}
+            >
+              Launch Bridge
             </button>
           </section>
         ) : (

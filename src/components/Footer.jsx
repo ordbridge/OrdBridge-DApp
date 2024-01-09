@@ -9,7 +9,7 @@ export const Footer = () => {
   console.log(location, "Location");
   return (
     <div>
-      <LpFooter/>
+      <LpFooter />
       {/*{location?.pathname == "/" ? (*/}
       {/*  <LpFooter />*/}
       {/*) : (*/}
