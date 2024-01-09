@@ -9,6 +9,7 @@ import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
 import ConnectPhantomWallet from './ConnectPhantomWallet';
 import ConnectUnisatWallet from './ConnectUnisatWallet';
 import HamburderIcon from '../../assets/hamburger.png';
+import { getWalletStringForType } from '../../utils/chains';
 
 const Navbar = ({
   connectUnisatWallet,
@@ -41,14 +42,27 @@ const Navbar = ({
   const [walletsSet, setWalletsSet] = useState(false);
 
   useEffect(() => {
-    if (unisatAddress && unisatAddress !== '' && metaMaskAddress && metaMaskAddress !== '') {
-      setWalletsSet(true);
-    } else if (unisatAddress && unisatAddress !== '' && phantomAddress && phantomAddress !== '') {
-      setWalletsSet(true);
-    } else {
+    const from = getWalletStringForType(type[0]);
+    const to = getWalletStringForType(type[3]);
+
+    const walletConfig = [from, to];
+
+    if (walletConfig.includes('unisat') && !(unisatAddress && unisatAddress !== '')) {
       setWalletsSet(false);
+      return;
     }
-  }, [unisatAddress, metaMaskAddress, phantomAddress]);
+
+    if (walletConfig.includes('phantom') && !(phantomAddress && phantomAddress !== '')) {
+      setWalletsSet(false);
+      return;
+    }
+    if (walletConfig.includes('metamask') && !(metaMaskAddress && metaMaskAddress !== '')) {
+      setWalletsSet(false);
+      return;
+    }
+
+    setWalletsSet(true);
+  }, [unisatAddress, metaMaskAddress, phantomAddress, type]);
 
   const executeVeryBadLogicForNavigatingToHome = () => {
     setStep(0);

@@ -165,25 +165,21 @@ export const SwapPopup = ({
 
   // Handles the
   useEffect(() => {
-    if (fromChain.tag === 'BRC' && unisatAddress && unisatAddress !== '') {
+    if (fromChain.wallet === 'unisat' && unisatAddress && unisatAddress !== '') {
       setFromChainConnected(true);
-    } else if (fromChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
+    } else if (fromChain.wallet === 'phantom' && phantomAddress && phantomAddress !== '') {
       setFromChainConnected(true);
-    } else if (fromChain.tag === 'SOL' && !phantomAddress) {
-      setFromChainConnected(false);
-    } else if (metaMaskAddress && metaMaskAddress !== '') {
+    } else if (fromChain.wallet === 'metamask' && metaMaskAddress && metaMaskAddress !== '') {
       setFromChainConnected(true);
     } else {
       setFromChainConnected(false);
     }
 
-    if (toChain.tag === 'BRC' && unisatAddress && unisatAddress !== '') {
+    if (toChain.wallet === 'unisat' && unisatAddress && unisatAddress !== '') {
       setToChainConnected(true);
-    } else if (toChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
+    } else if (toChain.wallet === 'phantom' && phantomAddress && phantomAddress !== '') {
       setToChainConnected(true);
-    } else if (toChain.tag === 'SOL' && !phantomAddress) {
-      setToChainConnected(false);
-    } else if (metaMaskAddress && metaMaskAddress !== '') {
+    } else if (toChain.wallet === 'metamask' && metaMaskAddress && metaMaskAddress !== '') {
       setToChainConnected(true);
     } else {
       setToChainConnected(false);
