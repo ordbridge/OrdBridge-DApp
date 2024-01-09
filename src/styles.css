@@ -63,8 +63,10 @@
         background-color : white !important;
     }
     .navbar-sidemenu-container {
-        border: 1.35px solid #794EFF;
         background: linear-gradient(178deg, rgba(30, 20, 64, 1) 13.86%, rgba(36, 26, 73, 1) 98.67%);
+        background-image: url('assets/bg-image.png');
+        background-repeat: no-repeat;
+        background-size: cover;
         transition: 0.4s ease left;
         @apply z-[10001]  border-[#794EFF] h-[100vh] absolute border p-3 right-0 w-screen pl-[30px]
     }
@@ -221,10 +223,12 @@
     .swap-popup-container {
         border-left: 1px solid #5E4B92;
         border-top: 1px solid #5E4B92;
+        /*border-bottom: 1px solid #5E4B92;*/
+        /*border-right: 1px solid #5E4B92;*/
         background: linear-gradient(180deg, rgba(63, 45, 132, 0.50) 0%, rgba(36, 26, 73, 0.00) 100%), rgba(17, 17, 21, 0.00);
-        /*box-shadow: -44px 120px 80px -72px #5E4B92 inset, -44px -120px 80px -72px #5E4B92 inset;*/
-        min-height: 400px;
-        height:410px;
         backdrop-filter: blur(28.09789276123047px);
+        min-height: 380px;
+        height:380px;
+
     }
 }
