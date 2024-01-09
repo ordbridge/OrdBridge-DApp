@@ -141,29 +141,30 @@ const Navbar = ({
             <Link to="">
               <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek relative">
                 Staking{" "}
-                <span className="font-thin font-syne text-nowrap  text-[10px] text-gradient absolute -bottom-[15px] left-0">
-                  -coming soon
+                <span className="font-thin font-syne text-nowrap  text-[10px] text-gradient absolute -bottom-[10px] left-0">
+                  coming soon
                 </span>
               </p>
             </Link>
-            <p
+            {location.pathname === '/' &&<p
               className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
               onClick={() => {
                 window.open(
-                  "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
-                  "_blank",
+                  'https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/',
+                  '_blank'
                 );
               }}
             >
               Docs
-            </p>
+            </p>}
+            <Link to="/dashboard">
+              <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
+                Dashboard
+              </p>
+            </Link>
             {location.pathname !== "/" && (
               <>
-              <Link to="/dashboard">
-                <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
-                  Dashboard
-                </p>
-              </Link>
+
               <p
                 className="text-white-A700 text-base whitespace-nowrap cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
                 onClick={() => {
@@ -171,7 +172,6 @@ const Navbar = ({
                     toast.error("Please connect wallets first");
                   } else {
                     navigate("/");
-
                     setPendingEntryPopup((prev) => (!prev ? !prev : prev));
                   }
                 }}
@@ -186,7 +186,7 @@ const Navbar = ({
         {location.pathname === "/" ? (
           <section className="md:hidden">
             <button
-              className="landing-page-hero-content--button "
+              className="landing-page-hero-content--button font-semibold"
               onClick={() => {
                 window.open("/bridge");
               }}

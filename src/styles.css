@@ -69,7 +69,6 @@
         @apply z-[10001]  border-[#794EFF] h-[100vh] absolute border p-3 right-0 w-screen pl-[30px]
     }
     .landing-page-hero {
-        background-image: url('assets/hero-bg/desktop-lg.png');
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -93,11 +92,18 @@
     }
 
     /* Large screens (lg) */
-    @media (min-width: 1024px) {
+    @media (min-width: 900px) and (max-width: 1200px) {
         .landing-page-hero {
             background-image: url('assets/hero-bg/desktop-sm.png');
         }
     }
+
+    @media (min-width: 1200px) {
+        .landing-page-hero {
+            background-image: url('assets/hero-bg/desktop-lg.png');
+        }
+    }
+
     .landing-page-hero-content--heading {
         background: linear-gradient(105deg, #794EFF, #FFFFFF);
         -webkit-background-clip: text;
@@ -218,7 +224,7 @@
         background: linear-gradient(180deg, rgba(63, 45, 132, 0.50) 0%, rgba(36, 26, 73, 0.00) 100%), rgba(17, 17, 21, 0.00);
         /*box-shadow: -44px 120px 80px -72px #5E4B92 inset, -44px -120px 80px -72px #5E4B92 inset;*/
         min-height: 400px;
-        height:410px;
+        height:420px;
         backdrop-filter: blur(28.09789276123047px);
     }
 }

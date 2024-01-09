@@ -84,12 +84,11 @@ const LandingPage = () => {
     return (
       <div className=" flex flex-col items-center gap-3 justify-center">
         <img alt="" src={img} />
-        <h3 className="text-white font-medium text-[24px] font-syne md:text-center ">
-          {title}
+        <h3 className="text-white font-medium text-[20px] text-center font-syne md:text-center " dangerouslySetInnerHTML={{__html: title}} >
         </h3>
-        <p className="text-gray-200 font-light text-[14px] leading-6 font-grostek text-center ">
-          {para}
-        </p>
+        {/*<p className="text-gray-200 font-light text-[14px] leading-6 font-grostek text-center ">*/}
+        {/*  {para}*/}
+        {/*</p>*/}
         {/*<button className="text-gradient">Know More &nbsp; &gt;</button>*/}
       </div>
     );
@@ -166,7 +165,7 @@ const LandingPage = () => {
           />
           <WhyItem
             img={OrdThumb2}
-            title="Permissionless"
+            title="Permissionless and Secure"
             para="employs an Optimistic security model to ensure integrity of cross-chain messages"
           />
           <WhyItem
@@ -238,37 +237,103 @@ const LandingPage = () => {
             <img src={Banner2} alt="" />
           </div>
           <div className="flex flex-col md:items-center md:text-center  max-w-full  gap-4 md:pt-10">
-            <p className="text-white text-[20px] font-medium font-grostek">
-              How it works
-            </p>
+            {/*<p className="text-white text-[20px] font-medium font-grostek">*/}
+            {/*  How it works*/}
+            {/*</p>*/}
             <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
-              Medium length section heading goes here
+              Tokenomics
             </h1>
-            <p className="text-white text-[15px] font-thin font-grostek leading-6">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Accusamus, autem dicta dignissimos dolores impedit iure magnam
-              maiores molestiae quae quos saepe similique vero voluptate.
-              Accusamus blanditiis dolorem ea fugit voluptates?
-            </p>
-            <div className="m-0">
-              <button
-                className="landing-page-hero-content--button--alt"
-                onClick={() => {
-                  window.open(
-                    "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
-                    "_blank",
-                  );
-                }}
-              >
-                Whitepaper
-              </button>
+            <div className="text-white md:text-center font-light md:py-10 ">
+              {/*<p className="leading-6">*/}
+              {/*  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor*/}
+              {/*  dolorum, esse ex ipsum laborum magnam mollitia nam natus placeat*/}
+              {/*  porro praesentium quidem quo repellat sed! Laboriosam*/}
+              {/*  necessitatibus quisquam tempore?*/}
+              {/*</p>*/}
+              <div>
+                <div className="grid grid-cols-2 gap-10 mb-10">
+                  <div>
+                    <h1 className="font-bold text-[40px] font-grostek">210M</h1>
+                    <p className="text-gradient font-medium text-[20px] mt-2 font-syne">
+                      Total supply
+                    </p>
+                  </div>
+                  <div>
+                    <h1 className="font-bold text-[40px] font-grostek">100M</h1>
+                    <p className="text-gradient font-medium text-[20px] mt-2 font-syne">
+                      Circulating supply
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="grid grid-cols-2 gap-10 my-10">
+                  <div>
+                    <button
+                      className="landing-page-hero-content--button--alt"
+                      onClick={() => {
+                        window.open(
+                          'https://app.uniswap.org/swap?outputCurrency=0x6602E9319f2c5eC0Ba31ffcdc4301d7Ef03b709E&chain=mainnet',
+                          '_blank'
+                        );
+                      }}
+                    >
+                      Buy on Uniswap
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      className="landing-page-hero-content--button--alt"
+                      onClick={() => {
+                        window.open(
+                          'https://unisat.io/market/brc20?tick=BRGE',
+                          '_blank'
+                        );
+                      }}
+                    >
+                      Buy on Unisat
+                    </button>
+                  </div>
+                </div>
+              </div>   <div>
+                <div className="grid grid-cols-2 gap-10 my-10">
+                  <div>
+                    <button
+                      className="landing-page-hero-content--button--alt"
+                      onClick={() => {
+                        window.open(
+                          'https://traderjoexyz.com/avalanche/trade?outputCurrency=0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
+                          '_blank'
+                        );
+                      }}
+                    >
+                      Buy on Traderjoe
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      className="landing-page-hero-content--button--alt"
+                      onClick={() => {
+                        window.open(
+                          'https://raydium.io/swap/?outputCurrency=4cCjHnKqLFMMNYQD2NYuRMrw7nXkxVsD85G2MkMA44vM',
+                          '_blank'
+                        );
+                      }}
+                    >
+                      Buy on Raydium
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
       <div className="container max-w-[1320px] mx-auto py-32  md:py-20 md:px-5">
         <div className="grid grid-cols-2 md:grid-cols-1 gap-16">
-          <div className="flex flex-col md:items-center md:text-center items-start justify-start md:max-w-full max-w-[80%] gap-4">
+          <div
+            className="flex flex-col md:items-center md:text-center items-start justify-start md:max-w-full max-w-[80%] gap-4">
             <h1 className="text-gradient sm:text-[30px] text-[42px] font-bold font-syne">
               Key Highlights
             </h1>
@@ -283,7 +348,7 @@ const LandingPage = () => {
             <div>
               <div className="grid grid-cols-2 gap-10 mb-10">
                 <div>
-                  <h1 className="font-bold text-[40px] font-grostek"> 16.7$</h1>
+                  <h1 className="font-bold text-[40px] font-grostek"> 16.7M$</h1>
                   <p className="text-gradient font-medium text-[20px] mt-2 font-syne">
                     Total Bridge Volume
                   </p>
