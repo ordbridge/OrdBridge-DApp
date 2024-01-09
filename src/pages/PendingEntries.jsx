@@ -280,9 +280,9 @@ export const PendingEntries = ({
                 <Dropdown.Item
                   className="hover:outline-none bg-black"
                   onClick={() => {
-                    setUnProcessedFilter({ name: ele.tag, icon: ele.icon });
+                    setEntriesNetwork(ele.tag);
                     const filterData = unprocessedEntries?.filter(
-                      (elem) => elem.chain === ele.chain_flag
+                      (elem) => elem.chain_flag === ele.value
                     );
                     setFilterUnprocessedEntries(filterData);
                   }}>
