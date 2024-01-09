@@ -9,7 +9,7 @@ import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
 import ConnectPhantomWallet from './ConnectPhantomWallet';
 import ConnectUnisatWallet from './ConnectUnisatWallet';
 import HamburderIcon from '../../assets/hamburger.png';
-import { getWalletStringForType } from '../../utils/chains';
+import { appChains, getWalletStringForType } from '../../utils/chains';
 
 const Navbar = ({
   connectUnisatWallet,
@@ -29,7 +29,6 @@ const Navbar = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname, 'location pathname');
 
   const handleSideMenu = () => {
     const side_menu = document.getElementById('side_menu');
@@ -160,6 +159,10 @@ const Navbar = ({
                       toast.error('Please connect wallets first');
                     } else {
                       navigate('/bridge');
+                      if (fromChain.tag === 'BRC') {
+                        setFromChain(appChains?.filter((ele) => ele.tag === 'ETH')[0]);
+                        setToChain(appChains?.filter((ele) => ele.tag === 'BRC')[0]);
+                      }
                       setPendingEntryPopup(true);
                     }
                   }}>
