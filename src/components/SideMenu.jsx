@@ -64,7 +64,7 @@ const SideMenu = ({
           <div className="side_header">
             <AiOutlineClose onClick={handleSideMenu} />
           </div>
-          <div className="flex flex-col gap-4 ">
+          <div className="flex flex-col gap-4 items-center ">
             <div className="flex justify-center ">
               <Text
                 onClick={() => window.open("/", "_self")}
