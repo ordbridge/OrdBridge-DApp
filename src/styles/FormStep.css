@@ -46,6 +46,7 @@
   display: flex;
   gap: 4px;
   align-items: center;
+  justify-content: center;
   /* word-wrap: break-word; */
   overflow-wrap: anywhere;
 }

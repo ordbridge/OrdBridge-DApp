@@ -15,9 +15,14 @@
 }
 
 .background_popup {
-  background: #111331;
+  /* background: #111331; */
   /* linear-gradient(180deg, rgba(0, 0, 0, 0.70) 0%, rgba(2.74, 23.13, 25.91, 0.70) 100%); */
-  border: 1px rgba(121, 78, 255, 0.64) solid;
+  /* border: 1px rgba(121, 78, 255, 0.64) solid; */
+  border-left: 1px solid #5e4b92;
+  border-top: 1px solid #5e4b92;
+  background: linear-gradient(180deg, rgba(63, 45, 132, 0.5) 0%, rgba(36, 26, 73, 0) 100%),
+    rgba(17, 17, 21, 0);
+  backdrop-filter: blur(28.09789276123047px);
 }
 
 .custom_popup section {
@@ -28,7 +33,7 @@
   font-size: 12px;
   line-height: 16px;
   margin-top: 0.8rem;
-  color: rgba(255, 255, 255, 0.70);
+  color: rgba(255, 255, 255, 0.7);
 
   text-align: center;
 }
@@ -224,11 +229,12 @@
   word-wrap: break-word;
 }
 
-.connect_wallet_button, .cancel-wallet-button {
+.connect_wallet_button,
+.cancel-wallet-button {
   margin-top: 24px;
 }
 
-.connect_wallet_button img, 
+.connect_wallet_button img,
 .cancel-wallet-button img {
   height: 20px;
   width: 20px;
@@ -271,7 +277,6 @@
   margin-top: 1rem;
 }
 
-
 @media only screen and (max-width: 1280px) {
   .first_container {
     width: 70%;
@@ -283,20 +288,19 @@
     width: 96%;
   }
 
-
   .swap_mobile_container {
     border-top-left-radius: 22px;
     border-top-right-radius: 22px;
-    background: linear-gradient(172deg, rgba(0, 0, 0, 0.70) 6.13%, rgba(3, 23, 26, 0.70) 100.79%);
+    background: linear-gradient(172deg, rgba(0, 0, 0, 0.7) 6.13%, rgba(3, 23, 26, 0.7) 100.79%);
     backdrop-filter: blur(33.75px);
   }
-  .swap_mobile{
+  .swap_mobile {
     display: flex;
     height: calc(100vh - 100px);
   }
 
   .token_name_mob {
-    background: linear-gradient(93deg, #794EFF 0.94%, #FFF 123.02%);
+    background: linear-gradient(93deg, #794eff 0.94%, #fff 123.02%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -377,7 +381,7 @@
   }
 
   .connect_wallet_button,
-  .cancel-wallet-button{
+  .cancel-wallet-button {
     margin-top: 12px;
     margin-bottom: 0px;
   }
@@ -425,18 +429,18 @@
   overflow: auto;
 }
 
-.suggestions>div {
+.suggestions > div {
   padding: 15px 25px;
   border-bottom: 2px solid #2d2e36;
   transition: all 0.1s ease;
 }
 
-.suggestions>div:hover {
+.suggestions > div:hover {
   background-color: #dbdbdb !important;
   color: #000000;
 }
 
-.suggestions>div,
+.suggestions > div,
 .form-control-auto input {
   font-size: 14px !important;
   background-color: #1e1f26;

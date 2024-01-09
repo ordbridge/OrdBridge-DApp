@@ -144,7 +144,7 @@ export const Step2 = ({
                     {fromChain?.tag === 'SOL'
                       ? phantomAddress?.slice(0, 15)
                       : metaMaskAddress?.slice(0, 15)}
-                    asdasdasdasdasda....
+                    ....
                   </div>
                 </div>
                 {/* <div className="field_container">
