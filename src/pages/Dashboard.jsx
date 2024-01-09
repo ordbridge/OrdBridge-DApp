@@ -65,7 +65,7 @@ const Dashboard = ({ appChains }) => {
   }, []);
 
   return (
-    <div className="font-syne text-white">
+    <div className="font-syne text-white backdrop-blur-xl">
       <div className="container md:px-[30px] py-[50px] min-h-screen">
         <h1 className="dashboard-heading">DASHBOARD</h1>
         <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 gap-5 text-white">
@@ -79,7 +79,7 @@ const Dashboard = ({ appChains }) => {
             title="Total Volume"
             value={`$${
               statsData?.lastPrice
-                ? `${230 * Number(statsData.lastPrice.substring(0, 7))}M`
+                ? `${(210 * Number(statsData.lastPrice)).toString().substring(0, 7)}M`
                 : 'Loading...'
             }`}
           />

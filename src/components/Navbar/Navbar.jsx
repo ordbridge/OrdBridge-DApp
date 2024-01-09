@@ -131,7 +131,7 @@ const Navbar = ({
           </Text>
 
           <section className="font-grostek flex">
-            {location.pathname === "/" && (
+            {!(location.pathname === "/bridge" || location.pathname === "/pending-entries") && (
               <Link to="/bridge">
                 <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
                   Bridge
@@ -157,11 +157,11 @@ const Navbar = ({
             >
               Docs
             </p>}
-            <Link to="/dashboard">
+            {location.pathname !== "/dashboard" && <Link to="/dashboard">
               <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
                 Dashboard
               </p>
-            </Link>
+            </Link>}
             {location.pathname !== "/" && (
               <>
 
@@ -183,7 +183,16 @@ const Navbar = ({
           </section>
         </section>
 
-        {location.pathname === "/" ? (
+        {(location.pathname === "/bridge" || location.pathname === "/pending-entries")  ?
+
+          (
+            <section className="flex items-start gap-2  block md:hidden justify-end">
+              {getWalletForType(type[0])}
+              <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
+              {getWalletForType(type[3])}
+            </section>
+          )
+          : (
           <section className="md:hidden">
             <button
               className="landing-page-hero-content--button font-semibold"
@@ -194,13 +203,7 @@ const Navbar = ({
               Launch Bridge
             </button>
           </section>
-        ) : (
-          <section className="flex items-start gap-2  block md:hidden justify-end">
-            {getWalletForType(type[0])}
-            <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
-            {getWalletForType(type[3])}
-          </section>
-        )}
+        ) }
 
         <img
           src={HamburderIcon}

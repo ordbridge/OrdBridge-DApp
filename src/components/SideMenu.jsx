@@ -67,6 +67,7 @@ const SideMenu = ({
           <div className="flex flex-col gap-4 ">
             <div className="flex justify-center " >
               <Text
+                onClick={() => window.open('/', "_self")}
                 className="text-5xl text-blue-200 md:pr-0 pr-12 cursor-pointer !mb-0"
                 size="txtPlusJakartaSansRomanBold36"
               >
@@ -90,7 +91,7 @@ const SideMenu = ({
               }}
               text="Docs"
             />
-            <LinkItem link="/dashboard" text="Dashboard" onClick={handleSideMenu} />
+            {location.pathname !== "/dashboard" && <LinkItem link="/dashboard" text="Dashboard" onClick={handleSideMenu} />}
             {/*<LinkItem link="/" text="Launch" onClick="/" />*/}
             {/*<LinkItem link="/" text="Staking" onClick={handleSideMenu} />*/}
             {location.pathname !== '/' && <LinkItem
@@ -113,18 +114,7 @@ const SideMenu = ({
                 }
               }}
             />}
-            {location.pathname === "/" && (
-              <button
-                className="landing-page-hero-content--button font-semibold"
-                onClick={() => {
-                  window.open('/bridge');
-                }}
-              >
-                Launch Bridge
-              </button>
-            )}
-
-            {location.pathname !== "/" && (
+            {(location.pathname === "/bridge" || location.pathname === "/pending-entries") ? (
               <>
                 <ConnectUnisatWallet
                   onConnectClick={connectUnisatWallet}
@@ -139,7 +129,17 @@ const SideMenu = ({
                   address={phantomAddress}
                 />
               </>
+            ): (
+              <button
+                className="landing-page-hero-content--button font-semibold"
+                onClick={() => {
+                  window.open('/bridge');
+                }}
+              >
+                Launch Bridge
+              </button>
             )}
+
           </div>
         </div>
       </div>
