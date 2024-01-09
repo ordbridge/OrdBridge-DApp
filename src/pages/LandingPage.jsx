@@ -251,7 +251,15 @@ const LandingPage = () => {
               Accusamus blanditiis dolorem ea fugit voluptates?
             </p>
             <div className="m-0">
-              <button className="landing-page-hero-content--button--alt">
+              <button
+                className="landing-page-hero-content--button--alt"
+                onClick={() => {
+                  window.open(
+                    "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
+                    "_blank",
+                  );
+                }}
+              >
                 Whitepaper
               </button>
             </div>
