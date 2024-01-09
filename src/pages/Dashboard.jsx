@@ -72,15 +72,19 @@ const Dashboard = ({ appChains }) => {
           <DashboardStatCard
             title="Price"
             value={`$${
-              statsData?.lastPrice ? `${statsData.lastPrice.substring(0, 7)}` : 'Loading...'
+              statsData?.lastPrice
+                ? `${statsData.lastPrice.substring(0, 7)}`
+                : "Loading..."
             }`}
           />
           <DashboardStatCard
             title="Total Volume"
             value={`$${
               statsData?.lastPrice
-                ? `${(210 * Number(statsData.lastPrice)).toString().substring(0, 7)}M`
-                : 'Loading...'
+                ? `${(210 * Number(statsData.lastPrice))
+                    .toString()
+                    .substring(0, 7)}M`
+                : "Loading..."
             }`}
           />
         </div>

@@ -9,6 +9,7 @@ import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
 import ConnectPhantomWallet from './ConnectPhantomWallet';
 import ConnectUnisatWallet from './ConnectUnisatWallet';
 import HamburderIcon from '../../assets/hamburger.png';
+import { appChains, getWalletStringForType } from '../../utils/chains';
 
 const Navbar = ({
   connectUnisatWallet,
@@ -28,7 +29,6 @@ const Navbar = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname, 'location pathname');
 
   const handleSideMenu = () => {
     const side_menu = document.getElementById('side_menu');
@@ -41,14 +41,27 @@ const Navbar = ({
   const [walletsSet, setWalletsSet] = useState(false);
 
   useEffect(() => {
-    if (unisatAddress && unisatAddress !== '' && metaMaskAddress && metaMaskAddress !== '') {
-      setWalletsSet(true);
-    } else if (unisatAddress && unisatAddress !== '' && phantomAddress && phantomAddress !== '') {
-      setWalletsSet(true);
-    } else {
+    const from = getWalletStringForType(type[0]);
+    const to = getWalletStringForType(type[3]);
+
+    const walletConfig = [from, to];
+
+    if (walletConfig.includes('unisat') && !(unisatAddress && unisatAddress !== '')) {
       setWalletsSet(false);
+      return;
     }
-  }, [unisatAddress, metaMaskAddress, phantomAddress]);
+
+    if (walletConfig.includes('phantom') && !(phantomAddress && phantomAddress !== '')) {
+      setWalletsSet(false);
+      return;
+    }
+    if (walletConfig.includes('metamask') && !(metaMaskAddress && metaMaskAddress !== '')) {
+      setWalletsSet(false);
+      return;
+    }
+
+    setWalletsSet(true);
+  }, [unisatAddress, metaMaskAddress, phantomAddress, type]);
 
   const executeVeryBadLogicForNavigatingToHome = () => {
     setStep(0);
@@ -146,6 +159,10 @@ const Navbar = ({
                       toast.error('Please connect wallets first');
                     } else {
                       navigate('/bridge');
+                      if (fromChain.tag === 'BRC') {
+                        setFromChain(appChains?.filter((ele) => ele.tag === 'ETH')[0]);
+                        setToChain(appChains?.filter((ele) => ele.tag === 'BRC')[0]);
+                      }
                       setPendingEntryPopup(true);
                     }
                   }}>

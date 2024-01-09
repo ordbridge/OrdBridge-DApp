@@ -71,7 +71,7 @@ export const AddressPopup = ({
   return (
     <>
       <div id="myModal" className="custom_modal address_modal">
-        <div className="confirm_modal rounded-3xl background_popup !z-40">
+        <div className="confirm_modal rounded-3xl background_popup !z-40 pb-4">
           <div className="custom_modal-header">
             <div className="modal_address">
               <div className="confirm_modal_head font-syne font-bold text-4xl">
@@ -98,18 +98,13 @@ export const AddressPopup = ({
               <div className="address_modal_description">
                 This is where you will receive {toChain.tokenTag} tokens.
               </div>
-              <div className="flex">
+              <div className="flex justify-around gap-3">
                 <div
-                  className="connect_wallet_button border-1 rounded-full"
-                  style={{ borderColor: "#FF4E4E", width: "100%" }}
+                  className="connect_wallet_button border-1 rounded-full flex justify-center items-center border-[#FF4E4E]"
                   onClick={onCloseModal}
                 >
-                  <button className="initiate_button">
-                    {/* {' '} */}
-                    {/* {`<Back`} */}
-                    <span className="text-red-500 font-syne text-xl">
-                      Cancel
-                    </span>
+                  <button className="initiate_button text-red-500 font-syne text-xl ">
+                    Cancel
                   </button>
                 </div>
                 <div

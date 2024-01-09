@@ -11,8 +11,8 @@ import * as buffer from 'buffer';
 import { toast } from 'react-toastify';
 const utf8 = utils.bytes.utf8;
 const programID = new PublicKey(idl.metadata.address);
-const network = 'https://solana-mainnet.g.alchemy.com/v2/_XRDf1hVestAeoibLJ5UXs5JVdLOz0_x';
-// const network = 'https://api.devnet.solana.com';
+// const network = 'https://solana-mainnet.g.alchemy.com/v2/_XRDf1hVestAeoibLJ5UXs5JVdLOz0_x';
+const network = 'https://api.devnet.solana.com';
 
 window.Buffer = buffer.Buffer;
 
