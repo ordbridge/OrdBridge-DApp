@@ -9,7 +9,6 @@ import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
 import ConnectPhantomWallet from './ConnectPhantomWallet';
 import ConnectUnisatWallet from './ConnectUnisatWallet';
 import HamburderIcon from '../../assets/hamburger.png';
-import { appChains } from '../../utils/chains';
 
 const Navbar = ({
   connectUnisatWallet,
