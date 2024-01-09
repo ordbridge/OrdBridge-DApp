@@ -752,7 +752,7 @@ export const SwapPopup = ({
                     </div>
                   </button>
                 </div>
-                <div className="form_link_description">
+                {/* <div className="form_link_description">
                   $wBRGE token contract {''}
                   <a href={appTokenLink} target="_blank" rel="noreferrer">
                     {appTokenAddress}
@@ -763,7 +763,7 @@ export const SwapPopup = ({
                   <a href={appContractLink} target="_blank" rel="noreferrer">
                     {appContractAddress}
                   </a>
-                </div>
+                </div> */}
               </div>
             )}
           </>
