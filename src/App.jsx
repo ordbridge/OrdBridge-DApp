@@ -109,14 +109,13 @@ function App() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on('accountsChanged', (res) => {
         setMetamaskAddress(res[0]);
       });
     }
-  },[])
-
+  }, []);
 
   useEffect(async () => {
     // To Check Unisat is connected after page refreshing
@@ -245,7 +244,6 @@ function App() {
       <BrowserRouter>
         <ToastContainer />
         <div className="vh-100">
-          <Banner />
           <Navbar
             unisatAddress={unisatAddress}
             fromChain={fromChain}
