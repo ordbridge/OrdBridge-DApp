@@ -571,7 +571,9 @@ export const SwapPopup = ({
                       </p>
                       <div
                         onClick={() => {
-                          if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                          if (token === 'BRGE' && tokenValue < 1000) {
+                            toast.error('Please enter a amount greater than or equal to 1000 for BRGE');
+                          } else if (tokenValue <= 0) toast.error('Please enter a valid amount');
                           else handleAddressModal();
                         }}
                         className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
@@ -743,7 +745,9 @@ export const SwapPopup = ({
                           </p>
                           <div
                             onClick={() => {
-                              if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                              if (token === 'BRGE' && tokenValue < 1000) {
+                                toast.error('Please enter a amount greater than or equal to 1000 for BRGE');
+                              } else if (tokenValue <= 0) toast.error('Please enter a valid amount');
                               else handleAddressModal();
                             }}
                             className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
