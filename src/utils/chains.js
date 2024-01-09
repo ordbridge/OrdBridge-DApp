@@ -12,6 +12,7 @@ export const appChains = [
     name: 'Ethereum',
     key: 'ethchain',
     value: 'ETHEREUM',
+    wallet: 'metamask',
     tag: 'ETH',
     tokenTag: 'ERC20',
     chainId: '0x1',
@@ -29,6 +30,7 @@ export const appChains = [
     value: 'BRC',
     tokenTag: 'BRC20',
     tag: 'BRC',
+    wallet: 'unisat',
     icon: BrcIcon
   },
   {
@@ -38,6 +40,7 @@ export const appChains = [
     value: 'AVALANCHE',
     tokenTag: 'ARC20',
     tag: 'AVAX',
+    wallet: 'metamask',
     chainId: '0xa86a',
     infuraTag: 'avalanche-mainnet',
     tokenAddress: '0x5f880678320A9445824bB15d18EF67b5ECbAA42a',
@@ -56,6 +59,7 @@ export const appChains = [
     value: 'ARBITRUM',
     tokenTag: 'ARB-ERC20',
     infuraTag: 'arbitrum-mainnet',
+    wallet: 'metamask',
     tag: 'ARBI',
     chainId: '0xa4b1',
     tokenAddress: '0x6602e9319f2c5ec0ba31ffcdc4301d7ef03b709e',
@@ -72,6 +76,7 @@ export const appChains = [
     key: 'basechain',
     value: 'BASE',
     tokenTag: 'BASE-ERC20',
+    wallet: 'metamask',
     tag: 'BASE',
     infuraTag: 'base-goerli',
     chainId: '0x2105',
@@ -88,6 +93,7 @@ export const appChains = [
     name: 'Solana',
     value: 'SOLANA',
     tokenTag: 'SPL',
+    wallet: 'phantom',
     tag: 'SOL',
     key: 'solchain',
     tokenAddress: '4cCjHnKqLFMMNYQD2NYuRMrw7nXkxVsD85G2MkMA44vM',
@@ -99,6 +105,7 @@ export const appChains = [
     isEvm: true,
     name: 'Polygon',
     key: 'polychain',
+    wallet: 'metamask',
     value: 'MATIC',
     tokenTag: 'MATIC-ERC20',
     tag: 'MATIC',
@@ -124,4 +131,16 @@ export const getWeb3UrlByTag = (tag) => {
   return tag.toLowerCase() !== 'base'
     ? `https://${requestedChain.infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`
     : 'https://base-mainnet.g.alchemy.com/v2/MiFWZXgXz9fVhntEMJ3qZzti8RCGh9bP';
+};
+
+export const getWalletStringForType = (chainType) => {
+  if (chainType === 'b') {
+    return 'unisat';
+  }
+  if (chainType === 'e') {
+    return 'metamask';
+  }
+  if (chainType === 's') {
+    return 'phantom';
+  }
 };

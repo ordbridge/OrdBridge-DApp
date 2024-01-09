@@ -158,25 +158,21 @@ export const SwapPopup = ({
 
   // Handles the
   useEffect(() => {
-    if (fromChain.tag === 'BRC' && unisatAddress && unisatAddress !== '') {
+    if (fromChain.wallet === 'unisat' && unisatAddress && unisatAddress !== '') {
       setFromChainConnected(true);
-    } else if (fromChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
+    } else if (fromChain.wallet === 'phantom' && phantomAddress && phantomAddress !== '') {
       setFromChainConnected(true);
-    } else if (fromChain.tag === 'SOL' && !phantomAddress) {
-      setFromChainConnected(false);
-    } else if (metaMaskAddress && metaMaskAddress !== '') {
+    } else if (fromChain.wallet === 'metamask' && metaMaskAddress && metaMaskAddress !== '') {
       setFromChainConnected(true);
     } else {
       setFromChainConnected(false);
     }
 
-    if (toChain.tag === 'BRC' && unisatAddress && unisatAddress !== '') {
+    if (toChain.wallet === 'unisat' && unisatAddress && unisatAddress !== '') {
       setToChainConnected(true);
-    } else if (toChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
+    } else if (toChain.wallet === 'phantom' && phantomAddress && phantomAddress !== '') {
       setToChainConnected(true);
-    } else if (toChain.tag === 'SOL' && !phantomAddress) {
-      setToChainConnected(false);
-    } else if (metaMaskAddress && metaMaskAddress !== '') {
+    } else if (toChain.wallet === 'metamask' && metaMaskAddress && metaMaskAddress !== '') {
       setToChainConnected(true);
     } else {
       setToChainConnected(false);
@@ -530,7 +526,9 @@ export const SwapPopup = ({
                       <div
                         onClick={() => {
                           if (token === 'BRGE' && tokenValue < 1000) {
-                            toast.error('Please enter a amount greater than or equal to 1000 for BRGE');
+                            toast.error(
+                              'Please enter a amount greater than or equal to 1000 for BRGE'
+                            );
                           } else if (tokenValue <= 0) toast.error('Please enter a valid amount');
                           else handleAddressModal();
                         }}
@@ -725,8 +723,11 @@ export const SwapPopup = ({
                           <div
                             onClick={() => {
                               if (token === 'BRGE' && tokenValue < 1000) {
-                                toast.error('Please enter a amount greater than or equal to 1000 for BRGE');
-                              } else if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                                toast.error(
+                                  'Please enter a amount greater than or equal to 1000 for BRGE'
+                                );
+                              } else if (tokenValue <= 0)
+                                toast.error('Please enter a valid amount');
                               else handleAddressModal();
                             }}
                             className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
