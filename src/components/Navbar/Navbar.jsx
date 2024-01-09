@@ -158,6 +158,12 @@ const Navbar = ({
               Docs
             </p>
             {location.pathname !== "/" && (
+              <>
+              <Link to="/dashboard">
+                <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek">
+                  Dashboard
+                </p>
+              </Link>
               <p
                 className="text-white-A700 text-base whitespace-nowrap cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
                 onClick={() => {
@@ -172,6 +178,7 @@ const Navbar = ({
               >
                 Pending Entries
               </p>
+              </>
             )}
           </section>
         </section>
