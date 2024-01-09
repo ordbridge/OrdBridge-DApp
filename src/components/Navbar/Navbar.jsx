@@ -159,7 +159,7 @@ const Navbar = ({
         {location.pathname === '/bridge' || location.pathname === '/pending-entries' ? (
           <section className="flex items-start gap-2  block md:hidden justify-end">
             {getWalletForType(type[0])}
-            <AiOutlineArrowRight color="#FFFFFF" className="mt-[20px]" />
+            <AiOutlineArrowRight color="#FFFFFF" className="mt-[14px]" />
             {getWalletForType(type[3])}
           </section>
         ) : (
