@@ -1,13 +1,14 @@
-import { ethers } from "ethers";
-import { toUtf8Bytes } from "ethers/lib/utils";
+import { ethers } from 'ethers';
+import { toUtf8Bytes } from 'ethers/lib/utils';
+import { toast } from 'react-toastify';
 
 export const toHex = (num) => {
   const val = Number(num);
-  return "0x" + val.toString(16);
+  return '0x' + val.toString(16);
 };
 
 export const hexToNum = (str) => {
-  const removeHex = str.replaceAll("0x", "");
+  const removeHex = str.replaceAll('0x', '');
   const val = Number(removeHex);
   return val;
 };
@@ -31,7 +32,7 @@ export const toHexByte = (string) => {
     const hexString = utfStr.toString(16);
     arr.push(hexString);
   }
-  const result = "0x" + arr.join("");
+  const result = '0x' + arr.join('');
   return result;
 };
 
@@ -40,3 +41,14 @@ export const toKeccak = (hexStringOrArrayish) => {
   const keccakString = ethers.utils.keccak256(byteString);
   return keccakString;
 };
+
+export async function copyToClipboard(text) {
+  try {
+    const toCopy = text.slice(0, text.length);
+    await navigator.clipboard.writeText(toCopy);
+    toast.success('Copied JSON');
+  } catch (err) {
+    console.error('Failed to copy: ', err);
+    toast.success('Some error occured!');
+  }
+}

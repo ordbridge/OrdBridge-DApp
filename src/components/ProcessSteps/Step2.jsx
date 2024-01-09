@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 import '../../styles/FormStep.css';
 import { claimTokens } from '../../utils/solanaHandler';
 import { LuLoader2 } from 'react-icons/lu';
+import header_icon from '../../assets/step_2_header_icon.svg';
+import InformationSymbol from '../InformationSymbol/InformationSymbol';
 
 export const Step2 = ({
   ethChain,
@@ -64,19 +66,30 @@ export const Step2 = ({
   return (
     <>
       <div className="first_container">
-        <div className=" bg-[#111331] border border-black rounded-xl form3_container">
+        <div className="relative rounded-xl form3_container swap-popup-container">
           {/* <div
           onClick={() => {
             handleBack();
           }}>
           <img src="BackIcon.png" className="back_icon" />
         </div> */}
-          <header className="popup_header">
-            <div className="text-center">
-              <div className="swap_header">You have done your part!</div>
+          {!swap && fromChain.tag !== 'SOL' && (
+            <div className="absolute top-2 right-2">
+              <InformationSymbol
+                infoDesc="Bridge will take 0.01e as fees to cover gas cost while sending you BRC-20 on Bitcoin
+              network."
+              />
+            </div>
+          )}
+          <header className=" popup_header flex flex-col items-center">
+            <img className="" src={header_icon} alt="header_icon" />
+            <div className="text-center ">
+              <div className="swap_header font-syne">You have done your part!</div>
             </div>
           </header>
-          <section className="bg-[#FFFFFF1A] rounded-xl mt-4" style={{ width: '90%' }}>
+          <section
+            className="bg-[#FFFFFF1A] rounded-xl mt-4 font-grostek py-2"
+            style={{ width: '90%' }}>
             <div className="field_container">
               <div className="form_label">Token Id: </div>
               <div className="form_value">
@@ -128,9 +141,9 @@ export const Step2 = ({
                 <div className="field_container">
                   <div className="form_label">From ({fromChain.tag} Address):</div>
                   <div className="form_value">
-                    {fromChain.tag === 'SOL'
-                      ? phantomAddress.slice(0, 15)
-                      : metaMaskAddress.slice(0, 15)}
+                    {fromChain?.tag === 'SOL'
+                      ? phantomAddress?.slice(0, 15)
+                      : metaMaskAddress?.slice(0, 15)}
                     ....
                   </div>
                 </div>
@@ -146,15 +159,7 @@ export const Step2 = ({
               </>
             )}
           </section>
-          {!swap && fromChain.tag !== 'SOL' && (
-            <div
-              className="mt-3 swap_header fs-6 fw-bold"
-              style={{ width: '80%', textAlign: 'center' }}>
-              Bridge will take 0.01e as fees to cover gas cost while sending you BRC-20 on Bitcoin
-              network.
-            </div>
-          )}
-          <footer className="flex min-w-full p-4">
+          <footer className="flex min-w-full px-4">
             <div
               className="connect_wallet_button bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
               style={{ width: '100%' }}
@@ -165,17 +170,16 @@ export const Step2 = ({
                   checkNetwork();
                 }
               }}>
-              <button className="min-w-full initiate_button">
-                {handlingClaim && (
-                  <span className="flex min-w-full justify-center items-center gap-2 min-w-full text-white font-syne text-xl">
-                    <LuLoader2 className="text-white animate-spin" />
-                    Processing ...
-                  </span>
-                )}
-                {!handlingClaim && (
-                  <span className="min-w-full text-white font-syne text-xl">Claim</span>
-                )}
-              </button>
+              {handlingClaim ? (
+                <button className="flex justify-center items-center gap-2 min-w-full text-white font-syne text-lg initiate_button">
+                  <LuLoader2 className="text-white animate-spin" />
+                  Processing ...
+                </button>
+              ) : (
+                <button className="min-w-full text-white text-lg font-syne initiate_button">
+                  Claim
+                </button>
+              )}
             </div>
           </footer>
         </div>
