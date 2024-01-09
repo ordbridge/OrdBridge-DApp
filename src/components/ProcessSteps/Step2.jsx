@@ -73,7 +73,7 @@ export const Step2 = ({
         </div> */}
           <header className="popup_header">
             <div className="text-center">
-              <div className="swap_header">You have done your part :)</div>
+              <div className="swap_header">You have done your part!</div>
             </div>
           </header>
           <section className="bg-[#FFFFFF1A] rounded-xl mt-4" style={{ width: '90%' }}>
@@ -159,12 +159,10 @@ export const Step2 = ({
               className="connect_wallet_button bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer"
               style={{ width: '100%' }}
               onClick={() => {
-                if (fromChain.tag === 'BRC') {
-                  checkNetwork();
-                } else if (fromChain.tag === 'SOL') {
+                if (fromChain.tag === 'SOL') {
                   handleSolanaClaim();
                 } else {
-                  burnMetamaskHandler();
+                  checkNetwork();
                 }
               }}>
               <button className="min-w-full initiate_button">

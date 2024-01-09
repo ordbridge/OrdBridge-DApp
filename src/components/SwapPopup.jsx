@@ -158,25 +158,21 @@ export const SwapPopup = ({
 
   // Handles the
   useEffect(() => {
-    if (fromChain.tag === 'BRC' && unisatAddress && unisatAddress !== '') {
+    if (fromChain.wallet === 'unisat' && unisatAddress && unisatAddress !== '') {
       setFromChainConnected(true);
-    } else if (fromChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
+    } else if (fromChain.wallet === 'phantom' && phantomAddress && phantomAddress !== '') {
       setFromChainConnected(true);
-    } else if (fromChain.tag === 'SOL' && !phantomAddress) {
-      setFromChainConnected(false);
-    } else if (metaMaskAddress && metaMaskAddress !== '') {
+    } else if (fromChain.wallet === 'metamask' && metaMaskAddress && metaMaskAddress !== '') {
       setFromChainConnected(true);
     } else {
       setFromChainConnected(false);
     }
 
-    if (toChain.tag === 'BRC' && unisatAddress && unisatAddress !== '') {
+    if (toChain.wallet === 'unisat' && unisatAddress && unisatAddress !== '') {
       setToChainConnected(true);
-    } else if (toChain.tag === 'SOL' && phantomAddress && phantomAddress !== '') {
+    } else if (toChain.wallet === 'phantom' && phantomAddress && phantomAddress !== '') {
       setToChainConnected(true);
-    } else if (toChain.tag === 'SOL' && !phantomAddress) {
-      setToChainConnected(false);
-    } else if (metaMaskAddress && metaMaskAddress !== '') {
+    } else if (toChain.wallet === 'metamask' && metaMaskAddress && metaMaskAddress !== '') {
       setToChainConnected(true);
     } else {
       setToChainConnected(false);
@@ -224,8 +220,10 @@ export const SwapPopup = ({
   const infuraTag = getEvmChain().tag === 'ETH' ? 'mainnet' : 'avalanche-mainnet';
   const web3 = new Web3(`https://${infuraTag}.infura.io/v3/18b346ece35742b2948e73332f85ad86`);
   const ethWeb3 = new Web3(window.ethereum);
-  const appContractAddress = getEvmChain().contractAddress;
-  const factoryContractAddress = getEvmChain().factoryAddress;
+  const appContractAddress = fromChain?.contractAddress ?? toChain?.contractAddress;
+  const appContractLink = fromChain?.contractLink ?? toChain?.contractLink;
+  const appTokenAddress = fromChain?.tokenAddress ?? toChain?.tokenAddress;
+  const appTokenLink = fromChain?.tokenLink ?? toChain?.tokenLink;
   const ABI = getEvmChain().tag === 'ETH' ? ETH_ABI : AVAX_ABI;
   const contractHandler = new web3.eth.Contract(ABI, appContractAddress);
   const callContractFunction = async () => {
@@ -275,7 +273,7 @@ export const SwapPopup = ({
 
     // Custom hack address for sending from ETH to SOL/AVAX / other EVMs
     if (fromChain.tag === 'ETH' && toChain.tag !== 'BRC') {
-      toAddress = `bc1${toAddress}${toChain.tag.toLowerCase()}`;
+      toAddress = `bc1;${toAddress};${toChain.tag.toLowerCase()}`;
     }
 
     try {
@@ -527,7 +525,11 @@ export const SwapPopup = ({
                       </p>
                       <div
                         onClick={() => {
-                          if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                          if (token === 'BRGE' && tokenValue < 1000) {
+                            toast.error(
+                              'Please enter a amount greater than or equal to 1000 for BRGE'
+                            );
+                          } else if (tokenValue <= 0) toast.error('Please enter a valid amount');
                           else handleAddressModal();
                         }}
                         className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
@@ -551,7 +553,7 @@ export const SwapPopup = ({
                     <MdContentCopy
                       className="text-[#794EFF]"
                       onClick={() => {
-                        copyToClipboard(factoryContractAddress);
+                        copyToClipboard(appTokenAddress);
                       }}
                     />{' '}
                     | OrdBridge Factory contract{' '}
@@ -720,7 +722,12 @@ export const SwapPopup = ({
                           </p>
                           <div
                             onClick={() => {
-                              if (tokenValue <= 0) toast.error('Please enter a valid amount');
+                              if (token === 'BRGE' && tokenValue < 1000) {
+                                toast.error(
+                                  'Please enter a amount greater than or equal to 1000 for BRGE'
+                                );
+                              } else if (tokenValue <= 0)
+                                toast.error('Please enter a valid amount');
                               else handleAddressModal();
                             }}
                             className="w-full bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl py-1 cursor-pointer">
@@ -744,11 +751,15 @@ export const SwapPopup = ({
 
                 <div className="form_link_description">
                   $wBRGE token contract {''}
-                  <a href="/">{factoryContractAddress}</a>
+                  <a href={appTokenLink} target="_blank" rel="noreferrer">
+                    {appTokenAddress}
+                  </a>
                 </div>
                 <div className="form_link_description">
                   OrdBridge Factory contract {''}
-                  <a href="/">{appContractAddress}</a>
+                  <a href={appContractLink} target="_blank" rel="noreferrer">
+                    {appContractAddress}
+                  </a>
                 </div>
               </div>
             )}
