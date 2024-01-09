@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "../../styles/navbar.css";
-import SideMenu from "../SideMenu";
-import Text from "../Text";
-import ConnectMetaMaskWallet from "./ConnectMetaMaskWallet";
-import ConnectPhantomWallet from "./ConnectPhantomWallet";
-import ConnectUnisatWallet from "./ConnectUnisatWallet";
-import HamburderIcon from "../../assets/hamburger.png";
+import React, { useEffect, useState } from 'react';
+import { AiOutlineArrowRight } from 'react-icons/ai';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import '../../styles/navbar.css';
+import SideMenu from '../SideMenu';
+import Text from '../Text';
+import ConnectMetaMaskWallet from './ConnectMetaMaskWallet';
+import ConnectPhantomWallet from './ConnectPhantomWallet';
+import ConnectUnisatWallet from './ConnectUnisatWallet';
+import HamburderIcon from '../../assets/hamburger.png';
 
 const Navbar = ({
   connectUnisatWallet,
@@ -24,36 +24,26 @@ const Navbar = ({
   setStep,
   fromChain,
   setFromChain,
-  setToChain,
+  setToChain
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname, "location pathname");
+  console.log(location.pathname, 'location pathname');
 
   const handleSideMenu = () => {
-    const side_menu = document.getElementById("side_menu");
-    if (side_menu.classList.contains("closed")) {
-      side_menu.classList.remove("closed");
+    const side_menu = document.getElementById('side_menu');
+    if (side_menu.classList.contains('closed')) {
+      side_menu.classList.remove('closed');
     } else {
-      side_menu.classList.add("closed");
+      side_menu.classList.add('closed');
     }
   };
   const [walletsSet, setWalletsSet] = useState(false);
 
   useEffect(() => {
-    if (
-      unisatAddress &&
-      unisatAddress !== "" &&
-      metaMaskAddress &&
-      metaMaskAddress !== ""
-    ) {
+    if (unisatAddress && unisatAddress !== '' && metaMaskAddress && metaMaskAddress !== '') {
       setWalletsSet(true);
-    } else if (
-      unisatAddress &&
-      unisatAddress !== "" &&
-      phantomAddress &&
-      phantomAddress !== ""
-    ) {
+    } else if (unisatAddress && unisatAddress !== '' && phantomAddress && phantomAddress !== '') {
       setWalletsSet(true);
     } else {
       setWalletsSet(false);
@@ -65,33 +55,22 @@ const Navbar = ({
     if (pendingEntryPopup) {
       setPendingEntryPopup((prev) => !prev);
     } else {
-      navigate("/");
+      navigate('/');
     }
   };
 
   const getWalletForType = (chainType) => {
-    if (chainType === "b") {
+    if (chainType === 'b') {
+      return <ConnectUnisatWallet onConnectClick={connectUnisatWallet} address={unisatAddress} />;
+    }
+    if (chainType === 'e') {
       return (
-        <ConnectUnisatWallet
-          onConnectClick={connectUnisatWallet}
-          address={unisatAddress}
-        />
+        <ConnectMetaMaskWallet onConnectClick={connectMetamaskWallet} address={metaMaskAddress} />
       );
     }
-    if (chainType === "e") {
+    if (chainType === 's') {
       return (
-        <ConnectMetaMaskWallet
-          onConnectClick={connectMetamaskWallet}
-          address={metaMaskAddress}
-        />
-      );
-    }
-    if (chainType === "s") {
-      return (
-        <ConnectPhantomWallet
-          onConnectClick={connectPhantomWallet}
-          address={phantomAddress}
-        />
+        <ConnectPhantomWallet onConnectClick={connectPhantomWallet} address={phantomAddress} />
       );
     }
   };
@@ -119,14 +98,9 @@ const Navbar = ({
           <Link to="/">
             <Text
               className="text-3xl text-blue-200 pr-12 cursor-pointer !mb-0"
-              size="txtPlusJakartaSansRomanBold36"
-            >
-              <span className="text-purple-700 font-syne text-left font-bold">
-                Ord
-              </span>
-              <span className="text-white-A700 font-syne text-left font-normal">
-                Bridge
-              </span>
+              size="txtPlusJakartaSansRomanBold36">
+              <span className="text-purple-700 font-syne text-left font-bold">Ord</span>
+              <span className="text-white-A700 font-syne text-left font-normal">Bridge</span>
             </Text>
           </Link>
 
@@ -134,16 +108,15 @@ const Navbar = ({
             <p
               className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
               onClick={() => {
-                navigate("/bridge");
+                navigate('/bridge');
                 setPendingEntryPopup(false);
-              }}
-            >
+              }}>
               Bridge
             </p>
 
             <Link to="">
               <p className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek relative">
-                Staking{" "}
+                Staking{' '}
                 <span className="font-thin font-syne text-nowrap  text-[10px] text-gradient absolute -bottom-[10px] left-0">
                   coming soon
                 </span>
@@ -153,11 +126,10 @@ const Navbar = ({
               className="text-white-A700 text-base cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
               onClick={() => {
                 window.open(
-                  "https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/",
-                  "_blank",
+                  'https://ordbridge-organization.gitbook.io/ordbridge-a-2-way-bridge-between-brc20-and-erc20/',
+                  '_blank'
                 );
-              }}
-            >
+              }}>
               Docs
             </p>
             <Link to="/dashboard">
@@ -165,19 +137,18 @@ const Navbar = ({
                 Dashboard
               </p>
             </Link>
-            {location.pathname === "/bridge" && (
+            {location.pathname === '/bridge' && (
               <>
                 <p
                   className="text-white-A700 text-base whitespace-nowrap cursor-pointer ml-6 mt-1 !mb-0 block sm:hidden font-grostek"
                   onClick={() => {
                     if (!walletsSet) {
-                      toast.error("Please connect wallets first");
+                      toast.error('Please connect wallets first');
                     } else {
-                      navigate("/bridge");
+                      navigate('/bridge');
                       setPendingEntryPopup(true);
                     }
-                  }}
-                >
+                  }}>
                   Pending Entries
                 </p>
               </>
@@ -185,8 +156,7 @@ const Navbar = ({
           </section>
         </section>
 
-        {location.pathname === "/bridge" ||
-        location.pathname === "/pending-entries" ? (
+        {location.pathname === '/bridge' || location.pathname === '/pending-entries' ? (
           <section className="flex items-start gap-2  block md:hidden justify-end">
             {getWalletForType(type[0])}
             <AiOutlineArrowRight color="#FFFFFF" className="mt-[14px]" />
@@ -197,9 +167,8 @@ const Navbar = ({
             <button
               className="landing-page-hero-content--button font-semibold"
               onClick={() => {
-                window.open("/bridge");
-              }}
-            >
+                window.open('/bridge');
+              }}>
               Launch Bridge
             </button>
           </section>

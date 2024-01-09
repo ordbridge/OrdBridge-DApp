@@ -306,12 +306,13 @@ export const PendingEntries = ({
           ))}
         </div>
         {filterUnprocessedEntries?.length > 0 ? (
-          filterUnprocessedEntries?.map((ele,index) => {
+          filterUnprocessedEntries?.map((ele, index) => {
             return (
               <div
                 className="min-w-full flex items-center py-3 text-base font-normal text-[#FFF] font-grostek"
                 style={{
-                  borderBottom: index !== filterUnprocessedEntries?.length - 1 && '0.5px solid #5E4B92'
+                  borderBottom:
+                    index !== filterUnprocessedEntries?.length - 1 && '0.5px solid #5E4B92'
                 }}>
                 <div className="min-w-1/4 flex justify-center">
                   {ele?.transaction_data?.inscribe_json?.tick}
