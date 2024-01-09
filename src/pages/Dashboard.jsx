@@ -57,7 +57,7 @@ const Dashboard = ({ appChains }) => {
         <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 gap-5 text-white">
           <DashboardStatCard
             title="Price"
-            value={`$${statsData?.lastPrice ? statsData.lastPrice.substring(0, 7) : 'Loading...'}`}
+            value={`$${statsData?.lastPrice ? `${230*Number(statsData.lastPrice.substring(0, 7))}M` : 'Loading...'}`}
           />
           <DashboardStatCard title="Total Volume" value={'$16.7M'} />
         </div>
