@@ -49,7 +49,7 @@ export const appChains = [
     contractAddress: '0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384',
     contractLink: 'https://snowtrace.io/address/0xD45De358A33e5c8f1DC80CCd771ae411C3fBd384',
     chainListId: 43114,
-    chain_flag: 'BRC_TO_AVAX',
+    chain_flag:'BRC_TO_AVAX',
     icon: AvalancheIcon
   },
   {
@@ -67,7 +67,7 @@ export const appChains = [
     contractAddress: '0xa237f89Cb12bfF9932C7503F854ad881Dcead73a',
     contractLink: 'https://arbiscan.io/address/0xa237f89cb12bff9932c7503f854ad881dcead73a',
     chainListId: 42161,
-    chain_flag: 'BRC_TO_ARBI',
+    chain_flag:'BRC_TO_ARBI',
     icon: ArbitrumIcon
   },
   {
@@ -85,7 +85,7 @@ export const appChains = [
     contractAddress: '0xa237f89Cb12bfF9932C7503F854ad881Dcead73a',
     contractLink: 'https://basescan.org/address/0xa237f89cb12bff9932c7503f854ad881dcead73a',
     chainListId: 8453,
-    chain_flag: 'BRC_TO_BASE',
+    chain_flag:'BRC_TO_BASE',
     icon: BaseIcon
   },
   {
